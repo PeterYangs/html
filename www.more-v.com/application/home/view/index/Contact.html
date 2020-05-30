@@ -1,0 +1,229 @@
+{extend name="layout/layout"}
+
+{block name="content"}
+<!--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBzE9xAESye6Kde-3hT-6B90nfwUkcS8Yw&sensor=false"></script>-->
+<style>
+    h3 {
+        position: relative;
+        margin-bottom: 40px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    h3:after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        width: 80px;
+        height: 2px;
+        background: #DAD8D8;
+        transform: translateX(-50%);
+    }
+
+    h4 {
+        position: relative;
+        padding-left: 45px;
+    }
+
+    h4:after {
+        content: '';
+        position: absolute;
+        left: 30px;
+        top: 0;
+        width: 5px;
+        height: 19px;
+        background: #000000;
+    }
+
+    .content {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .info_mail {
+        padding: 0 0 0 30px;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .info_mail textarea {
+        width: 98%;
+    }
+
+    .content .map {
+        flex: 1;
+    }
+
+    form .input {
+        width: 48.5%;
+        margin: 5px 0 0 0;
+    }
+
+    .submit {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 40px;
+    }
+
+    .submit input{
+        transform: translateX(-8%);
+    }
+
+    .form-wrapper {
+        box-sizing: border-box;
+    }
+
+    .form-wrapper p {
+        margin-bottom: 20px;
+        font-size: 16px;
+        font-family: "Arial";
+        font-weight: 700;
+        color: rgb(95, 110, 124);
+    }
+
+    .form-wrapper p span {
+
+    }
+
+    .map,.form-wrapper {
+        flex: 1;
+    }
+
+    .text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .text>span>span {
+        margin-left: 5px;
+    }
+
+    #googleMap {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        margin:0;
+        font-family:"微软雅黑";
+    }
+
+    .map {
+        padding-top: 21px;
+        padding-left: 10px;
+    }
+    
+    @media only screen and (max-width:768px) {
+        .info_mail {
+            padding: 0;
+        }
+
+        .content {
+            display: block;
+        }
+
+        iframe {
+            width: 100%;
+            height: 300px;
+        }
+
+        .map {
+            padding: 0;
+        }
+
+        form .input {
+            width: 49.3%;
+        }
+
+        .info_mail textarea {
+            width: 100%;
+        }
+    }
+</style>
+<div class="sleekslider" id="home">
+    <video width="100%" height="100%"  id="player" poster="__STATIC__/home/images/video/gmb.jpg">
+        <source src="__STATIC__/home/images/video/gmb.mp4" >
+    </video>
+</div>
+<h3>Contact Us</h3>
+<div class="container">
+    <h4>CONTACT INFORMATION</h4>
+    <div class="content">
+        <div class="form-wrapper">
+            <div class="info_mail">
+                <form action="/home/index/submit_msg" method="post">
+                <span class="input input-chis">
+                    <input type="text" name="name" id="input-13" required="required" class="input-field input-field-chis">
+                    <label for="input-13" class="input-label input-label-chis">
+                        <span class="input-label-content input-label-content-chis" data-content="Your Name">
+                            Your Name
+                        </span>
+                    </label>
+                </span>
+                    <span class="input input-chis">
+                    <input type="text" name="company_name" id="input-14" required="required" class="input-field input-field-chis">
+                    <label for="input-13" class="input-label input-label-chis">
+                        <span class="input-label-content input-label-content-chis" data-content="Company Name">
+                            Company Name
+                        </span>
+                    </label>
+                </span>
+                    <span class="input input-chis">
+                    <input type="text" name="email" id="input-15" required="required" class="input-field input-field-chis">
+                    <label for="input-13" class="input-label input-label-chis">
+                        <span class="input-label-content input-label-content-chis" data-content="Email Address">
+                            Email Address
+                        </span>
+                    </label>
+                </span>
+                    <span class="input input-chis">
+                    <input type="text" name="mobile" id="input-16" required="required" class="input-field input-field-chis">
+                    <label for="input-13" class="input-label input-label-chis">
+                        <span class="input-label-content input-label-content-chis" data-content="Phone Number">
+                            Phone Number
+                        </span>
+                    </label>
+                </span>
+                    <textarea name="message" id="" cols="30" required="required" rows="10" placeholder="Questions or Comments.."></textarea>
+                    <div class="submit">
+                        <input type="submit" value="SEND">
+                    </div>
+                </form>
+                <p class="text">
+                    <span><img src="__STATIC__/home/images/su/微信图片_20171213131528.png" width="30" height="30"/><span>(425)780-4401</span></span>
+                    <span><img src="__STATIC__/home/images/su/微信图片_20171213131533.png"  width="27" height="22"/><span>(425)777-6756</span></span>
+                    <span><img src="__STATIC__/home/images/su/微信图片_20171213131539.png"  width="27" height="27"/><span>(425)777-6756</span></span>
+                </p>
+                <p>
+                    <img src="__STATIC__/home/images/su/微信图片_20171213131508.png" width="28" height="21"/>
+                    <span>More-V USA 22722 29th Drive SE Suite 100 Bothell,WA 98021</span>
+                </p>
+            </div>
+        </div>
+        <div class="map">
+            <div id="googleMap">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d236.9198774798165!2d-122.19653333957929!3d47.79225874587277!
+                    2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54900f034aa8147f%3A0x52d515e86f44dc69!2s22722+29th+Dr+SE+%23100%2C+Bothell%
+                    2C+WA+98021!5e0!3m2!1szh-TW!2sus!4v1513150148797" width="600" height="600" frameborder="0" style="border:0" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+//    function initialize()
+//    {
+//        var mapProp = {
+//            center:new google.maps.LatLng(51.508742,-0.120850),
+//            zoom:5,
+//            mapTypeId:google.maps.MapTypeId.ROADMAP
+//        };
+//        var map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
+//    }
+//
+//    google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+{/block}

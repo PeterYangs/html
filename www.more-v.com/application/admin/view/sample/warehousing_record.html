@@ -1,0 +1,211 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main" id="app">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+                    <!--<button  type="button"  onclick="location.href='__MODULE__/sample/storage_edit'" class="btn btn-success"> 入库</button>-->
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>操作人</th>
+                            <th>花费</th>
+                            <th>生成时间</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <tr v-for="v in items">
+
+                            <td>{{v.admin.username}}</td>
+                            <td>{{v.spend}}</td>
+                            <td>{{v.create_time}}</td>
+
+                            <td> <button  type="button" @click="openModal(v.sample_detail)" class="btn btn-success">查看详情</button></td>
+                        </tr>
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                    {$sample->render()}
+                </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+
+
+    <!--模拟框-->
+    <div id="example" class="modal  fade" role="dialog" aria-labelledby="测试" tabindex="-1" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">x</button>
+                    <h3><span>入库详情</span></h3>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>商品名称</th>
+                                <th>批次(到货时间)</th>
+                                <th>仓库</th>
+                                <th>数量</th>
+                                <th>过期时间</th>
+                                <th>现货</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+                            <tr v-for="v in goodsDetail">
+                                <td>{{v.goods.name}}</td>
+                                <td>{{v.arrive_time}}</td>
+                                <td>{{v.warehouses.name}}</td>
+                                <td>{{v.num}}</td>
+                                <td>{{v.expired_time}}</td>
+                                <td><span v-if="v.is_port==1">是</span> <span v-else>否</span></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+
+                <div>
+                    <div class="modal-footer">
+
+                        <!--<button class="btn btn-info" onclick="send_msg()">发送</button>-->
+
+                        <button class="btn btn-info" data-dismiss="modal">关闭</button>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+</div>
+<script>
+
+
+
+    //    /**
+    //     * 删除权限
+    //     */
+    //    function delete_rule(id) {
+    //
+    ////        console.log(id);
+    //        var re=confirm('确认删除吗?');
+    //
+    //        if(re){
+    //
+    //            location.href="__MODULE__/goods/goods_delete/id/"+id;
+    //        }
+    //
+    ////        console.log(re);
+    //
+    //    }
+
+
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            items:[],
+            goodsDetail:[]
+
+
+        },
+        filters:{
+            // date:function (val) {
+            //
+            //
+            //     return
+            // }
+
+
+        },
+        methods:{
+            openModal:function (data) {
+
+                $("#example").modal();
+
+
+                this.goodsDetail=data;
+
+            }
+
+
+        }
+
+
+    });
+
+
+
+    $(function () {
+        var items='{:json_encode($sample)}';
+        //
+        items=getArrForString(items);
+        //
+        //
+        vm.$data.items=items.data;
+
+        console.log(items);
+
+
+    });
+
+
+
+
+
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

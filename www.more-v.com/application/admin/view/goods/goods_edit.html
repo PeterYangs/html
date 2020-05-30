@@ -1,0 +1,381 @@
+{extend name="layout/layout" /}
+{block name="main"}
+
+<style>
+    .box {
+        float: left;
+        width: 30%;
+        margin-right: 15px;
+        margin-bottom: 20px;
+    }
+
+    .input-upload {
+
+        position: relative;
+        overflow: hidden;
+
+    }
+
+    .input-upload input {
+
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .input-upload select {
+        position: absolute;
+        /*opacity: 0;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*display: none;*/
+
+    }
+
+    .all {
+        width: 50%;
+        margin-bottom: 30px;
+
+    }
+
+    .cate {
+
+        margin-bottom: 20px;
+
+    }
+
+</style>
+<!-- MAIN -->
+<div class="main">
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form action="__MODULE__/goods/goods_update/id/{$goods.id}" method="post"
+                          enctype="multipart/form-data">
+
+
+                        <div class="all"><label>商品名称</label><input required="required"
+                                                                   class="form-control input-lg" placeholder="商品名称"
+                                                                   name="name" type="text"></div>
+
+
+                        <div class="box" >
+                            <label>所属品牌</label>
+
+                            <div>
+
+                                <input type="hidden" name="brand_id" value="" id="brand_id"/>
+                                <input type="text" value="{$goods.brand.name}" class="form-control input-lg"
+                                       style="display: inline;width: auto" readonly="readonly" id="brand_name"/>
+                                <button type="button" class="btn btn-primary btn-lg" onclick="getBrandId()">选择品牌
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="box" style="width: 100%">
+
+                            <label>商品图片</label>
+
+                            <div class="input-upload">
+                                <input  type="file" onchange="dealImg.addImg(this,'img')" />
+                                <button type="button" class="btn btn-success">选择图片</button>
+
+
+                            </div>
+
+
+                            <div class="img-list">
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                        <div class="box">
+                            <label>商品类型</label>
+                            <label class="fancy-radio">
+                                <input name="type" value="1" type="radio">
+                                <span><i></i>大宗原料</span>
+                            </label>
+
+                            <label class="fancy-radio">
+                                <input name="type" value="2" type="radio" checked="checked">
+                                <span><i></i>食品包装</span>
+                            </label>
+
+                        </div>
+
+
+                        <div class="box">
+                            <label>样品</label>
+                            <label class="fancy-radio">
+                                <input name="sample" value="1" type="radio">
+                                <span><i></i>Yes</span>
+                            </label>
+
+                            <label class="fancy-radio">
+                                <input name="sample" value="2" type="radio" checked="checked">
+                                <span><i></i>No</span>
+                            </label>
+
+                        </div>
+
+
+                        <div class="box">
+                            <label>现货</label>
+                            <label class="fancy-radio">
+                                <input name="spot" value="1" type="radio">
+                                <span><i></i>Yes</span>
+                            </label>
+
+                            <label class="fancy-radio">
+                                <input name="spot" value="2" checked="checked" type="radio">
+                                <span><i></i>No</span>
+                            </label>
+
+                        </div>
+
+
+                        <div class="box" style="width: 100%">
+                            <label>分类</label>
+
+                            <div>
+                                <span class="cate_list">
+
+                                <!--<span>-->
+
+                                <!--<input type="button" class="btn btn-info cate" value="休闲食品">-->
+                                <!--<input type="hidden" class="btn btn-info cate" name="category_id[]" value="1">-->
+                                <!--</span>-->
+
+
+                                    <!--<span>-->
+                                <!--<input type="button" class="btn btn-info cate" value="休闲食品">-->
+                                <!--<input type="hidden" class="btn btn-info cate" name="category_id[]" value="1">-->
+                                <!--</span>-->
+
+
+
+                                    <!--<span>-->
+                                <!--<input type="button" class="btn btn-info cate" value="休闲食品">-->
+                                <!--<input type="hidden" class="btn btn-info cate" name="category_id[]" value="1">-->
+                                <!--</span>-->
+
+
+                                </span>
+
+                                <!--<input type="hidden" name="brand_id" value="" id="cate"/>-->
+                                <!--<input type="text"   name="category_id" data-role="tagsinput" class="form-control input-lg"  value="{$goods.brand.name}"  style="display: inline;width: auto"  />-->
+                                <button type="button" style="display: block" class="btn btn-primary btn-lg"
+                                        onclick="getCategoryId()">选择分类
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="clearfix"></div>
+
+
+                        <button type="submit" class="btn btn-primary btn-lg">提交</button>
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+
+//        auto_fill('{$seller}');
+
+    });
+
+
+    function getCategoryId() {
+
+
+        openCategoryWindow.open(function (data) {
+
+            data=JSON.parse(data);
+
+            addCategory(data.id,data.name);
+
+
+//            console.log(data);
+
+        });
+
+
+
+
+    }
+
+    /**
+     * 获取品牌id
+     */
+    function getBrandId() {
+
+
+        openChildWindow.open(
+            {
+                'id': 'ID',
+                'name': '品牌名称',
+                'seller.country.name': '国家',
+                'seller.name': '所属供应商',
+                'create_time': '创建时间',
+                'update_time': '更新时间'
+            },
+            'name',
+            'BrandModel',
+            function (data) {
+                // data = JSON.parse(data);
+
+
+                console.log(data);
+
+                $("#brand_id").val(data.id);
+
+                $("#brand_name").val(data.name);
+
+            }
+        );
+
+
+    }
+
+    /**
+     * 添加分类（选择子窗口的栏目后，执行此函数）
+     * @param id
+     * @param name
+     */
+    function addCategory(id,name) {
+
+
+        var str='<span>' +
+            ' <input type="button" class="btn btn-info cate" onclick="deleteCategory(this)" value="'+name+'">' +
+            '<input type="hidden" class="btn btn-info cate" name="category_id[]" value="'+id+'">' +
+            '</span>';
+
+
+        $('.cate_list').append(str);
+
+    }
+
+
+    function deleteCategory(obj) {
+
+
+        swal({
+                title: "确定删除吗？",
+                text: "分类为："+$(obj).val(),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确定删除！",
+                cancelButtonText: "取消删除！",
+                closeOnConfirm: false
+            },
+            function(){
+
+
+//                swal("删除！", "你的虚拟文件已经被删除。", "success");
+
+                $(obj).parent().remove();
+
+                swal.close();
+
+            });
+
+
+    }
+
+
+
+
+
+
+
+
+
+    $(function () {
+
+        auto_fill('{$goods}');//表单回填
+
+
+        dealImg.init('{:json_encode($goods.img)}','img');
+
+
+
+
+        var name_arr='{$goods.category_name}';
+
+
+
+
+        //分类按钮的回填
+        if(name_arr){
+
+
+
+
+            name_arr=JSON.parse(name_arr);
+
+            console.log(name_arr);
+
+            $.each(name_arr,function (index,item) {
+
+
+                addCategory(item.id,item.name);
+
+            });
+
+
+
+        }
+
+
+    });
+
+
+
+
+
+
+
+
+</script>
+
+
+{/block}

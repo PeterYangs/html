@@ -1,0 +1,702 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<style>
+    .left {
+        float: left;
+        width: auto;
+        margin: 10px;
+    }
+
+
+</style>
+
+<style>
+    .message-item {
+        margin-bottom: 25px;
+        margin-left: 40px;
+        position: relative;
+    }
+
+    .message-item .message-inner {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 10px;
+        position: relative;
+    }
+
+    .message-item .message-inner:before {
+        border-right: 10px solid #ddd;
+        border-style: solid;
+        border-width: 10px;
+        color: rgba(0, 0, 0, 0);
+        content: "";
+        display: block;
+        height: 0;
+        position: absolute;
+        left: -20px;
+        top: 6px;
+        width: 0;
+    }
+
+    .message-item .message-inner:after {
+        border-right: 10px solid #fff;
+        border-style: solid;
+        border-width: 10px;
+        color: rgba(0, 0, 0, 0);
+        content: "";
+        display: block;
+        height: 0;
+        position: absolute;
+        left: -18px;
+        top: 6px;
+        width: 0;
+    }
+
+    .message-item:before {
+        background: #fff;
+        border-radius: 2px;
+        bottom: -30px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+        content: "";
+        height: 100%;
+        left: -30px;
+        position: absolute;
+        width: 3px;
+    }
+
+    .message-item:after {
+        background: #fff;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        content: "";
+        height: 15px;
+        left: -36px;
+        position: absolute;
+        top: 10px;
+        width: 15px;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+        content: " ";
+        display: table;
+    }
+
+    .message-item .message-head {
+        border-bottom: 1px solid #eee;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+    }
+
+    .message-item .message-head .avatar {
+        margin-right: 20px;
+    }
+
+    .message-item .message-head .user-detail {
+        overflow: hidden;
+    }
+
+    .message-item .message-head .user-detail h5 {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .message-item .message-head .post-meta {
+        float: left;
+        padding: 0 15px 0 0;
+    }
+
+    .message-item .message-head .post-meta > div {
+        color: #333;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    .post-meta > div {
+        color: #777;
+        font-size: 12px;
+        line-height: 22px;
+    }
+
+    .message-item .message-head .post-meta > div {
+        color: #333;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    .post-meta > div {
+        color: #777;
+        font-size: 12px;
+        line-height: 22px;
+    }
+
+    /*img {*/
+        /*min-height: 40px;*/
+        /*max-height: 40px;*/
+    /*}*/
+</style>
+
+
+<!-- MAIN -->
+<div class="main" id="app">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+                    <!--<button  type="button"  onclick="location.href='__MODULE__/sample/storage_edit'" class="btn btn-success"> 入库</button>-->
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>操作人</th>
+                            <th>客户</th>
+                            <th>跟进人</th>
+                            <th>状态</th>
+                            <th>生成时间</th>
+                            <th>出库时间</th>
+                            <th></th>
+                            <th></th>
+                            <!--<th></th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <tr v-for="( v , i ) in items">
+
+                            <td>{{v.admin_username}}</td>
+                            <td>{{v.client_name}}</td>
+                            <td>{{v.client_admin_username}}</td>
+                            <td>
+                                <span style="color: blue" v-if="v.status==2">申请中</span>
+                                <span style="color: green" v-else-if="v.status==1">已通过</span>
+                                <span style="color: #F9354C" v-else-if="v.status==3">已出库</span>
+                            </td>
+                            <td>{{v.create_time}}</td>
+                            <td>{{v.out_time.time}}</td>
+
+                            <td>
+                                <button type="button" @click="openModal(v.id,v,v.out_time.is_time)" class="btn btn-success">
+                                    查看详情
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" @click="changeStatus(v.id)" v-if="v.status==2"
+                                        class="btn btn-primary">审批
+                                </button>
+                                <button @click="link_form(v.id)" type="button" v-else-if="v.status==1"
+                                        class="btn btn-warning">出库填表
+                                </button>
+                                <button type="button" @click="openWuLiu(v,$event)" v-else-if="v.status==3 && v.order_no"
+                                        class="btn btn-info" data-loading-text="Loading..." >查看物流
+                                </button>
+                            </td>
+
+                            <!--<td>-->
+                                <!--<button type="button" v-if="v.out_time.is_time&&v.is_send==2" class="btn btn-success">-->
+                                    <!--样品反馈-->
+                                <!--</button>-->
+                            <!--</td>-->
+                        </tr>
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                    {$page}
+                </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+
+
+    <!--出库详情信息-->
+    <div id="example" class="modal  fade" role="dialog" aria-labelledby="测试" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">x</button>
+                    <h3><span>出库详情</span></h3>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>商品名称</th>
+                            <th>批次(到货时间)</th>
+                            <th>仓库</th>
+                            <th>数量</th>
+                            <th>过期时间</th>
+                            <th>现货</th>
+                            <th></th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+                        <tr v-for="( v , i ) in goodsDetail">
+                            <td>{{v.goods_name}}</td>
+                            <td>{{v.arrive_time}}</td>
+                            <td>{{v.warehouses_name}}</td>
+                            <td>{{v.num}}</td>
+                            <td>{{v.expired_time}}</td>
+                            <td><span v-if="v.is_port==1">是</span> <span v-else>否</span></td>
+                            <td>
+                                <button type="button" @click="feedback(v,i)" class="btn btn-success" v-if="v.is_send==2&&is_time">
+                                样品反馈
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                    <div class="clearfix" v-if="items_temp.contact_name">
+
+                        <div class="left">
+                            <label>寄送方式</label>
+                            <p>{{items_temp | f('send_type.name')}}</p>
+                        </div>
+
+                        <div class="left">
+                            <label>单号</label>
+                            <p>{{items_temp.order_no}}</p>
+                        </div>
+                        <div class="left">
+                            <label>联系人</label>
+                            <p>{{items_temp.contact_name}}</p>
+                        </div>
+
+                        <div class="left">
+                            <label>电话</label>
+                            <p>{{items_temp.mobile}}</p>
+                        </div>
+
+                        <div class="left">
+                            <label>费用</label>
+                            <p>{{items_temp.money}}</p>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+                <div>
+                    <div class="modal-footer">
+
+                        <!--<button class="btn btn-info" onclick="send_msg()">发送</button>-->
+
+                        <button class="btn btn-info" data-dismiss="modal">关闭</button>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <!--物流信息-->
+    <div id="wuliu" class="modal  fade" role="dialog" aria-labelledby="测试" tabindex="-1" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">x</button>
+                    <h3><span>物流信息</span></h3>
+                </div>
+
+                <div class="modal-body" style="height:400px; overflow:scroll;overflow-x: hidden">
+
+                    <!--<div class="container">-->
+
+                    <div class="qa-message-list" id="wallmessages">
+
+                        <div class="message-item" v-for="v in wuliu">
+                            <div class="message-inner">
+                                <div class="message-head clearfix">
+                                    <div class="avatar pull-left">
+                                        <a href="./index.php?qa=user&qa_1=Oleg+Kolesnichenko"></a>
+                                    </div>
+                                    <div class="user-detail">
+                                        <!--<h5 class="handle">Founder note</h5>-->
+                                        <div class="post-meta">
+                                            <div class="asker-meta">
+                                                <span class="qa-message-what"></span>
+                                                <span class="qa-message-when">
+												        <span class="qa-message-when-data">{{v.AcceptTime}}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="qa-message-content">
+                                    {{v.AcceptStation}}
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+                </div>
+
+                <div>
+                    <div class="modal-footer">
+
+
+                        <button class="btn btn-info" data-dismiss="modal">关闭</button>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+<script>
+
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            items: [],//总数据
+            goodsDetail: [],//每个出库商品数据
+            data: {},//每个商品数据
+            wuliu:[],//物流信息
+            items_temp:{},
+            is_time:false//是否到了该通知的时间
+
+        },
+        filters: {
+            // date:function (val) {
+            //
+            //
+            //     return
+            // }
+            f: function (val, key) {
+
+                try {
+
+                    return eval("val." + key);
+
+
+                } catch (e) {
+
+                    // console.log(123);
+
+                    return '';
+
+                }
+
+            }
+
+        },
+        methods: {
+            /**
+             * 打开详情
+             * @param data
+             */
+            openModal: function (id,v,is_time) {
+
+                // $("#example").modal();
+                //
+                //
+                // this.goodsDetail = data;
+                //
+                // this.data = v;
+
+
+                // console.log(v);
+
+                this.items_temp=v;
+
+                this.is_time=is_time;
+
+
+                var context=this;
+
+                $.ajax({
+                    url:"__MODULE__/common/get_storage_out_detail/id/"+id,
+                    dataType:'json',
+                    success:function (re) {
+
+
+                        context.goodsDetail=re.data;
+
+
+
+                        console.log(re);
+                        $("#example").modal();
+                    }
+
+
+                });
+
+
+
+                console.log(id);
+
+            },
+
+            openWuLiu(v,event) {
+
+                console.log(v);
+
+
+                $(event.target).button('loading');
+
+
+                var n=v.order_no;
+
+                var t=v.send_type.name;
+
+
+
+               t= this.getSendEnName(t);
+
+
+               // console.log(t);
+
+                var context=this;
+
+               $.ajax({
+                    url:"__MODULE__/common/get_express_delivery/n/"+n+"/t/"+t,
+                    dataType:'json',
+                    success:function (re) {
+
+                        if(re.Success){
+
+
+
+                            if(re.State==3) {
+
+                                context.wuliu = re.Traces.reverse();
+
+                                $("#wuliu").modal();
+
+                            }else {
+
+                                swal(re.Reason);
+                            }
+
+                        }else {
+
+                            swal(re.Reason);
+
+                        }
+
+                        $(event.target).button('reset');
+
+
+                        console.log(re);
+
+
+
+
+                    }
+
+
+               });
+
+
+                // $("#wuliu").modal();
+
+            },
+            //获取物流英文缩写
+            getSendEnName:function (name) {
+
+
+               var start= (name.indexOf("(")==-1)?false:name.indexOf("(")+1;
+
+               var end= (name.indexOf(")")==-1)?false:name.indexOf(")");
+
+
+               if(start===false||end===false) return '';
+
+
+               return name.substring(start,end);
+
+
+            },
+
+            /**
+             * 更改出库状态
+             * @param id
+             */
+            changeStatus: function (id) {
+
+                // console.log(id);
+
+                ajax_submit(
+                    '确定审批通过这个出库请求吗？',
+                    '',
+                    '__MODULE__/sample/changeStatus',
+                    {id: id},
+                    function (data) {
+
+                        console.log(data);
+
+                        if (data.code == 1) {
+
+                            location.reload();
+
+                        } else {
+
+
+                            swal(data.msg);
+                        }
+
+
+                    }
+                );
+
+            },
+            feedback:function (v,index) {
+
+                console.log(v);
+
+                $("#example").modal('hide');
+
+
+                swal({
+                        title: "反馈",
+                        text: "",
+                        type: "input",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        animation: "slide-from-top",
+                        inputPlaceholder: "反馈信息"
+                    },
+                    function(inputValue){
+                        if (inputValue === false) return false;
+
+                        if (inputValue === "") {
+                            swal.showInputError("不能为空！");
+                            return false
+                        }
+
+
+                        $.ajax({
+                            url:"__MODULE__/common/set_feedback",
+                            type:"post",
+                            data:{goods_id:v.goods_id,content:inputValue,id:v.id,client_id:vm.$data.items_temp.client_id},
+                            success:function (re) {
+
+                                // console.log(re);
+
+                                location.reload();
+
+                            }
+
+
+
+                        });
+
+
+                        // swal("非常好！", "你输入了：" + inputValue,"success");
+
+
+
+                    });
+            //     swal({
+                //         title: "HTML <small>标题</small>!",
+                //         text: "<textarea class='form-control'></textarea>",
+                //         html: true
+                // });
+                // $.ajax({
+                //     url:'__MODULE__/common/set_feedback',
+                //     type:'post',
+                //     data:{goods_id:v.goods_id}
+                //
+                // });
+
+                // console.log(v);
+
+
+
+            },
+            link_form: function (id) {
+
+                location.href = "__MODULE__/sample/sample_form/id/" + id;
+
+            }
+
+
+        }
+
+
+    });
+
+
+    $(function () {
+        var items = '{:json_encode($sample)}';
+        //
+        items = getArrForString(items);
+
+
+        //
+        //
+        vm.$data.items = items;
+        //
+        console.log(items);
+
+
+    });
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

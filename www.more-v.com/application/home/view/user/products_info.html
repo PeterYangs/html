@@ -1,0 +1,175 @@
+
+
+
+
+
+
+{extend name="layout/layout"}
+{block name="content"}
+
+
+
+<div style="background:#F5F5F5;display:block;">
+    <div class="sign_o">
+        <img src="__STATIC__/home/images/center/banner.jpg" width="100%" class="sign_o_img">
+        <div class="container sign_top">
+            <div class="sign_top_detail ">
+                <div class="sign_top_img ">
+                    <a href="__MODULE__/user/sign_up">
+                        <img src="__STATIC__/home/images/center/regist.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="sign_top_detail">
+                <div class="sign_top_img">
+                    <a href="__MODULE__/user/basic_info">
+                        <img src="__STATIC__/home/images/center/basic.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="sign_top_detail">
+                <div class="sign_top_img ">
+                    <a href="__MODULE__/user/event_series">
+                        <img src="__STATIC__/home/images/center/event.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="sign_top_detail">
+                <div class="sign_top_img  active">
+                    <a href="__MODULE__/user/products_info">
+                        <img src="__STATIC__/home/images/center/product.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="sign_middle">
+        <div class="sign_middle_detail sign_middle_f sign_middle_product sign_product">
+
+            <h2>Products Info</h2>
+            <hr>
+
+            <div class="sreen-gallery-cursual sreen-product">
+                <div id="ow-demo" class="owl-carousel">
+
+                    {foreach name="sell_data" item='v'}
+                    <div class="item-owl">
+                        <div class="product_detail">
+                            <div class="product_img">
+                                <img src="__FILE__/{$v.goods_img.0}">
+                            </div>
+                            <p><b>Product Description:&nbsp;&nbsp;</b>{$v.sell.name}</p>
+                            <p><b>Product Origin:&nbsp;&nbsp;</b>{$v.sell.country.name}</p>
+                            <p><b> Case Weight:&nbsp;&nbsp;</b>{$v.case_weight}</p>
+                            <!--<p><b>CTN/PCT:&nbsp;&nbsp;</b></p>-->
+                            <p><b>PCT/20’CNTR:&nbsp;</b>{$v.cntr}</p>
+                            <p><b>Incoterms:&nbsp;&nbsp;</b>CRF</p>
+                            <p><b>WHSE/Port:&nbsp;&nbsp;</b>{$v.whse}</p>
+                            <p><b>Unit price:&nbsp;&nbsp;</b>{$v.unit_price}</p>
+                            <p><b>MQO(CTN):&nbsp;&nbsp;</b>{$v.mqo}</p>
+                            <p><b>Free Samples:&nbsp;&nbsp;</b>{$v.free_samples}</p>
+                            <p><b>Date:&nbsp;&nbsp;</b>{$v.date}</p>
+
+
+
+                        </div>
+                    </div>
+                    {/foreach}
+
+                    <!--<div class="item-owl">-->
+                        <!--<div class="product_detail">-->
+                            <!--<div class="product_img">-->
+                                <!--<img src="__STATIC__/home/images/center/product.jpg">-->
+                            <!--</div>-->
+                            <!--<p><b>Product Description:&nbsp;&nbsp;</b>Macadamia nuts  30/40</p>-->
+                            <!--<p><b>Product Origin:&nbsp;&nbsp;</b>America</p>-->
+                            <!--<p><b> Case Weight:&nbsp;&nbsp;</b>11.34Kg</p>-->
+                            <!--<p><b>CTN/PCT:&nbsp;&nbsp;</b></p>-->
+                            <!--<p><b>PCT/20’CNTR:&nbsp;&nbsp;</b></p>-->
+                            <!--<p><b>Incoterms:&nbsp;&nbsp;</b>CRF</p>-->
+                            <!--<p><b>WHSE/Port:&nbsp;&nbsp;</b>Shenzhen</p>-->
+                            <!--<p><b>Unit price:&nbsp;&nbsp;</b>$53</p>-->
+                            <!--<p><b>MQO(CTN):&nbsp;&nbsp;</b>1600</p>-->
+                            <!--<p><b>Free Samples:&nbsp;&nbsp;</b>Yes</p>-->
+                            <!--<p><b>Date:&nbsp;&nbsp;</b>Aug.10th.2017</p>-->
+
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!---->
+                    <!--<div class="item-owl">-->
+                        <!--<div class="product_detail">-->
+                            <!--<div class="product_img">-->
+                                <!--<img src="__STATIC__/home/images/center/product.jpg">-->
+                            <!--</div>-->
+                            <!--<p><b>Product Description:&nbsp;&nbsp;</b>Macadamia nuts  30/40</p>-->
+                            <!--<p><b>Product Origin:&nbsp;&nbsp;</b>America</p>-->
+                            <!--<p><b> Case Weight:&nbsp;&nbsp;</b>11.34Kg</p>-->
+                            <!--<p><b>CTN/PCT:&nbsp;&nbsp;</b></p>-->
+                            <!--<p><b>PCT/20’CNTR:&nbsp;&nbsp;</b></p>-->
+                            <!--<p><b>Incoterms:&nbsp;&nbsp;</b>CRF</p>-->
+                            <!--<p><b>WHSE/Port:&nbsp;&nbsp;</b>Shenzhen</p>-->
+                            <!--<p><b>Unit price:&nbsp;&nbsp;</b>$53</p>-->
+                            <!--<p><b>MQO(CTN):&nbsp;&nbsp;</b>1600</p>-->
+                            <!--<p><b>Free Samples:&nbsp;&nbsp;</b>Yes</p>-->
+                            <!--<p><b>Date:&nbsp;&nbsp;</b>Aug.10th.2017</p>-->
+
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="item-owl">-->
+                        <!--<div class="product_detail">-->
+                            <!--<div class="product_img">-->
+                                <!--<img src="__STATIC__/home/images/center/product.jpg">-->
+                            <!--</div>-->
+                            <!--<p><b>Product Description:&nbsp;&nbsp;</b>Macadamia nuts  30/40</p>-->
+                            <!--<p><b>Product Origin:&nbsp;&nbsp;</b>America</p>-->
+                            <!--<p><b> Case Weight:&nbsp;&nbsp;</b>11.34Kg</p>-->
+                            <!--<p><b>CTN/PCT:&nbsp;&nbsp;</b></p>-->
+                            <!--<p><b>PCT/20’CNTR:&nbsp;&nbsp;</b></p>-->
+                            <!--<p><b>Incoterms:&nbsp;&nbsp;</b>CRF</p>-->
+                            <!--<p><b>WHSE/Port:&nbsp;&nbsp;</b>Shenzhen</p>-->
+                            <!--<p><b>Unit price:&nbsp;&nbsp;</b>$53</p>-->
+                            <!--<p><b>MQO(CTN):&nbsp;&nbsp;</b>1600</p>-->
+                            <!--<p><b>Free Samples:&nbsp;&nbsp;</b>Yes</p>-->
+                            <!--<p><b>Date:&nbsp;&nbsp;</b>Aug.10th.2017</p>-->
+
+
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#ow-demo').owlCarousel({
+            items :3,
+            itemsDesktop : [800,2],
+            itemsDesktopSmall : [414,2],
+            lazyLoad : true,
+            autoPlay :false,
+            navigation :true,
+            navigationText :  ['<img src="__STATIC__/home/images/center/left.png">','<img src="__STATIC__/home/images/center/right.png">'],
+            pagination : false,
+
+        });
+
+    });
+</script>
+
+{/block}
+

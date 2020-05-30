@@ -1,0 +1,92 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <!--<div class="panel">-->
+                <!--<div class="panel-heading">-->
+                    <!--<h3 class="panel-title">Striped Row</h3>-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash;<div class="panel-body">&ndash;&gt;-->
+
+                    <!--<div class="col-md-8">-->
+                        <!--&lt;!&ndash; PANEL HEADLINE &ndash;&gt;-->
+                        <!--<div class="panel panel-headline">-->
+                            <!--<div class="panel-heading">-->
+                                <!--<h3 class="panel-title">Panel Headline</h3>-->
+                                <!--<p class="panel-subtitle">Panel to display most important information</p>-->
+                            <!--</div>-->
+                            <!--<div class="panel-body">-->
+                                <!--<h4>Panel Content</h4>-->
+                                <!--<p>Objectively network visionary methodologies via best-of-breed users. Phosfluorescently initiate go forward leadership skills before an expanded array of infomediaries. Monotonectally incubate web-enabled communities rather than process-centric.</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; END PANEL HEADLINE &ndash;&gt;-->
+                    <!--</div>-->
+
+
+
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+
+            <!--</div>-->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- PANEL HEADLINE -->
+                    <div class="panel panel-headline">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{:$mail->subject}</h3>
+                            <p class="panel-subtitle">  {$mail->fromName}&nbsp;&nbsp;&nbsp;&nbsp; {:$mail->date}</p>
+                        </div>
+                        <div class="panel-body">
+                            <hr/>
+                            {:$mail->textHtml}
+
+                            <!--<h4>Panel Content</h4>-->
+                            <!--<p>Objectively network visionary methodologies via best-of-breed users. Phosfluorescently initiate go forward leadership skills before an expanded array of infomediaries. Monotonectally incubate web-enabled communities rather than process-centric.</p>-->
+                        </div>
+                    </div>
+                    <!-- END PANEL HEADLINE -->
+                </div>
+
+                <!--<div class="col-md-4">-->
+                    <!--&lt;!&ndash; PANEL NO PADDING &ndash;&gt;-->
+                    <!--<div class="panel">-->
+                        <!--<div class="panel-heading">-->
+                            <!--<h3 class="panel-title">Panel No Padding</h3>-->
+                            <!--<div class="right">-->
+                                <!--<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>-->
+                                <!--<button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="panel-body no-padding bg-primary text-center">-->
+                            <!--<div class="padding-top-30 padding-bottom-30">-->
+                                <!--<i class="fa fa-thumbs-o-up fa-5x"></i>-->
+                                <!--<h3>No Content Padding</h3>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash; END PANEL NO PADDING &ndash;&gt;-->
+                <!--</div>-->
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+{/block}

@@ -1,0 +1,297 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+                    <button  type="button"  onclick="add({'lv':0,'parent_id':0})" class="btn btn-success">添加顶级分类</button>
+                    <!--<button class="btn btn-danger mt-sweetalert" data-title="Sweet Alerts" data-message="Beautiful popup alerts" data-allow-outside-click="true" data-confirm-button-class="btn-danger">Danger Alert</button>-->
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>分类名称</th>
+                            <!--<th>Group</th>-->
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {foreach name="cate" key='k' item="v"}
+                        <tr id="{$v.id}" pid="{$v.pid}">
+                            <script>
+
+
+
+                            var tem='{:json_encode($v)}';
+                            //动态声明变量
+                            eval("var cate_data_{$k} = tem");//分类数据
+
+                            </script>
+
+                            <td>{$k}</td>
+                            <td id="cate_name">{$v.string}<span onclick="hidden_all(this)" class="lnr lnr-chevron-down-circle"></span><span onclick="show_child(this)" class="lnr lnr-menu-circle" style="display: none"></span>{$v.name}</td>
+                            <!--<td>@steve</td>-->
+                            <td><span  class="lnr lnr-pencil" onclick="update_name(eval('cate_data_{$k}'))"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="lnr lnr-plus-circle" onclick="add(eval('cate_data_{$k}'))" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="lnr lnr-trash" onclick="delete_category(eval('cate_data_{$k}'))"></span></td>
+                        </tr>
+                        {/foreach}
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+
+<script>
+
+
+    /**
+     * 更新分类名称
+     * @param data
+     */
+    function update_name(data) {
+
+//        data=JSON.parse(data);
+
+        console.log(data);
+
+        data=JSON.parse(data);
+
+//        return false;
+//        var post_data='{}';
+
+
+
+
+
+        jPrompt('请输入名称',data.name,function (event,val) {
+
+
+            console.log(val);
+
+            $.ajax({
+                url:"__MODULE__/goods/category_update",
+                type:'post',
+                data:{'id':data.id,'name':val},
+                dataType:'json',
+                success:function (re) {
+
+                    if(re.code==1) return  location.reload();
+
+
+                    alert(re.msg);
+
+//                    console.log(re);
+                }
+
+
+            });
+
+
+
+
+        },'修改');
+
+    }
+
+    /**
+     * 添加分类
+     * @param data
+     */
+    function add(data) {
+
+
+
+
+       if(typeof (data)!='object') data=JSON.parse(data);
+
+//        console.log(typeof (data));
+        var lv=Number(data.lv)+1;
+
+        var parent_id=data.id;
+
+
+        jPrompt('请输入名称','',function (event,val) {
+
+
+            $.ajax({
+                url:"__MODULE__/goods/category_update",
+                type:'post',
+                data:{'name':val,'lv':lv,'parent_id':parent_id},
+                dataType:'json',
+                success:function (re) {
+
+                    if(re.code==1) return  location.reload();
+
+
+                    alert(re.msg);
+
+                }
+
+
+            });
+
+
+        },'添加');
+
+
+
+
+
+
+
+
+    }
+
+    /**
+     * 删除分类
+     * @param data
+     */
+    function delete_category(data) {
+
+        data=JSON.parse(data);
+
+
+
+        jConfirm('确认删除吗？('+data.name+')',function () {
+
+
+        console.log(data);
+
+        $.ajax({
+            url:'__MODULE__/goods/category_delete/id/'+data.id,
+            dataType:'json',
+            success:function (re) {
+
+//                console.log(re);
+                if(re.code==1) return location.reload();
+
+
+                swal('错误',re.msg,'error');
+
+
+
+            }
+
+
+
+        });
+
+
+
+//            alert('gg  ');
+
+        },'删除');
+
+
+    }
+
+    
+    function hidden_all(obj) {
+
+
+        var id=$(obj).parent().parent().attr('id');
+
+        $(obj).css('display','none');
+
+        $(obj).next().css('display','');
+
+
+
+        hidden_all_child(id);
+
+    }
+    
+    
+        
+
+    function hidden_all_child(id) {
+
+
+
+        var obj=$("[pid="+id+"]");
+
+
+
+        if(obj.length>0) {
+
+            $.each($(obj), function (index, item) {
+
+
+                $(this).slideUp('slow');
+
+                $(this).find('.lnr-chevron-down-circle').css('display','none');
+                $(this).find('.lnr-menu-circle').css('display','');
+
+
+                hidden_all_child($(this).attr('id'));
+
+            });
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+    function show_child(obj) {
+
+                var id= $(obj).parent().parent().attr('id');
+
+                $("[pid="+id+"]").slideDown('slow');
+
+
+                $(obj).css('display','none');
+
+                $(obj).prev().css('display','');
+
+    }
+
+
+
+
+
+    
+</script>
+<!-- END MAIN -->
+
+{/block}

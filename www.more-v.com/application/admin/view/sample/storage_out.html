@@ -1,0 +1,505 @@
+{extend name="layout/layout" /}
+{block name="main"}
+
+<style>
+    .box {
+        float: left;
+        width: 30%;
+        margin-right: 15px;
+        margin-bottom: 20px;
+    }
+
+    .input-upload {
+
+        position: relative;
+        overflow: hidden;
+
+    }
+
+    .input-upload input {
+
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .input-upload select {
+        position: absolute;
+        /*opacity: 0;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*display: none;*/
+
+    }
+
+    .all {
+        width: 80%;
+        margin-bottom: 30px;
+
+    }
+
+    .cate {
+
+        margin-bottom: 20px;
+
+    }
+    .list-enter-active, .list-leave-active {
+        transition: all 1s;
+    }
+    .list-enter, .list-leave-to
+        /* .list-leave-active for below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .select-out{
+
+
+        width: 20%;
+        /*display: inline;*/
+        margin: 10px;
+        float: left;
+    }
+
+
+</style>
+<!-- MAIN -->
+<div class="main" id="vue">
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">出库</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form action="__MODULE__/sample/storage_update" method="post"
+                          enctype="multipart/form-data" @submit.prevent="submit">
+
+                        <!--<input required="required"  />-->
+
+                        <div >
+                            <label>出库商品</label>
+
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <!--<th>序号</th>-->
+                                    <th>商品名称</th>
+                                    <th>批次(到货日期)</th>
+                                    <th>仓库</th>
+                                    <th>剩余数量</th>
+                                    <th>出库数量</th>
+                                    <th>生产日期</th>
+                                    <th>过期时间</th>
+                                    <th>现货</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                <tr v-for="(v ,i ) in items.table">
+
+                                    <!--<td>{{i+1}}</td>-->
+                                    <td>{{v.sampleDetail.goods.name}}</td>
+                                    <td>{{v.sampleDetail.arrive_time}}</td>
+                                    <td>{{v.sampleDetail.warehouses.name}}</td>
+                                    <td>{{v.now}}</td>
+                                    <td>
+                                        <input class="form-control input-sm"  placeholder="输入数量" type="text" name="items[num][]" required="required" v-model="v.num">
+                                        <input type="hidden" name="items[sample_detail_id][]" v-model="v.sampleDetail.id" />
+                                        <input type="hidden" name="items[stock_id][]" v-model="v.id" />
+                                        <input type="hidden" name="items[goods_id][]" v-model="v.sampleDetail.goods_id" />
+
+                                    </td>
+                                    <!--<td>-->
+                                    <!--<input class="form-control input-sm" placeholder="输入费用" type="text">-->
+                                    <!--</td>-->
+                                    <td>{{v.sampleDetail.production_date}}</td>
+                                    <td>{{v.sampleDetail.expired_time}}</td>
+
+                                    <td><span v-if="v.sampleDetail.is_port==1">是</span><span v-else>否</span></td>
+
+                                </tr>
+
+                                </tbody>
+
+
+                            </table>
+
+
+                        </div>
+
+
+
+                        <div class="all">
+                            <button type="button" class="btn btn-success" @click="openGoods()">选择商品</button>
+                        </div>
+
+                        <div class="all">
+                            <label>客户</label>
+
+                            <div  >
+
+                                <input type="hidden" name="client_id"  v-model="client_id" required="required" />
+                                <input type="text"  value=""  v-model="name" class="form-control input-lg" style="display: inline;width: 20%"   />
+                                <button type="button" class="btn btn-primary btn-lg" @click="openWindow()">选择客户</button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="all">
+                            <label>联系人</label>
+                            <input type="text" class="form-control input-lg" style="width: auto" name="contact_name" required="required"/>
+
+                        </div>
+
+                        <div class="all">
+                            <label>电话</label>
+                            <input type="text" class="form-control input-lg" style="width: auto"  name="mobile" required="required"/>
+
+                        </div>
+
+
+                        <div class="all">
+                            <label>地址</label>
+                            <place :p__="p" :c__="c" :a__="a"  place_class="form-control input-lg select-out">
+                                <input type="text"  class="form-control input-lg select-out" name="detail" v-model="detail" />
+                            </place>
+                            <div class="clearfix"></div>
+
+                            <button type="button" class="btn btn-primary btn-lg" @click="select_address" >选择地址</button>
+                        </div>
+
+
+
+                        <div class="all" v-show="username">
+                            <label>跟进人</label>
+                            <h3>{{username}}</h3>
+
+                        </div>
+
+
+
+
+
+
+
+                        <div class="clearfix"></div>
+
+
+                        <button type="submit" class="btn btn-primary btn-lg" >提交</button>
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="first" class="modal  fade" role="dialog" aria-labelledby="测试" tabindex="-1" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" @submit.prevent="submit($event)" id="ad">
+
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal">x</button>
+                        <h3>编辑信息</h3>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>省</th>
+                                    <th>市</th>
+                                    <th>区</th>
+                                    <th>详细地址</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr v-for="v in address_list">
+                                    <td>{{v.p}}</td>
+                                    <td>{{v.c}}</td>
+                                    <td>{{v.a}}</td>
+                                    <td>{{v.detail}}</td>
+                                    <td><button type="button" class="btn btn-success" @click="checked_address(v)">选择</button></td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+
+                    <div>
+                        <div class="modal-footer">
+
+                            <!--<button class="btn btn-info" type="submit">提交</button>-->
+
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+<script src="__STATIC__/admin/vue_tool/places.js"></script>
+<script>
+
+
+
+
+    vm=new Vue({
+        el:"#vue",
+        data:{
+            items:{
+                table:[],
+                spend:0,
+
+
+
+
+
+            },//商品数据
+            ck:[],//仓库
+            client_id:0,
+            name:'',
+            username:'',
+            address_list:[],//地址列表
+            p:"",
+            c:"",
+            a:"",
+            detail:""
+
+
+        },
+        methods:{
+
+            openGoods:function () {
+
+                // console.log(1111111111);
+
+                var context=this;
+
+                openChildWindow.open( {
+                        'id': 'ID',
+                        'sampleDetail.goods.name': '商品名称',
+                        'sampleDetail.arrive_time': '批次(到货日期)',
+                        'sampleDetail.expired_time': '过期时间',
+                        'sampleDetail.production_date': '生产日期',
+                        'sampleDetail.warehouses.name': '仓库',
+                        'now': '剩余数量',
+                        // 'brand.seller.country.name': '国家',
+                        // 'brand.seller.name': '所属供应商',
+                        // 'create_time': '创建时间',
+                        // 'update_time': '更新时间'
+                    },
+                    'goods.name',
+                    'StockModel',
+                    function (data) {
+                        // data = JSON.parse(data);
+                        //
+                        // context.items.table.push(data);
+
+                        console.log(data);
+
+                        context.items.table.push(data);
+
+
+
+                        //
+                        //
+                        // console.log(data);
+                        //
+                        // $("#brand_id").val(data.id);
+                        //
+                        // $("#brand_name").val(data.name);
+
+                    },'now',4,0,'sample_detail.goods');
+
+
+
+
+            },
+            submit:function (event) {
+
+                if(!this.name) return swal("请选择客户");
+                if(this.items.table.length<=0) return swal("至少选择一个商品");
+
+
+                ajax_submit(
+                    '确定提交吗！',
+                    '库存将不能删除和修改，请确认！',
+                    '__MODULE__/sample/storage_out_update',
+                    $(event.target).serialize(),
+                    function (data) {
+
+                        // console.log(data);
+                        //
+                        // swal('123');
+
+                        if(data.code==1){
+
+                            // location.href="__MODULE__";
+                            // swal()history.go(-1);location.reload()
+                            // history.go(-1);
+                            // location.reload();
+
+                            location.href="__MODULE__/sample/storage_out_list";
+                        }else {
+
+                            swal(data.msg,'','error');
+
+                        }
+
+                    }
+                );
+
+
+
+
+            },
+            /**
+             * 客户窗口
+             */
+            openWindow:function () {
+                var context=this;
+
+                openChildWindow.open( {
+                        'id': 'ID',
+                        'name': '客户名称',
+                        'admin.username':"跟进人"
+
+                        // 'brand.seller.country.name': '国家',
+                        // 'brand.seller.name': '所属供应商',
+                        // 'create_time': '创建时间',
+                        // 'update_time': '更新时间'
+                    },
+                    'name',
+                    'ClientModel',
+                    function (data) {
+                        // data = JSON.parse(data);
+                        //
+                        // context.items.table.push(data);
+
+                        console.log(data);
+                        context.name=data.name;
+                        context.client_id=data.id;
+                        context.username=data.admin.username;
+
+                        context.address_list=data.address_id;
+
+
+
+
+
+                        //
+                        // context.items.table.push(data);
+
+
+
+                        //
+                        //
+                        // console.log(data);
+                        //
+                        // $("#brand_id").val(data.id);
+                        //
+                        // $("#brand_name").val(data.name);
+
+                    });
+
+
+            },
+            //获取客户地址列表
+            find_user_address:function () {
+
+
+
+            },
+            select_address:function () {
+
+                $("#first").modal({
+                    backdrop:"static"
+                });
+
+
+
+            },
+            checked_address:function (v) {
+
+                this.p=v.p;
+                this.c=v.c;
+                this.a=v.a;
+                this.detail=v.detail;
+
+                $("#first").modal("hide");
+
+
+
+            }
+
+
+        },
+        created:function () {
+
+            // console.log(1111111);
+
+        }
+
+
+
+    });
+
+
+
+    $(function () {
+        // var ck='{$ck}';
+        //
+        // ck= getArrForString(ck);
+        //
+        //
+        //
+        // vm.$data.ck=ck;
+
+        // console.log(ck);
+
+
+
+
+    });
+
+
+</script>
+
+{/block}

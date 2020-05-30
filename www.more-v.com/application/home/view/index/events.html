@@ -1,0 +1,231 @@
+{extend name="layout/layout"}
+{block name="content"}
+<!--<div class="inner_banner_event">-->
+    <!--<div class="container inner_banner_event_h2">-->
+        <!--<h2>Latest Events</h2>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div class="about-banner">
+    <img src="__STATIC__/home/images/banner.jpg" width="100%">
+    <h2 class="ban-h2">Latest Events</h2>
+
+</div>
+
+<!--活动报名弹窗-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content login-main">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <img src="__STATIC__/home/images/x.png" alt="">
+                </button>
+            </div>
+            <div class="login-header">Event Registration</div>
+            <div class="sign-form profile">
+                <form action="" method="post">
+                    <div class="sign-form-input">
+                        <input type="text" name="company" placeholder="Company Name">
+                        <input type="text" name="name" placeholder="Name">
+                        <input type="text" name="phone" placeholder="TEL">
+                        <input type="email" name="email" placeholder="E-mail">
+                        <input type="text" name="attendance" placeholder="Attendance">
+                    </div>
+
+                    <div class="tp">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container about-detail-main">
+    <h2 class="text-gradient">When the EAST MEETS the WEST</h2>
+    <p class="about-head-detail">
+        On the 17th of November, More-V
+is launching Landmarked Agrifood
+Show Season 2: When the EAST
+Meets the West. Our previous
+champion Guittard Chocolate now
+gets a chance to do mini tour in
+different online & offline
+campaigns.Granted the entry to be
+show cased at SIAL Innovation Hall
+2018, Guittard has successfully
+opened up the Chinese market by
+incresing both sales number and
+brand recognition.
+This time we've co-organized with
+Guangdong Chain Operations
+Association. Time to seize the chance
+to expand your distribution channels!
+And get your products shown on our
+list of the Great Purchase!
+
+    </p>
+
+    <div class="login-activity-detail-img">
+        <a href="" data-toggle="modal" data-target="#myModal">
+            <img src="__STATIC__/home/images/latest.jpg" width="100%">
+        </a>
+    </div>
+</div>
+
+<div class="center_event container">
+    <div class=" center_event_detail">
+
+
+        {foreach name="activity"  item="v"}
+        <div class="center_li ">
+            <a href="http://{$v.url}">
+                <div>
+                    <figure>
+                        <img src="__FILE__/{$v.img}" alt="" >
+                    </figure>
+                </div>
+            </a>
+
+        </div>
+        {/foreach}
+        <!--<div class="center_li ">-->
+            <!--<a href="javascript:void(0);">-->
+                <!--<div>-->
+                    <!--<figure>-->
+                        <!--<img src="__STATIC__/home/images/market.png" alt="">-->
+                    <!--</figure>-->
+                <!--</div>-->
+            <!--</a>-->
+        <!--</div>-->
+        <!--<div class="center_li">-->
+            <!--<a href="javascript:void(0);">-->
+                <!--<div>-->
+                    <!--<figure>-->
+                        <!--<img src="__STATIC__/home/images/market.png" alt="">-->
+                    <!--</figure>-->
+                <!--</div>-->
+            <!--</a>-->
+        <!--</div>-->
+        <!--<div class="center_li ">-->
+            <!--<a href="javascript:void(0);">-->
+                <!--<div>-->
+                    <!--<figure>-->
+                        <!--<img src="__STATIC__/home/images/market.png" alt="">-->
+                    <!--</figure>-->
+                <!--</div>-->
+            <!--</a>-->
+        <!--</div>-->
+        <!--<div class="center_li ">-->
+            <!--<a href="javascript:void(0);">-->
+                <!--<div>-->
+                    <!--<figure>-->
+                        <!--<img src="__STATIC__/home/images/market.png" alt="">-->
+                    <!--</figure>-->
+                <!--</div>-->
+            <!--</a>-->
+        <!--</div>-->
+        <!--<div class="center_li">-->
+            <!--<a href="javascript:void(0);">-->
+                <!--<div>-->
+                    <!--<figure>-->
+                        <!--<img src="__STATIC__/home/images/market.png" alt="">-->
+                    <!--</figure>-->
+                <!--</div>-->
+            <!--</a>-->
+        <!--</div>-->
+
+    </div>
+    <div class="event_all">
+        <a href="">ALL</a>
+    </div>
+    <div class="vip-client">
+        <h2 class="title-more">Our VIP Clients</h2>
+        <p class="title-b"></p>
+        <ul class="vip-client-detail">
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo1.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo2.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo3.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo4.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo5.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo6.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo7.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo8.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo9.jpg" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo10.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo11.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+            <a href="">
+                <img src="__STATIC__/home/images/logo12.png" alt="">
+            </a>
+        </li>
+            <li class="col-md-2">
+            <a href="">
+                <img src="__STATIC__/home/images/logo13.png" alt="">
+            </a>
+        </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo14.png" alt="">
+                </a>
+            </li>
+            <li class="col-md-2">
+                <a href="">
+                    <img src="__STATIC__/home/images/logo15.png" alt="">
+                </a>
+            </li>
+
+
+        </ul>
+    </div>
+</div>
+
+{/block}

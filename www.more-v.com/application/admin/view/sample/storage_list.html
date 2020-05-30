@@ -1,0 +1,142 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main" id="app">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">库存列表</h3>
+                </div>
+
+                <div class="panel-body">
+                    <button  type="button"  onclick="location.href='__MODULE__/sample/storage_edit'" class="btn btn-success"> 入库</button>
+                    <button  type="button"  onclick="location.href='__MODULE__/sample/storage_out'" class="btn btn-primary">样品出库</button>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+
+                            <th>商品名称</th>
+                            <th>批次(到货日期)</th>
+                            <th>生产日期</th>
+                            <th>过期时间</th>
+                            <th>仓库</th>
+                            <th>剩余数量</th>
+                            <th>现货</th>
+                            <th>生成时间</th>
+                            <th>入库人</th>
+                            <!--<th></th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <tr v-for="v in items">
+                            <td>{{v.sample_detail.goods.name}}</td>
+                            <td>{{v.sample_detail.arrive_time}}</td>
+                            <td>{{v.sample_detail.production_date}}</td>
+                            <td>{{v.sample_detail.expired_time}}</td>
+                            <td>{{v.sample_detail.warehouses.name}}</td>
+                            <td>{{v.now}}</td>
+                            <td><span  v-show="v.sample_detail.is_port==1" style='color: green'>是</span><span v-show="v.sample_detail.is_port==2" style='color: red'>否</span></td>
+                            <td>{{v.create_time}}</td>
+                            <td>{{v.sample_detail.sample.admin.username}}</td>
+                            <!--<td> <button  type="button"  class="btn btn-success">查看详情</button></td>-->
+                        </tr>
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                    {$stock->render()}
+                </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+<script>
+
+
+
+    //    /**
+    //     * 删除权限
+    //     */
+    //    function delete_rule(id) {
+    //
+    ////        console.log(id);
+    //        var re=confirm('确认删除吗?');
+    //
+    //        if(re){
+    //
+    //            location.href="__MODULE__/goods/goods_delete/id/"+id;
+    //        }
+    //
+    ////        console.log(re);
+    //
+    //    }
+
+
+    var vm=new Vue({
+            el:"#app",
+            data:{
+                items:[]
+
+
+            },
+        filters:{
+                // date:function (val) {
+                //
+                //
+                //     return
+                // }
+
+
+        }
+
+
+    });
+
+
+
+    $(function () {
+        var items='{:json_encode($stock)}';
+
+        items=getArrForString(items);
+
+
+        vm.$data.items=items.data;
+
+        console.log(items);
+
+
+    });
+
+
+
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

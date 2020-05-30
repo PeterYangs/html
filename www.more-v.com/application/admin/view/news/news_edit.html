@@ -1,0 +1,214 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<style>
+    .box {
+        float: left;
+        width: 30%;
+        margin-right: 15px;
+        margin-bottom: 20px;
+    }
+
+    .input-upload {
+
+        position: relative;
+        overflow: hidden;
+
+    }
+
+    .input-upload input {
+
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .input-upload select {
+        position: absolute;
+        /*opacity: 0;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*display: none;*/
+
+    }
+
+    .all {
+        width: 50%;
+        margin-bottom: 30px;
+
+    }
+
+    .cate {
+
+        margin-bottom: 20px;
+
+    }
+
+</style>
+
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form action="__MODULE__/news/news_update/id/{$news.id}" method="post" enctype="multipart/form-data">
+
+                        <input type="hidden" name="img"  id="img" value="{$news.img}"/>
+
+                        <label>新闻标题</label><input style="width: 50%" required="required" value="{$news.title}" class="form-control input-lg"   placeholder="新闻标题" name="title" type="text"><br/>
+
+                        <!--<label>描述</label><input style="width: 50%" required="required" value="{$news.description}" class="form-control input-lg"   placeholder="描述" name="description" type="text"><br/>-->
+
+
+                        <label>封面图</label><input type="file"   onchange="upload_file(this,'img')" accept="image/*"/><img id="show" src="__FILE__/{$news.img}" width="20%"> <br/>
+
+                        <div class="box" style="width: 100%">
+
+                            <label>照片</label>
+
+                            <div class="input-upload">
+                                <input  type="file" onchange="dealImg.addImg(this,'photo')" />
+                                <button type="button" class="btn btn-success">选择图片</button>
+
+
+                            </div>
+
+
+                            <div class="img-list">
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- 加载编辑器的容器 -->
+                        <br/><label>内容</label><textarea id="editor_id" name="content" style="width:100%;height:550px;">{$news.content}</textarea>
+
+                        <button type="submit" class="btn btn-primary btn-lg">提交</button>
+
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // if("{$admin.id}"){
+    //
+    //     $("#group_id").val("{$admin.group_id}");
+    //
+    // }
+
+
+
+    // console.log('{$news.photo}');
+
+    $(function () {
+        //上传图片回填
+        dealImg.init('{$news.photo}','photo');
+    });
+
+
+
+
+
+
+    /**
+     * 上传文件
+     * @param obj
+     * @param name  字段名
+     */
+    function upload_file(obj,name) {
+        //文件对象
+        var f=$(obj)[0].files[0];
+
+        var data=new FormData();
+
+
+        data.append(name,f);
+
+
+
+        $.ajax({
+            url:"__MODULE__/common/upload_file",
+            type:"post",
+            data:data,    //表单数据
+            dataType:'json',
+            cache: false,//不缓存
+            processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理。
+            contentType: false,//contentType设置为false。因为是由<form>表单构造的FormData对象，且已经声明了属性enctype="multipart/form-data"，所以这里设置为false。
+            success:function (re) {
+
+                if(re.code==1){
+
+                    $("#"+name).val(re.file);
+
+                    if(name=="img"){
+
+                        $("#show").attr('src','__FILE__/'+re.file);
+                    }
+
+                }else {
+
+                    alert(re.msg);
+                    console.log(re.msg);
+
+                }
+
+//                console.log(re);
+
+            }
+
+
+        });
+
+
+
+//        console.log(f);
+
+    }
+
+
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#editor_id',{
+            cssPath : '__FILE__/kindeditor/plugins/code/prettify.css',
+            uploadJson : '__FILE__/kindeditor/php/upload_json.php',
+            fileManagerJson : '__FILE__/kindeditor/php/file_manager_json.php',
+            allowFileManager : true
+        });
+    });
+
+
+
+
+
+
+
+
+
+</script>
+
+{/block}

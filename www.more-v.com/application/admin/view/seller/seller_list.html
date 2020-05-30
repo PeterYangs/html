@@ -1,0 +1,254 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main" id="app">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+                    <button  type="button"  onclick="location.href='__MODULE__/seller/seller_edit'" class="btn btn-success"> Add</button>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>供应商名称</th>
+                            <th>国家</th>
+                            <th>等级</th>
+                            <th>网址</th>
+                            <th>邮箱</th>
+                            <th>联系人</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                            <th>跟进人</th>
+                            <th>汇总信息</th>
+                            <!--<th>Group</th>-->
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {foreach name="seller" item="v" key="k"}
+                        <tr>
+                            <td>{$v.id}</td>
+                            <td>{$v.name}</td>
+                            <td>{$v.country.name}</td>
+                            <td>{$v.lvs.name}</td>
+                            <td>{$v.url}</td>
+                            <td>{$v.email}</td>
+                            <td>{$v.contact}</td>
+                            <td>{$v.create_time}</td>
+                            <td>{$v.update_time}</td>
+                            <td>{$v.admin.username}{$v.admin.show_nickname}</td>
+                            <td><button type="button" class="btn btn-primary btn-xs" @click="openCollectModal('{$k}')" >查看</button></td>
+                            <!--<td>@steve</td>-->
+                            <td><span  class="lnr lnr-pencil" style="" onclick="location.href='__MODULE__/seller/seller_edit/id/{$v.id}'"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span onclick="delete_rule('{$v.id}')" class="lnr lnr-trash"></span></td>
+                        </tr>
+                        {/foreach}
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                    {$seller->render()}
+                </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+
+
+
+    <div id="collect_modal" class="modal  fade" role="dialog" aria-labelledby="测试" tabindex="-1" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">x</button>
+                    <h3>汇总记录<span class="owner"></span></h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <!--<div v-for="v in collectObj">{{v.content}}</div>-->
+
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th>标题</th>
+                                <th>内容</th>
+                                <th>汇总人</th>
+                                <th>时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="v in collectObj">
+                           <td>{{v.title}}</td>
+                           <td :title="v.content"  >{{getContent(v.content)}}</td>
+                           <td>{{getName(v.admin)}}</td>
+                           <td>{{v.create_time}}</td>
+
+                        </tr>
+
+                        </tbody>
+
+
+                    </table>
+
+
+
+                </div>
+
+                <div>
+                    <div class="modal-footer date-modal-footer">
+
+                        <!--<button class="btn btn-info" onclick="date_submit()">提交</button>-->
+
+
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+<script>
+
+
+
+    /**
+     * 删除权限
+     */
+    function delete_rule(id) {
+
+//        console.log(id);
+        var re=confirm('确认删除吗?');
+
+        if(re){
+
+            location.href="__MODULE__/seller/seller_delete/id/"+id;
+        }
+
+//        console.log(re);
+
+    }
+
+
+    $(function () {
+
+        var data='{:json_encode($seller)}';
+
+        data=getArrForString(data);
+
+
+        console.log(data);
+        // data=data.data;
+
+
+
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                collectData:data,
+                collectObj:Object
+
+
+            },
+            methods:{
+                //打开模拟窗口
+                openCollectModal:function (k) {
+
+                    $("#collect_modal").modal();
+
+                    // k=Number(k);
+                    this.collectObj=this.collectData.data[k].collect;
+
+
+                    // console.log(this.collectData.data[k].collect);
+
+                },
+                getName:function (data) {
+
+                    if(!data.nickname) return data.username;
+
+                    return data.nickname;
+                },
+                getContent:function (content) {
+
+                    if(!content) return '';
+
+                    var length=content.length;
+
+                    // console.log(length);
+
+                    return content.substring(0,6)+((length>6)?"...":"");
+
+                }
+
+
+
+
+            },
+            
+            
+
+
+
+        });
+
+
+
+
+
+
+        // console.log(data);
+
+
+    });
+
+
+
+
+
+
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

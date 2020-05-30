@@ -1,0 +1,118 @@
+ /**
+     * qq第三方登录(直接把a链接的地址指向这里)
+     * Create by Peter
+     */
+    function qq_login(){
+        //引入官方SDK
+        require_once "lib/Connect/API/qqConnectAPI.php";
+
+        $qc= new \QC();
+
+
+
+
+        //将上一次qq链接存在cookie里面
+        $last_qq_url=$_SERVER['HTTP_REFERER'];
+
+        setcookie("last_qq_url",$last_qq_url,0,'/');
+
+
+        $qc->qq_login();
+
+
+
+
+    }
+
+    /**
+     * qq登录后回调函数（也就是申请时候写的回调地址）
+     * Create by Peter
+     */
+    function qq_callback_url(){
+        //引入官方SDK
+        require_once "lib/Connect/API/qqConnectAPI.php";
+
+
+        //这里一定要这么写，算是官方的bug
+        $qc = new \QC();
+
+        $asc=$qc->qq_callback();
+
+
+        //用户唯一id(标识)
+       $qq_id= $qc->get_openid();
+
+
+       $qc=new \QC($asc,$qq_id);
+
+
+
+        //获取用户信息
+        $arr = $qc->get_user_info();
+
+//        print_r($arr);
+
+        //用户头像
+        $image=$arr['figureurl_qq_1'];
+
+//        setcookie('image',$image,0,'/');
+
+        //用户名
+        $username=htmlspecialchars($arr['nickname'],3);
+        //性别
+        $sex=($arr['gender']=='男')?1:0;
+
+
+        $user_db=M("user");
+
+
+        $re=$user_db->where("qq_id = '{$qq_id}'")->find();
+
+
+        if($re){
+
+//            $username=$re['']
+            //登录跳转
+            $this->qq_logins($username,$re['id']);
+
+
+        }else{
+
+            $user_id=$user_db->data(array(
+                'qq_id'=>$qq_id,
+                'image'=>$image,
+                'username'=>$username,
+                'sex'=>$sex
+
+            ))->add();
+
+            //登录跳转
+            $this->qq_logins($username,$user_id);
+
+
+
+        }
+
+
+
+
+
+
+    }
+
+
+    /**
+     * qq登录后执行登录
+     * @param $user
+     * @param $user_id
+     */
+    function qq_logins($user,$user_id){
+
+        setcookie("user", $user, 0, __ROOT__ . "/");
+        setcookie('user_id',$user_id,0,__ROOT__."/");
+
+        header("Location:".$_COOKIE['last_qq_url']);
+
+
+
+    }

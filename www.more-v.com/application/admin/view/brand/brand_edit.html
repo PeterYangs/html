@@ -1,0 +1,134 @@
+{extend name="layout/layout" /}
+{block name="main"}
+
+<style>
+    .box{
+        float: left;
+        width: 30%;
+        margin-right: 15px;
+        margin-bottom: 20px;
+    }
+
+    .input-upload{
+
+        position: relative;
+        /*overflow: hidden;*/
+
+    }
+
+    .input-upload input{
+
+        position: absolute;
+        /*!*opacity: 0;*!*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+    }
+
+    .input-upload select{
+        position: absolute;
+        /*opacity: 0;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*display: none;*/
+
+
+    }
+
+
+</style>
+<!-- MAIN -->
+<div class="main">
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form  action="__MODULE__/brand/brand_update/id/{$brand.id}" method="post" enctype="multipart/form-data">
+
+
+                        <div class="box"><label>品牌名称</label><input  required="required" value="{$brand.name}" class="form-control input-lg"   placeholder="品牌名称" name="name" type="text"></div>
+
+                        <div class="box">
+                            <label>所属供应商</label>
+
+                            <div  >
+
+                                <input type="hidden" name="seller_id" value="{$brand.seller_id}" id="seller_id"/>
+                                <input type="text"  value="{$brand.seller.name}" class="form-control input-lg" style="display: inline;width: auto" readonly="readonly"  id="seller_name"/>
+                                <button type="button" class="btn btn-primary btn-lg" onclick="openWindow()">选择供应商</button>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="clearfix"></div>
+
+
+
+
+
+
+                        <button type="submit" class="btn btn-primary btn-lg">提交</button>
+
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+
+//        auto_fill('{$seller}');
+
+    });
+
+
+    function openWindow() {
+
+        openChildWindow.open({'id':"ID",'name':"供应商名称",'country.name':'国家','create_time':'创建时间','update_time':'更新时间'},
+        'name',
+            'SellerModel',
+            function (data) {
+
+            // data=JSON.parse(data);
+
+            console.log(data);
+
+            $("#seller_id").val(data.id);
+
+            $("#seller_name").val(data.name);
+
+            }
+        );
+
+    }
+
+
+    
+</script>
+
+
+{/block}

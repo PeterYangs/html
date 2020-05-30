@@ -1,0 +1,95 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+                    <button  type="button"  onclick="location.href='__MODULE__/activitys/activity_edit'" class="btn btn-success"> 添加</button>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>活动名称</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                            <th>报名列表</th>
+                            <!--<th>Group</th>-->
+                            <!--<th>Group</th>-->
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {foreach name="activity" item="v"}
+                        <tr>
+                            <td>{$v.id}</td>
+                            <td>{$v.name}</td>
+                            <td>{$v.create_time}</td>
+                            <td>{$v.update_time}</td>
+                            <td><a href="javascript:get_url(['activity_id'],['{$v.id}'],['event_registration'],['eq'],[],'p','__MODULE__/user/user_list')">{$v.event_registration_count}人</a></td>
+                            <!--<td>{$v.name}</td>-->
+                            <!--<td>@steve</td>-->
+                            <td><span  class="lnr lnr-pencil" style="" onclick="location.href='__MODULE__/activitys/activity_edit/id/{$v.id}'"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span onclick="delete_rule('{$v.id}')" class="lnr lnr-trash"></span></td>
+                        </tr>
+                        {/foreach}
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                    {$activity->render()}
+                </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+<script>
+    /**
+     * 删除权限
+     */
+    function delete_rule(id) {
+
+//        console.log(id);
+        var re=confirm('Are you sure you want to delete?');
+
+        if(re){
+
+            location.href="__MODULE__/activitys/activity_delete/id/"+id;
+        }
+
+//        console.log(re);
+
+    }
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

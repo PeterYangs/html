@@ -1,0 +1,135 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main" id="app">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+                    <button  type="button"  onclick="location.href='__MODULE__/seller/client_edit'" class="btn btn-success"> Add</button>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>客户名称</th>
+                            <th>跟进人</th>
+                            <th></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <tr v-for="v in items">
+
+                            <td>{{v.id}}</td>
+                            <td>{{v.name}}</td>
+                            <td>{{v | f('admin.username')}}</td>
+                            <td><span  class="lnr lnr-pencil" style="" @click="edit(v.id)" ></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span  class="lnr lnr-trash"></span></td>
+                        </tr>
+
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                    {$client->render()}
+                </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+<script>
+
+
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            items:[]
+
+
+        },
+        methods:{
+            edit:function (id) {
+
+                location.href="__MODULE__/seller/client_edit/id/"+id;
+
+            }
+
+
+        },
+        filters:{
+
+
+            f:function (val,key) {
+
+                try{
+
+                    return eval("val."+key);
+
+
+                }catch (e){
+
+                    // console.log(123);
+
+                    return '';
+
+                }
+
+            }
+        }
+
+
+
+
+    });
+
+
+    $(function () {
+       var client='{:json_encode($client)}';
+
+      client= getArrForString(client);
+
+
+      vm.$data.items=client.data;
+
+
+       console.log(client);
+
+
+
+
+    });
+
+
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

@@ -1,0 +1,131 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+                    <button type="button" onclick="location.href='__MODULE__/news/news_edit'" class="btn btn-success">
+                        Add
+                    </button>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>排序</th>
+                            <th>ID</th>
+                            <th>标题</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                            <!--<th>Group</th>-->
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {foreach name="news" item="v"}
+                        <tr>
+                            <td style="width: 100px"><input class="form-control input-sm"
+                                                            onchange="changSort(this.value,'{$v.id}')"
+                                                            value="{$v.sort}"/></td>
+                            <td>{$v.id}</td>
+                            <td>{$v.title}</td>
+                            <td>{$v.create_time}</td>
+                            <td>{$v.update_time}</td>
+                            <!--<td>@steve</td>-->
+                            <td><span class="lnr lnr-pencil" style=""
+                                      onclick="location.href='__MODULE__/news/news_edit/id/{$v.id}'"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                    onclick="delete_rule('{$v.id}')" class="lnr lnr-trash"></span></td>
+                        </tr>
+                        {/foreach}
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                    {$news->render()}
+                </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+<script>
+
+
+    /**
+     * 删除权限
+     */
+    function delete_rule(id) {
+
+//        console.log(id);
+        var re = confirm('Are you sure you want to delete?');
+
+        if (re) {
+
+            location.href = "__MODULE__/news/news_delete/id/" + id;
+        }
+
+//        console.log(re);
+
+    }
+
+
+    function changSort(sort, id) {
+
+
+        // console.log(sort);
+        // console.log(id);
+
+        ajax_submit('确定修改吗?', '', '__MODULE__/news/newsChangeSort', {sort: sort, id: id},
+            (re) => {
+
+
+                // console.log(re);
+
+                if(re.code==1){
+
+                    location.reload();
+
+                }else {
+
+                    swal(re.msg);
+
+                }
+
+
+            }
+        );
+
+
+    }
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

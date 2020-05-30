@@ -1,0 +1,84 @@
+
+{extend name="layout/layout"}
+{block name="content"}
+
+
+
+
+
+<div class="login">
+    <div class="containers login-bg">
+        <div class="login-content">
+            <div class="login-content-main">
+                <div class="login-left">
+                    <img src="__STATIC__/home/images/More-V-Logo.png" alt="">
+                    <p>Sales ＆ Brand Promotion Organization</p>
+                    <div class="website">
+                        <a href="http://www.more-v.com/">www.more-v.com</a>
+                    </div>
+                </div>
+                <!--<div class="login-center"></div>-->
+                <div class="login-right">
+                    <div class="login-right-info register-info">
+                        <h3>  <b>Sign up</b> now</h3>
+                        <form action="__MODULE__/login/register_check" method="post">
+                            <input type="text" name="company" placeholder="Company Name">
+                            <input type="text" name="name" placeholder="Name">
+                            <input type="email" name="email" placeholder="Email">
+                            <!--<input type="password" name="password" placeholder="password">-->
+                            <!--<input type="password" name="password_confirm" placeholder="Confirm password">-->
+                            <input type="text" name="web" placeholder="Website">
+                            <input type="text" name="code" placeholder="Security Code" class="code">
+                            <!--<div class="code-num">-->
+                                <img class="code-num" id="code" src="{:captcha_src()}" alt="" onclick="change_code(this)">
+                            <!--</div>-->
+                            <button type="submit">Sign up</button>
+                        </form>
+                        <p class="p-register">
+                            Already have an account?
+                            <a href="__MODULE__/index/login">log in</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    /**
+     * 验证码的更改
+     * @param obj
+     */
+    function change_code(obj) {
+
+        $(obj).attr('src','{:captcha_src()}');
+
+
+    }
+
+    //页面返回的时候，刷新一下验证码
+    $(window).bind('pageshow',function () {
+
+//        location.reload();
+
+//        console.log('this page is flash');
+
+        $("#code").attr('src','{:captcha_src()}'+'?'+Math.random());
+
+
+    });
+
+
+</script>
+
+{/block}
+
+
+
+
+
+
+

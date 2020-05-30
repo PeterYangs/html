@@ -1,0 +1,90 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form action="__MODULE__/user/user_update/id/{$user.id}" method="post" enctype="multipart/form-data">
+
+
+
+                        <label>姓名</label><input style="width: 50%" required="required" value="" class="form-control input-lg"   placeholder="姓名" name="name" type="text"><br/>
+                        <label>公司名称</label><input style="width: 50%" required="required" value="" class="form-control input-lg"   placeholder="公司名" name="company" type="text"><br/>
+                        <label>邮箱</label><input style="width: 50%" required="required" value="" class="form-control input-lg"   placeholder="邮箱" name="email" type="text"><br/>
+                        <label>网站</label><input style="width: 50%" required="required" value="" class="form-control input-lg"   placeholder="网站" name="web" type="text"><br/>
+                        <div class="clearfix">
+                            <label style="float: left">性别</label>
+                        <label style="float: left;margin-left: 10px" class="fancy-radio"><input name="sex" value="1" type="radio"><span><i></i>男</span></label>
+                        <label style="float: left;margin-left: 10px" class="fancy-radio"><input name="sex" value="2" type="radio"><span><i></i>女</span></label>
+                        </div><br/>
+
+                        <label>地址</label><input style="width: 50%"  value="{$user.address.0}" class="form-control input-lg"   placeholder="地址1" name="address[]" type="text"><br/><input style="width: 50%"  value="{$user.address.1}" class="form-control input-lg"   placeholder="地址2" name="address[]" type="text"><br/>
+
+                        <label>城市</label><input style="width: 50%" required="required" value="" class="form-control input-lg"   placeholder="城市" name="city" type="text"><br/>
+                        <label>州</label><input style="width: 50%" required="required" value="" class="form-control input-lg"   placeholder="州" name="state" type="text"><br/>
+                        <label>街区</label><input style="width: 50%" required="required" value="" class="form-control input-lg"   placeholder="街区" name="zip_code" type="text"><br/>
+
+                        <label>国家</label>
+                        <select class="form-control input-lg" style="width: 50%" name="country_id">
+                            <option value="0">请选择</option>
+                            {tt:models model="\app\home\model\CountryModel" limit='300' order='id asc'}
+
+                            <option value="{$v.id}">{$v.name}</option>
+
+                            {/tt:models}
+
+
+                        </select>
+                        <br/>
+
+                        <label>密码</label><input style="width: 50%"  value="" class="form-control input-lg"   placeholder="密码" name="password" type="password"><br/>
+                        <label>确认密码</label><input style="width: 50%"  value="" class="form-control input-lg"   placeholder="确认密码" name="password_confirm" type="password"><br/>
+
+                        <!--<label>描述</label><input style="width: 50%" required="required" value="{$news.description}" class="form-control input-lg"   placeholder="描述" name="description" type="text"><br/>-->
+
+
+
+
+                        <button type="submit" class="btn btn-primary btn-lg">提交</button>
+
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+
+    $(function () {
+        //表单数据回填
+        auto_fill({:json_encode($user)});
+
+
+    });
+
+
+
+</script>
+
+{/block}

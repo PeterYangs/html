@@ -1,0 +1,29 @@
+
+{extend name="layout/layout"}
+{block name="content"}
+<script>
+    $(function(){
+        if( $(window).width() <= 768 ) {
+            $("#serviceimg").attr("src","__STATIC__/home/images/morevphone.jpg")
+        } else {
+            $("#serviceimg").attr("src","__STATIC__/home/images/morev.jpg")
+        }
+    })
+
+</script>
+
+<div>
+    <img id="serviceimg" src="__STATIC__/home/images/morev.jpg" width="100%">
+</div>
+
+
+
+
+{/block}
+
+
+
+
+
+
+

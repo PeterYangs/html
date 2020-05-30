@@ -1,0 +1,116 @@
+{extend name="layout/layout"}
+{block name="content"}
+<div style="background:#F5F5F5;display:block;">
+    <div class="sign_o">
+        <img src="__STATIC__/home/images/center/banner.jpg" width="100%" class="sign_o_img">
+        <div class="container sign_top">
+            <div class="sign_top_detail ">
+                <div class="sign_top_img  active">
+                    <a href="__MODULE__/user/sign_up">
+                        <img src="__STATIC__/home/images/center/regist.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="sign_top_detail">
+                <div class="sign_top_img ">
+                    <a href="__MODULE__/user/basic_info">
+                        <img src="__STATIC__/home/images/center/basic.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="sign_top_detail">
+                <div class="sign_top_img ">
+                    <a href="__MODULE__/user/event_series">
+                        <img src="__STATIC__/home/images/center/event.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="sign_top_detail">
+                <div class="sign_top_img ">
+                    <a href="__MODULE__/user/products_info">
+                        <img src="__STATIC__/home/images/center/product.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="sign_middle">
+        <div class="sign_middle_detail sign_middle_o">
+
+            <h2>Member Information</h2>
+            <hr>
+            <!--左边栏logo-->
+            <div class="sign_middle_detail_left sign_middle_common">
+                <img src="__STATIC__/home/images/center/logo.jpg" alt="">
+            </div>
+
+
+            <!--右边栏会员信息填写-->
+
+            <div class="sign_middle_detail_right sign_middle_common">
+
+
+                {if input('edit')}
+
+
+                <form action="__URL__/user_update/id/3" method="post">
+                    <h3>Member Edit</h3>
+
+                    <input type="text" name="company" placeholder="Company Name" value="{:request()->user->company}">
+                    <input type="text" name="name" placeholder="Name" value="{:request()->user->name}">
+                    <input type="tel"  name="tel" placeholder="TEL" value="{:request()->user->tel}">
+                    <!--<input type="email" name="email" placeholder="Email" value="{:request()->user->email}">-->
+                    <input type="text" name="web" placeholder="Website" value="{:request()->user->web}">
+
+
+                    <button type="submit">Submit</button>
+
+                </form>
+
+
+                {else/}
+
+                <form action="__SELF__/edit/1" method="get">
+
+                <h3>Member Information</h3>
+
+                <h4>Company Name:{:request()->user->company}</h4>
+                <h4>Name:{:request()->user->name}</h4>
+                <h4>TEL:{:request()->user->tel}</h4>
+                <h4>Email:{:request()->user->email}</h4>
+                <h4>Website:{:request()->user->web}</h4>
+
+
+                    <button type="submit">Edit</button>
+
+                </form>
+
+
+                {/if}
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+{/block}
+
+
+
+
+
+
+

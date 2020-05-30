@@ -1,0 +1,69 @@
+
+
+{extend name="layout/layout"}
+{block name="content"}
+<style>
+    .flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .news li {
+        flex: 0 0 31%;
+    }
+
+    @media (max-width: 991px) {
+        .news li {
+            width: 43%;
+            flex: 0 0 43%;
+        }
+    }
+</style>
+<div >
+    <img src="__STATIC__/home/images/14.jpg" width="100%">
+</div>
+
+
+<div class="container">
+    <ul class="news flex" >
+
+        {foreach name="news" item="v"}
+        <li class="col-md-4" >
+            <a href="__MODULE__/news/news_detail/id/{$v.id}">
+                <img src="__FILE__/{$v.img}" alt="">
+                <p>{$v.title}</p>
+            </a>
+        </li>
+        {/foreach}
+
+        <!--<li class="col-md-4">-->
+            <!--<a href="__MODULE__/index/news_two">-->
+                <!--<img src="__STATIC__/home/images/news/2.jpg" alt="">-->
+                <!--<p>More-V: The High-End,-->
+                    <!--Sparkling Star at the 18th SIAL China 2017-->
+                <!--</p>-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--<li class="col-md-4">-->
+            <!--<a href="__MODULE__/index/news_three">-->
+                <!--<img src="__STATIC__/home/images/news/3.jpg" alt="">-->
+                <!--<p>SIAL CHINA FIT FOR A KING WITH PRESIDENT OF ARGENTINA MACRI-->
+                <!--</p>-->
+            <!--</a>-->
+        <!--</li>-->
+    </ul>
+</div>
+
+
+
+
+
+
+{/block}
+
+
+
+
+
+
+

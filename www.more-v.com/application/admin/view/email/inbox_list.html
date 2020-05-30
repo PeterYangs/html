@@ -1,0 +1,98 @@
+{extend name="layout/layout" /}
+{block name="main"}
+
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid email_content">
+
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+
+
+<div id="first" class="modal  fade" role="dialog" style="top: 40%" aria-labelledby="测试" tabindex="-1" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <h2>加载中....</h2>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+
+    /**
+     * 删除权限
+     */
+    function delete_rule(id) {
+
+//        console.log(id);
+        var re=confirm('Are you sure you want to delete?');
+
+        if(re){
+
+            location.href="__MODULE__/sell/sell_delete/id/"+id;
+        }
+
+//        console.log(re);
+
+    }
+
+
+    function AjaxPage(page) {
+
+
+        $("#first").modal({
+            backdrop:'static'
+
+
+        });
+
+
+//        $.blockUI({ css: { backgroundColor: '#f00', color: '#fff'} });
+
+        if(!page) page=1;
+
+
+        $.ajax({
+            url:"__MODULE__/email/emailAjax/page/"+page,
+            success:function (re) {
+
+                $(".email_content").html(re);
+
+//                $.unblockUI();
+                $("#first").modal('hide');
+
+
+            }
+
+
+
+        });
+
+
+    }
+
+    AjaxPage('{:input("page")}');
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

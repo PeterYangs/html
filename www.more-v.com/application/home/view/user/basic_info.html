@@ -1,0 +1,211 @@
+{extend name="layout/layout"}
+{block name="content"}
+<div style="background:#F5F5F5;display:block;">
+    <div class="sign_o">
+        <img src="__STATIC__/home/images/center/banner.jpg" width="100%" class="sign_o_img">
+        <div class="container sign_top">
+            <div class="sign_top_detail ">
+                <div class="sign_top_img ">
+                    <a href="__MODULE__/user/sign_up">
+                        <img src="__STATIC__/home/images/center/regist.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="sign_top_detail">
+                <div class="sign_top_img active">
+                    <a href="__MODULE__/user/basic_info">
+                        <img src="__STATIC__/home/images/center/basic.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="sign_top_detail">
+                <div class="sign_top_img ">
+                    <a href="__MODULE__/user/event_series">
+                        <img src="__STATIC__/home/images/center/event.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="sign_top_detail">
+                <div class="sign_top_img ">
+                    <a href="__MODULE__/user/products_info">
+                        <img src="__STATIC__/home/images/center/product.png" alt="">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="sign_middle">
+        <div class="sign_middle_detail sign_middle_t">
+
+            <h2>Basic Info</h2>
+            <hr>
+
+            <div class="basic_detail">
+                <div class="user-login">
+                    <div class="user-head">
+                        <!--未登录.filter选择器控制头像为黑色-->
+                        <img src="__STATIC__/home/images/tx.png" class="filter">
+
+                    </div>
+                    <span>More-V</span>
+                </div>
+                <div class="basic_detail_o">
+                    <p>Status:&nbsp;&nbsp;</p><img src="__STATIC__/home/images/center/star.png" alt="">
+                </div>
+
+
+                <div class="basic_detail_t">
+                    <form action="__URL__/info_update" method="post" id="user_info  ">
+                        <div class="basic_detail_sex">
+                            <span>Sex:</span>
+                                <input type="radio" value="1" name="sex" id="male" >&nbsp;<label for="male">Male</label>
+                                <input type="radio" value="2" name="sex" id="female">&nbsp;<label for="female">Female</label>
+                        </div>
+
+                        <div class="basic_detail_address">
+
+                            <span>Adress1:</span> <input type="text" name="address[]" value="{$user_info.address[0]}">
+                            <span class="basic_detail_address_span">Adress2:</span> <input type="text" name="address[]" value="{$user_info.address[1]}">
+                        </div>
+
+                        <div class="basic_detail_city">
+                            <span>City:</span> <input type="text" name="city">
+                            <span class="">State/Region:</span> <input type="text" name="state">
+                            <span class="">Zip Code:</span> <input type="text" name="zip_code">
+                            <span class="">Country:</span>
+                            <select name="country_id" id="">
+
+                                <option value="0">请选择</option>
+
+                                {tt:models model="\app\home\model\CountryModel" limit='300' order='id asc'}
+
+                                <option value="{$v.id}">{$v.name}</option>
+
+                                {/tt:models}
+
+                            </select>
+
+                        </div>
+                        <div class="basic_detail_btn">
+                            <button type="submit">Save</button>
+
+                            <!--修改密码-->
+                            <div class="basic_password">
+                                <a href="" data-toggle="modal" data-target="#myModal-list">
+                                    Change password
+                                </a>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </form>
+
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<!--修改密码弹窗-->
+<div class="modal fade" id="myModal-list" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content pwd-main">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <img src="__STATIC__/home/images/x.png" alt="">
+                </button>
+            </div>
+            <div class="sign-form profile">
+                <form action="__URL__/password_edit" method="post" name="form">
+                    <div class="basic-form-input">
+                        <div class="basic-input-div">
+                            <span>Original password:&nbsp;&nbsp;</span><input type="password" name="orig_password">
+                        </div>
+                        <div class="basic-input-div">
+                            <span>New password:&nbsp;&nbsp;</span><input type="password" name="password" >
+                        </div>
+                        <div class="basic-input-div">
+                            <span>Confirm password:&nbsp;&nbsp;</span><input type="password" name="password_confirm"  onchange="checkpwd();" >
+                        </div>
+                        <div id="msg" style="color:red;"></div>
+                        <div class="basic-input-div">
+                            <span>Identifying code:&nbsp;&nbsp;</span><input type="text" name="code">
+                            <img class="code-num code-ident" id="identify" src="{:captcha_src()}" onclick="change_code(this)">
+                        </div>
+
+
+                    </div>
+
+                    <div class="pwd-btn">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //验证两次密码输入是否一致
+    function checkpwd(){
+        var pwd=document.form.pwd.value;
+        var repwd=document.form.repwd.value;
+
+        if(pwd==""){
+            alert("Please enter your password！");
+            document.form.pwd.focus();
+            return false;
+        }
+
+        if(pwd != repwd){
+            document.getElementById('msg').innerHTML="两次密码输入不一致";
+            return false;
+        }
+    }
+
+    /**
+     * 验证码的更改
+     * @param obj
+     */
+    function change_code(obj) {
+
+        $(obj).attr('src','{:captcha_src()}'+'?'+Math.random());
+
+
+    }
+
+
+
+
+    $(function () {
+        //数据回填
+        auto_fill({:json_encode($user_info)});
+    });
+
+
+
+
+</script>
+
+
+
+
+{/block}

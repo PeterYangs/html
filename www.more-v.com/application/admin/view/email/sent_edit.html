@@ -1,0 +1,41 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- PANEL HEADLINE -->
+                    <div class="panel panel-headline">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{:$mail->title}</h3>
+                            <p class="panel-subtitle">  {$mail->to}&nbsp;&nbsp;&nbsp;&nbsp; {:$mail->create_time}</p>
+                        </div>
+                        <div class="panel-body">
+                            <hr/>
+                            {:$mail->content}
+
+                            <!--<h4>Panel Content</h4>-->
+                            <!--<p>Objectively network visionary methodologies via best-of-breed users. Phosfluorescently initiate go forward leadership skills before an expanded array of infomediaries. Monotonectally incubate web-enabled communities rather than process-centric.</p>-->
+                        </div>
+                    </div>
+                    <!-- END PANEL HEADLINE -->
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+{/block}

@@ -1,0 +1,223 @@
+
+
+
+{extend name="layout/layout"}
+{block name="content"}
+
+<div class="pro_detail_top">
+
+</div>
+
+
+<div class="container pro_detail_center">
+    <h2>Product details</h2>
+
+    <div class="pro_detail_main">
+        <div class="pro_main_left">
+            <ul class="pro_img_small">
+
+                {foreach  name='sell_data.goods_img' item='v'}
+                <li onmouseover="imgmove(this);">
+                    <img src="__FILE__/{$v}">
+                    <div class="pro_img_div"></div>
+                </li>
+                {/foreach}
+
+                <!--<li onmouseover="imgmove(this);">-->
+                    <!--<img src="__STATIC__/home/images/product/p1.jpg">-->
+                    <!--<div class="pro_img_div"></div>-->
+                <!--</li>-->
+
+                <!--<li onmouseover="imgmove(this);">-->
+                    <!--<img src="__STATIC__/home/images/product/p2.jpg">-->
+                    <!--<div class="pro_img_div"></div>-->
+                <!--</li>-->
+            </ul>
+            <div class="pro_img_big" id="big_img">
+                <!--<img src="__STATIC__/home/images/product/p2.jpg" alt="">-->
+            </div>
+        </div>
+
+
+        <div class="pro_main_right">
+            <div class="pro_right_top">
+                <h2>
+                    <!--<img src="__STATIC__/home/images/product/gq.jpg">--><span>{$sell_data.name}</span>
+                </h2>
+                <p>Origin：{$sell_data.country.name}</p>
+                <p>Spec：{$sell_data.standard}</p>
+                <p>WHSE/Port：{$sell_data.whse}</p>
+                <p>QTY：{$sell_data.qty}</p>
+                <p>Date：{$sell_data.validity}</p>
+                <p>Note：{$sell_data.note}</p>
+            </div>
+            <div class="pro_right_a">
+                <a href="__MODULE__/user/pro_upload/id/{$sell_data.id}" class="pro_right_bottom">Quote</a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="pro_detail_bottom">
+        <div class="pro_bottom_title">
+            <h2>Recommended products</h2>
+            <a href="" class="pro_more">more <img src="__STATIC__/home/images/product/right.png" alt=""></a>
+        </div>
+
+        <div class="sreen-gallery-cursual pro_bottom_main sreen-product">
+            <div id="ow-demo" class="owl-carousel">
+
+
+
+                {foreach name='rand' item='v'}
+                <div class="item-owl">
+                    <div class="pro_img_detail event_detail">
+                        <div class="pro_img">
+                            <a href="">
+                                <figure class="imghrv_book">
+                                    <img src="__FILE__/{$v.img}" alt="">
+                                    <figcaption>
+                                        <p>Click to view</p>
+                                    </figcaption>
+                                </figure>
+
+                            </a>
+                        </div>
+                        <p>Product：{$v.name}</p>
+                        <p>Origin：{$v.country.name}</p>
+                        <p>Spec.：{$v.standard}</p>
+
+
+                    </div>
+                </div>
+                {/foreach}
+
+
+
+                <!--<div class="item-owl">-->
+                    <!--<div class="pro_img_detail event_detail">-->
+                        <!--<div class="pro_img">-->
+                            <!--<a href="">-->
+                                <!--<figure class="imghrv_book">-->
+                                    <!--<img src="__STATIC__/home/images/product/p6.jpg" alt="">-->
+                                    <!--<figcaption>-->
+                                        <!--<p>Click to view</p>-->
+                                    <!--</figcaption>-->
+                                <!--</figure>-->
+
+                            <!--</a>-->
+                        <!--</div>-->
+                        <!--<p>品项：西梅</p>-->
+                        <!--<p>产地：智利</p>-->
+                        <!--<p>规格：无核40-50</p>-->
+
+
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="item-owl">-->
+                    <!--<div class="pro_img_detail event_detail">-->
+                        <!--<div class="pro_img">-->
+                            <!--<a href="">-->
+                                <!--<figure class="imghrv_book">-->
+                                    <!--<img src="__STATIC__/home/images/product/p7.jpg" alt="">-->
+                                    <!--<figcaption>-->
+                                        <!--<p>Click to view</p>-->
+                                    <!--</figcaption>-->
+                                <!--</figure>-->
+
+                            <!--</a>-->
+                        <!--</div>-->
+                        <!--<p>品项：腰果</p>-->
+                        <!--<p>产地：越南</p>-->
+                        <!--<p>规格：w320</p>-->
+
+
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="item-owl">-->
+                    <!--<div class="pro_img_detail event_detail">-->
+                        <!--<div class="pro_img">-->
+                            <!--<a href="">-->
+                                <!--<figure class="imghrv_book">-->
+                                    <!--<img src="__STATIC__/home/images/product/p5.jpg" alt="">-->
+                                    <!--<figcaption>-->
+                                        <!--<p>Click to view</p>-->
+                                    <!--</figcaption>-->
+                                <!--</figure>-->
+
+                            <!--</a>-->
+                        <!--</div>-->
+                        <!--<p>品项：榛子</p>-->
+                        <!--<p>产地：土耳其</p>-->
+                        <!--<p>规格：去皮榛子11-13</p>-->
+
+
+                    <!--</div>-->
+                <!--</div>-->
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+//        鼠标移入，图片改变
+    var index=0;
+    var bigSrc="";
+
+    //获得第一张图片
+
+    var cbigSrc=$('.pro_img_small li').eq(0).find('img').attr("src");
+
+    //#big_img的div中添加img标签
+    function addImg(obj){
+        var div=document.getElementById(obj);
+        console.log(div);
+
+        var img = document.createElement("img");
+        img.src = cbigSrc;
+        div.appendChild(img);
+    }
+    addImg("big_img");
+
+
+    $('.pro_img_small li').eq(0).find('.pro_img_div').css('display','block');
+
+
+    function imgmove(obj) {
+
+        index = $(obj).index();
+
+//            console.log(index);
+        bigSrc = $(obj).find('img').attr("src");
+        $('.pro_img_big img').attr("src", bigSrc);
+        $(obj).find('.pro_img_div').css('display', 'block');
+        $(obj).siblings().children('.pro_img_div').css('display', 'none');
+
+    }
+
+</script>
+<script>
+    $(document).ready(function() {
+        $('#ow-demo').owlCarousel({
+            items :3,
+            itemsDesktop : [800,2],
+            itemsDesktopSmall : [414,2],
+            lazyLoad : true,
+            autoPlay :false,
+            navigation :true,
+            navigationText :  ['<img src="__STATIC__/home/images/center/left.png">','<img src="__STATIC__/home/images/center/right.png">'],
+            pagination : false,
+
+        });
+
+    });
+</script>
+
+{/block}

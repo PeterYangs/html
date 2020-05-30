@@ -1,0 +1,343 @@
+{extend name="layout/layout" /}
+{block name="main"}
+
+<style>
+    .box{
+        float: left;
+        width: 30%;
+        margin: 10px;
+    }
+
+    .input-upload{
+
+        position: relative;
+        overflow: hidden;
+
+    }
+
+    .input-upload input{
+
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+
+</style>
+<!-- MAIN -->
+<div class="main">
+
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form  action="__MODULE__/sell/sell_update/id/{$sell.id}" method="post" enctype="multipart/form-data">
+
+                        <input type="hidden" name="img"  id="img" value="{$sell.img}"/>
+
+                        <div class="box"><label>品名</label><input  required="required" value="{$sell.name}" class="form-control input-lg"   placeholder="品名" name="name" type="text"></div>
+
+                        <div class="box">
+                        <label>产地</label>
+                        <select  class="form-control input-lg" name="place" id="place" >
+                            <option value="0">请选择</option>
+                            {foreach name='country' item='v'}
+
+                                <option value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        </select>
+                        </div>
+
+
+
+                        <div class="box">
+                        <label>规格</label><input  required="required" value="{$sell.standard}"  class="form-control input-lg"   placeholder="规格" name="standard" type="text">
+                        </div>
+
+                        <div class="box">
+                        <label>有效期</label><input  required="required" value="{$sell.validity}" class="form-control input-lg"   placeholder="有效期" name="validity" type="date">
+                        </div>
+
+                        <div class="box">
+                        <label>仓库(WHSE/Port)</label><input  required="" value="{$sell.whse}" class="form-control input-lg"   placeholder="仓库(WHSE/Port)" name="whse" type="text">
+                        </div>
+
+                        <div class="box">
+                        <label>数量(QTY)</label><input  required="" value="{$sell.qty}" class="form-control input-lg"   placeholder="数量(QTY)" name="qty" type="text">
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <!--<label>仓库(WHSE/Port)</label><input style="width: 50%" required="" value="{$sell.whse}" class="form-control input-lg"   placeholder="仓库(WHSE/Port)" name="whse" type="text"><br/>-->
+
+
+                        <!--<label>描述</label><input style="width: 50%" required="required" value="{$news.description}" class="form-control input-lg"   placeholder="描述" name="description" type="text"><br/>-->
+
+
+
+                        <label>封面图</label> <div class="input-upload"> <input type="file"   onchange="upload_file(this,'img')" accept="image/*"/> <button type="button" class="btn btn-success">上传</button>  </div> <img id="show" src="__FILE__/{$sell.img}" width="20%"> <br/><br/>
+
+
+                        <label>产品图片(三张)</label>  <div class="input-upload"> <input type="file" accept="image/*"  onchange="upload_files(this,'goods_img')"/>  <button type="button" class="btn btn-success">上传</button>  </div> <div class="clearfix img-list">
+                        {foreach name='sell.goods_img' item='v2'}
+                        <div  style="float: left;margin-right: 10px;align-content: center"> <img style="border:1px solid #000;"  width="350px" src="__FILE__/{$v2}"  >
+                            <div class="input-upload">
+                            <input type="file" style="align-self: center" onchange="update_img(this,'goods_img')" name="goods[]" value="{$v2}" />
+                                <button type="button" class="btn btn-danger">更换图片</button>
+                            </div>
+
+                            <input type="hidden"  name="goods_img[]" value="{$v2}" />
+                            </div>
+
+                        {/foreach}
+
+
+                    </div><br/><br/>
+
+
+
+                        <label>备注(note)</label><textarea style="width: 50%" class="form-control" placeholder="备注" name="note"  rows="4">{$sell.note}</textarea><br/>
+                        <!-- 加载编辑器的容器 -->
+                        <!--<br/><label>内容</label><textarea id="editor_id" name="content" style="width:100%;height:550px;">{$news.content}</textarea>-->
+
+                        <button type="submit" class="btn btn-primary btn-lg">提交</button>
+
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if("{$sell.id}"){
+
+        $("#place").val("{$sell.place}");
+
+    }
+
+    /**
+     * 上传文件
+     * @param obj
+     * @param name  字段名
+     */
+    function upload_file(obj,name) {
+
+
+
+
+        //文件对象
+        var f=$(obj)[0].files[0];
+
+        var data=new FormData();
+
+
+        data.append(name,f);
+
+
+
+        $.ajax({
+            url:"__MODULE__/common/upload_file",
+            type:"post",
+            data:data,    //表单数据
+            dataType:'json',
+            cache: false,//不缓存
+            processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理。
+            contentType: false,//contentType设置为false。因为是由<form>表单构造的FormData对象，且已经声明了属性enctype="multipart/form-data"，所以这里设置为false。
+            success:function (re) {
+
+                console.log(re);
+
+//                return false ;
+
+                if(re.code==1){
+
+                    $("#"+name).val(re.file);
+
+                    if(name=="img"){
+
+                        console.log(re.file);
+
+                        $("#show").attr('src','__FILE__/'+re.file);
+                    }
+
+                }else {
+
+                    alert(re.msg);
+                    console.log(re.msg);
+
+                }
+
+//                console.log(re);
+
+            }
+
+
+        });
+
+
+
+//        console.log(f);
+
+    }
+
+//
+//    KindEditor.ready(function(K) {
+//        window.editor = K.create('#editor_id',{
+//            cssPath : '__FILE__/kindeditor/plugins/code/prettify.css',
+//            uploadJson : '__FILE__/kindeditor/php/upload_json.php',
+//            fileManagerJson : '__FILE__/kindeditor/php/file_manager_json.php',
+//            allowFileManager : true
+//        });
+//    });
+
+        
+    
+    
+    function upload_files(obj,name) {
+
+
+        var s= $(".img-list").children('div').length;
+
+
+        if(s>=3){
+
+            alert('最多只能传三张图片');
+            return false;
+        }
+
+
+
+
+
+        //文件对象
+        var f=$(obj)[0].files[0];
+
+        var data=new FormData();
+
+
+        data.append(name,f);
+
+
+
+        $.ajax({
+            url:"__MODULE__/common/upload_file",
+            type:"post",
+            data:data,    //表单数据
+            dataType:'json',
+            cache: false,//不缓存
+            processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理。
+            contentType: false,//contentType设置为false。因为是由<form>表单构造的FormData对象，且已经声明了属性enctype="multipart/form-data"，所以这里设置为false。
+            success:function (re) {
+
+//                console.log(re);
+
+//                return false ;
+
+                if(re.code==1){
+
+
+                    $(obj).parent('div').next('div').append('<div  style="float: left;margin-right: 10px;align-content: center"> <img style="border:1px solid #000;"  width="350px" src="__FILE__/'+re.file+'"  >'+' <div class="input-upload"> <input type="file" style="align-self: center" onchange="update_img(this,\'goods_img\')" name="'+name+'[]" value="'+re.file+'" />  <button type="button" class="btn btn-danger">更换图片</button></div>' +
+                        '<input type="hidden"  name="'+name+'[]" value="'+re.file+'" />' +
+                        '</div>');
+
+
+                }else {
+
+                    alert(re.msg);
+                    console.log(re.msg);
+
+                }
+
+//                console.log(re);
+
+            }
+
+
+        });
+
+
+    }
+    
+    
+    function update_img(obj,name) {
+
+
+
+        uploadFile(obj,name,function (re) {
+
+            console.log(re);
+
+
+            $(obj).parent('div').prev('img').attr('src','__FILE__/'+re.file);
+
+            $(obj).parent('div').next('input').val(re.file);
+
+        });
+
+
+        
+    }
+
+    /**
+     * 文件上传
+     * @param obj
+     * @param name
+     * @param callback
+     */
+    function uploadFile(obj,name,callback) {
+        //文件对象
+        var f=$(obj)[0].files[0];
+
+        var data=new FormData();
+
+
+        data.append(name,f);
+
+
+
+        $.ajax({
+            url:"__MODULE__/common/upload_file",
+            type:"post",
+            data:data,    //表单数据
+            dataType:'json',
+            cache: false,//不缓存
+            processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理。
+            contentType: false,//contentType设置为false。因为是由<form>表单构造的FormData对象，且已经声明了属性enctype="multipart/form-data"，所以这里设置为false。
+            success:function (re) {
+
+
+                callback(re);
+
+            }
+
+
+        });
+
+
+
+    }
+
+
+
+</script>
+
+{/block}

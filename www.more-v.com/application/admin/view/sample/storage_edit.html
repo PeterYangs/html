@@ -1,0 +1,298 @@
+{extend name="layout/layout" /}
+{block name="main"}
+
+<style>
+    .box {
+        float: left;
+        width: 30%;
+        margin-right: 15px;
+        margin-bottom: 20px;
+    }
+
+    .input-upload {
+
+        position: relative;
+        overflow: hidden;
+
+    }
+
+    .input-upload input {
+
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .input-upload select {
+        position: absolute;
+        /*opacity: 0;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*display: none;*/
+
+    }
+
+    .all {
+        width: 50%;
+        margin-bottom: 30px;
+
+    }
+
+    .cate {
+
+        margin-bottom: 20px;
+
+    }
+    .list-enter-active, .list-leave-active {
+        transition: all 1s;
+    }
+    .list-enter, .list-leave-to
+        /* .list-leave-active for below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+
+</style>
+<!-- MAIN -->
+<div class="main" id="vue">
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form action="__MODULE__/sample/storage_update" method="post"
+                          enctype="multipart/form-data" @submit.prevent="submit">
+
+
+                        <div >
+                            <label>入库列表</label>
+
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>商品名称</th>
+                                    <th>批次(到货日期)</th>
+                                    <th>选择仓库</th>
+                                    <th>数量</th>
+                                    <th>生产日期</th>
+                                    <th>过期时间</th>
+                                    <th>现货</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                <tr v-for="(v ,i ) in items.table">
+
+                                    <td>{{i+1}}</td>
+                                    <td>{{v.name}}<input type="hidden"  name="items[goods_id][]"  :value="v.id"  /></td>
+                                    <td><input class="form-control input-sm" placeholder="到货日期" name="items[arrive_time][]" required="required" type="date" v-model="v.arrive_time"></td>
+                                    <td>
+                                        <select class="form-control input-sm" name="items[warehouse_id][]" required="required">
+                                            <option value="">请选择</option>
+                                            <option v-for="v1 in ck" :value="v1.id">{{v1.name}}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="form-control input-sm"  placeholder="输入数量" type="text" required="required" name="items[num][]" v-model="v.num">
+                                    </td>
+                                    <!--<td>-->
+                                        <!--<input class="form-control input-sm" placeholder="输入费用" type="text">-->
+                                    <!--</td>-->
+                                    <td><input class="form-control input-sm" placeholder="输入生产日期"  type="date" name="items[production_date][]" ></td>
+                                    <td><input class="form-control input-sm" placeholder="输入过期日期" required="required" type="date" name="items[expired_time][]" v-model="v.expired_time"></td>
+
+                                    <td>
+                                        <label class="fancy-checkbox">
+                                            <input type="checkbox"     :checked="v.is_port==1" v-model="v.is_port">
+
+
+                                            <span></span>
+                                        </label>
+                                        <input type="hidden" name="items[is_port][]"   :value="v.is_port?1:2" />
+                                    </td>
+
+                                </tr>
+
+                                </tbody>
+
+
+                            </table>
+
+
+                        </div>
+
+
+
+                        <div class="all">
+                            <button type="button" class="btn btn-success" @click="openGoods()">添加商品</button>
+                        </div>
+
+                        <div class="all">
+                            <label>费用</label>
+                            <input  type="text" class="form-control input-lg" placeholder="输入费用" name="spend" v-model="items.spend"/>
+
+
+                        </div>
+
+
+
+
+
+
+                        <div class="clearfix"></div>
+
+
+                        <button type="submit" class="btn btn-primary btn-lg" >提交</button>
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+
+
+
+         vm=new Vue({
+            el:"#vue",
+            data:{
+                items:{
+                    table:[],
+                    spend:0
+
+
+                },//商品数据
+                ck:[],//仓库
+            },
+            methods:{
+
+                openGoods:function () {
+
+                    // console.log(1111111111);
+
+                    var context=this;
+
+                    openChildWindow.open( {
+                            'id': 'ID',
+                            'name': '商品名称',
+                            'brand.seller.country.name': '国家',
+                            'brand.seller.name': '所属供应商',
+                            'create_time': '创建时间',
+                            'update_time': '更新时间'
+                        },
+                        'name',
+                        'GoodsModel',
+                        function (data) {
+                            // data = JSON.parse(data);
+
+                            context.items.table.push(data);
+
+                            console.log(data);
+
+                            //
+                            //
+                            // console.log(data);
+                            //
+                            // $("#brand_id").val(data.id);
+                            //
+                            // $("#brand_name").val(data.name);
+
+                        });
+
+
+
+
+                },
+                submit:function (event) {
+
+
+                    if(this.items.table.length<=0)  return swal("至少有一个商品！");
+
+
+                    ajax_submit(
+                        '确定提交吗！',
+                        '库存将不能删除和修改，请确认！',
+                        '__MODULE__/sample/storage_update',
+                        $(event.target).serialize(),
+                        function (data) {
+
+                            if(data.code==1){
+
+                                // location.href="__MODULE__";
+                                // swal()history.go(-1);location.reload()
+                                // history.go(-1);location.reload();
+                                window.location.href = document.referrer;
+                                // window.location.href
+                            }else {
+
+                                swal(data.msg,'','error');
+
+                            }
+
+                        }
+                    );
+
+
+
+
+                }
+
+            },
+            created:function () {
+
+                // console.log(1111111);
+
+            }
+
+
+
+        });
+
+
+
+         $(function () {
+             var ck='{$ck}';
+
+             ck= getArrForString(ck);
+
+
+
+             vm.$data.ck=ck;
+
+             // console.log(ck);
+
+
+
+
+         });
+
+
+</script>
+
+{/block}

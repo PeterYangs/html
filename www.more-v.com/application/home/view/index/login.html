@@ -1,0 +1,278 @@
+{extend name="layout/layout"}
+{block name="content"}
+
+<div class="login">
+    <div class="containers login-bg">
+        <div class="login-content">
+            <div class="login-content-main">
+                <div class="login-left">
+                    <img src="__STATIC__/home/images/More-V-Logo.png" alt="">
+                    <p>Sales ＆ Brand Promotion Organization</p>
+                    <div class="website">
+                        <a href="http://www.more-v.com/">www.more-v.com</a>
+                    </div>
+                </div>
+                <!--<div class="login-center"></div>-->
+                <div class="login-right">
+                    <div class="login-right-info">
+                        <h2>MEMBER LOGIN</h2>
+                        <form action="__MODULE__/login/login_check" method="post">
+                            <input type="email" name="email" placeholder="E-mail" required="required">
+                            <input type="password" name="password" required="required" placeholder="Password">
+                            <div class="forgot-pwd">
+                                <div class="pwd-checkbox">
+                                    <label class="pwd-label">
+                                        <input type="checkbox">
+                                        <span>Remember Me</span>
+                                    </label>
+                                </div>
+                                <a href="" class="forgot-a"  data-toggle="modal" data-target="#myModal-list">Forgot password?</a>
+                            </div>
+                            <button type="submit">Sign in</button>
+                        </form>
+                        <p>
+                            Not a member?
+                            <a href="__MODULE__/index/register">Create Account</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--忘记密码弹窗-->
+<div class="modal fade" id="myModal-list" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content pwd-main">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <img src="__STATIC__/home/images/x.png" alt="">
+                </button>
+                <h2 class="email-login">Email Login</h2>
+            </div>
+            <div class="sign-form profile">
+                <form action="__MODULE__/login/forget_password" method="post" name="form" id="password_s">
+                    <div class="basic-form-input">
+                        <div class="basic-input-div">
+                            <span>E-mail:&nbsp;&nbsp;</span><input type="email" name="email" id="email">
+                        </div>
+                        <div class="basic-input-div">
+                            <span>Identifying code:&nbsp;&nbsp;</span><input type="text" name="code" class="email-code">
+                            <input type="button" value="Get Code" class="email-button"  onclick="get_code(this)"  >
+                        </div>
+                        <div class="basic-input-div">
+                            <span>Password:&nbsp;&nbsp;</span><input type="password" name="password">
+                        </div>
+                        <div class="basic-input-div">
+                            <span>Password Confirm:&nbsp;&nbsp;</span><input type="password" name="password_confirm">
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="pwd-btn">
+                        <button type="submit"  onclick="return update_password()">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    /**
+     * 获取验证码
+     * @param obj
+     */
+    function get_code(obj) {
+
+        var email=$("#email").val();
+
+        if(!email){
+
+            alert('请输入邮箱');
+
+            return false;
+        }
+
+
+
+
+        $.ajax({
+            url:"__MODULE__/login/get_code/email/"+email,
+            dataType:'json',
+            success:function (re) {
+
+                console.log(re);
+
+                if(re.code!=1){
+
+                    //错误提示
+                    alert(re.msg);
+                }else {
+
+
+                    button_times.init(obj,1000).start();
+
+
+
+                }
+
+
+
+            }
+            
+            
+        });        
+        
+
+
+    }
+
+
+    
+    function update_password() {
+
+
+        $.ajax({
+            url:'__MODULE__/login/forget_password',
+            type:'post',
+            dataType:'json',
+            data:$("#password_s").serialize(),
+            success:function (re) {
+
+                console.log(re);
+                if(re.code==1){
+
+
+                    alert('success');
+
+
+                    //关闭弹窗
+                    $(".close").click();
+                    //重置表单
+                    $("#password_s")[0].reset();
+
+                }else {
+
+                    //提示错误
+                    alert(re.msg);
+
+
+
+                }
+
+
+            }
+
+
+        });
+
+
+
+
+        return false;
+    }
+    
+
+//    function button_time(obj) {
+//
+//        $(obj).attr('disabled','disabled');
+//
+//        $(obj).val(59);
+//
+//
+//        var time_id=setInterval("
+//
+//
+//
+//
+//        ",1000);
+//
+//
+//    }
+
+    //按钮倒计时
+    var button_times={
+        s:1000,
+        init:function (obj,s) {
+            $(obj).attr('disabled','disabled');
+
+            $(obj).val(59);
+
+            this.obj=obj;
+
+//            console.log(this.obj);
+            this.s=s;
+
+            return this;
+        },
+
+        start:function () {
+
+//            console.log(this.obj);
+
+            this.interval();
+
+//            return this;
+
+        },
+        interval:function () {
+
+
+//            console.log(this.obj);
+            var obj=this.obj;
+
+
+            var time_id=setInterval(function () {
+
+                var now=Number($(obj).val());
+
+
+//                console.log(now);
+
+                if(now<=0){
+
+                    clearInterval(time_id);
+                    $(obj).removeAttr('disabled');
+                    $(obj).val('Get Code');
+//                    that.
+//                    window.button_times.reset();
+                    return;
+                }
+
+
+
+            $(obj).val(--now);
+
+            },this.s);
+        },
+        reset:function () {
+
+//            console.log('ggggggggg');
+
+            $(this.obj).val('Get Code')
+
+
+
+        }
+
+
+
+    };
+
+
+</script>
+
+
+
+
+{/block}

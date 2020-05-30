@@ -1,0 +1,182 @@
+{extend name="layout/layout" /}
+{block name="main"}
+
+<style>
+    .box{
+        float: left;
+        width: 30%;
+        margin-right: 15px;
+        margin-bottom: 20px;
+    }
+
+    .input-upload{
+
+        position: relative;
+        overflow: hidden;
+
+    }
+
+    .input-upload input{
+
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+
+</style>
+<!-- MAIN -->
+<div class="main">
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form  action="__MODULE__/seller/seller_update/id/{$seller.id}" method="post" enctype="multipart/form-data">
+
+
+                        <div class="box"><label>供应商名称</label><input  required="required"  class="form-control input-lg"   placeholder="供应商名称" name="name" type="text"></div>
+
+                        <div class="box">
+                            <label>国家</label>
+
+                            <select  class="form-control input-lg" name="country_id" id="">
+
+                                <option value="0">请选择</option>
+
+                                {tt:models model="\app\home\model\CountryModel" limit='300' order='id asc'}
+
+                                <option value="{$v.id}">{$v.name}</option>
+
+                                {/tt:models}
+
+                            </select>
+                        </div>
+
+
+
+                        <div class="box">
+                            <label>网址</label><input  required="required"   class="form-control input-lg"   placeholder="网址" name="url" type="text">
+                        </div>
+
+                        <div class="box">
+                            <label>邮箱</label><input  required="required"  class="form-control input-lg"   placeholder="邮箱" name="email" type="text">
+                        </div>
+
+                        <div class="box">
+                            <label>联系人</label><input  required=""  class="form-control input-lg"   placeholder="联系人" name="contact" type="text">
+                        </div>
+
+                        <div class="box">
+                            <label>手机号</label><input  required=""  class="form-control input-lg"   placeholder="手机号" name="phone" type="text">
+                        </div>
+
+                        <div class="box">
+                            <label>供应商等级</label>
+
+                            <select  class="form-control input-lg" name="lv" >
+
+                                <option value="0">请选择</option>
+
+                                {tt:table name="enumerate" limit='100' where="parent_id=5" order="id asc"}
+
+                                <option value="{$v.id}">{$v.name}</option>
+
+                                {/tt:table}
+
+                            </select>
+                        </div>
+
+
+
+                        <div class="clearfix"></div>
+
+
+
+                        <div class="box" style="width: 100%">
+                            <label>跟进人</label>
+
+                            <div>
+
+                                <input type="hidden" name="admin_id" value="{$seller.admin_id}" id="admin_id"/>
+                                <input type="text" value="{$seller.admin.username}{$seller.admin.show_nickname}" class="form-control input-lg"
+                                       style="display: inline;width: auto" readonly="readonly" id="admin_username"/>
+                                <button type="button" class="btn btn-primary btn-lg" onclick="getAdminId()">选择跟进人
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+                        <label>备注</label><textarea style="width: 50%" class="form-control" placeholder="备注" name="note"  rows="4"></textarea><br/>
+                        <!-- 加载编辑器的容器 -->
+                        <!--<br/><label>内容</label><textarea id="editor_id" name="content" style="width:100%;height:550px;">{$news.content}</textarea>-->
+
+                        <button type="submit" class="btn btn-primary btn-lg">提交</button>
+
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+
+       auto_fill('{$seller}');
+
+    });
+
+
+    function getAdminId() {
+
+        openChildWindow.open(
+            {'id':'ID','username':'用户名','nickname':'昵称','create_time':'创建时间'},
+            'username',
+            'AdminModel',
+            function (data) {
+
+                // data=JSON.parse(data);
+
+
+                $("#admin_id").val(data.id);
+                $("#admin_username").val(data.username);
+
+
+
+//                console.log(data);
+            }
+        );
+
+
+    }
+
+</script>
+
+
+{/block}

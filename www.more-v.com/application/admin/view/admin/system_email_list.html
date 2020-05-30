@@ -1,0 +1,158 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<style type="text/css">
+    p{margin:0}
+    #page{
+        height:40px;
+        padding:20px 0px;
+    }
+    #page a{
+        display:block;
+        float:left;
+        margin-right:10px;
+        padding:2px 12px;
+        height:24px;
+        border:1px #cccccc solid;
+        background:#fff;
+        text-decoration:none;
+        color:#808080;
+        font-size:12px;
+        line-height:24px;
+    }
+    #page a:hover{
+        color:#077ee3;
+        border:1px #077ee3 solid;
+    }
+    #page a.cur{
+        border:none;
+        background:#077ee3;
+        color:#fff;
+    }
+    #page p{
+        float:left;
+        padding:2px 12px;
+        font-size:12px;
+        height:24px;
+        line-height:24px;
+        color:#bbb;
+        border:1px #ccc solid;
+        background:#fcfcfc;
+        margin-right:8px;
+
+    }
+    #page p.pageRemark{
+        border-style:none;
+        background:none;
+        margin-right:0px;
+        padding:4px 0px;
+        color:#666;
+    }
+    #page p.pageRemark b{
+        color:red;
+    }
+    #page p.pageEllipsis{
+        border-style:none;
+        background:none;
+        padding:4px 0px;
+        color:#808080;
+    }
+    .dates li {font-size: 14px;margin:20px 0}
+    .dates li span{float:right}
+</style>
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+                    <!--<button  type="button"  onclick="location.href='__MODULE__/sell/sell_edit'" class="btn btn-success"> Add</button>-->
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>寄件人</th>
+                            <th>标题</th>
+                            <!--<th>产地</th>-->
+                            <!--<th>规格</th>-->
+                            <!--<th>有效时间</th>-->
+                            <!--<th>创建时间</th>-->
+                            <!--<th>修改时间</th>-->
+                            <!--<th>Group</th>-->
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {foreach name="mail" item="v" key='k'}
+                        <tr>
+                            <td>{:$v->date}</td>
+                            <td>{:$v->fromName}</td>
+                            <td>{:$v->subject}</td>
+                            <!--<td>@steve</td>-->
+                            <td><span  class="fa fa-search" style="" onclick="location.href='__MODULE__/admin/system_email_edit/id/{:$v->id}'"></span></td>
+                        </tr>
+                        {/foreach}
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+
+                </div>
+
+                {$page}
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+<script>
+
+
+
+    /**
+     * 删除权限
+     */
+    function delete_rule(id) {
+
+//        console.log(id);
+        var re=confirm('Are you sure you want to delete?');
+
+        if(re){
+
+            location.href="__MODULE__/sell/sell_delete/id/"+id;
+        }
+
+//        console.log(re);
+
+    }
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

@@ -1,0 +1,335 @@
+{extend name="layout/layout"}
+
+{block name="content"}
+<style>
+    .img-responsive {
+        transform: translate(-100px,-100px);
+        opacity: 0;
+        transition: .5s;
+    }
+
+    .appear .img-responsive {
+        transform: none;
+        opacity: 1;
+    }
+
+    .about-wel p:nth-child(1) {
+        transform: translateX(-100px);
+        opacity: 0;
+        transition: .5s .5s;
+    }
+
+    .about-wel p:nth-child(2) {
+        transform: translateX(10px);
+        opacity: 0;
+        transition: .5s 1s;
+    }
+
+    .about-wel p:nth-child(3) {
+        transform: translateY(100px);
+        opacity: 0;
+        transition: .5s 1.5s;
+    }
+
+    .about-top .appear-text p:nth-child(1) {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .about-top .appear-text p:nth-child(2) {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .about-top .appear-text p:nth-child(3) {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+
+</style>
+<!--页面打开预加载动画-->
+<div class="loading-screen">
+</div>
+
+
+<div class="sleekslider" id="home">
+    <!--<div class="slide active bg-1">-->
+    <!--<div class="slide-container">-->
+    <!--<div class="slide-content">-->
+
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<video width="100%" height="100%"  id="player" poster="__STATIC__/home/images/video/gmb.jpg">-->
+        <!--<source src="__STATIC__/home/images/video/gmb.mp4" >-->
+    <!--</video>-->
+        
+    <div>
+        <a href="http://matching.more-v.net/#/login/exhibitor"><img src="__STATIC__/home/images/index.jpg" style="width: 100%;"></a>
+    </div>
+
+    <!--<iframe width="100%" height="100%" src="https://www.youtube.com/embed/2ZkXsFhtHTM" frameborder="0" allowfullscreen></iframe>-->
+
+
+
+</div>
+
+<div class="inner_section" id="frontpage">
+    <div class="container">
+        <div class="title-all">
+            <h3 class="title-more">Our Services</h3>
+            <p class="title-b"></p>
+        </div>
+        <div class="about-top agile">
+            <div class="col-md-6 col-lg-6 col-sm-6 red-w3l">
+                <div class="red-w3l-img">
+                    <img src="__STATIC__/home/images/01.png" alt="" class="img-responsive">
+                    <div class="position-w3l">
+                        <p></p>
+                        <h3>BAB Service</h3>
+                        <h3>Platform</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 comes common">
+                <div class="about-wel">
+                    <p>
+                        Precision Marketing
+                    </p>
+                    <p>
+                    Online & Offline Campaigns
+                    </p>
+                    <p>
+                    Vertical Integration
+                    </p>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 come-02 common">
+                <div class="about-wel">
+                    <p>
+                        7 clusters in China
+                    </p>
+                    <p> Brand Designing
+                    </p>
+                    <p> Free warehousing
+                    </p>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 red-w3l common twos">
+                <div class="red-w3l-img">
+                    <img src="__STATIC__/home/images/02.png" alt="" class="img-responsive">
+                    <div class="position-w3l">
+                        <p class="p-right"></p>
+                        <h3>All-in-One</h3>
+                        <h3>Services</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 red-w3l common cs">
+                <div class="red-w3l-img">
+                    <img src="__STATIC__/home/images/03.png" alt="" class="img-responsive">
+                    <div class="position-w3l">
+                        <p></p>
+                        <h3>More-V</h3>
+                        <h3>ABC</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 comes common">
+                <div class="about-wel">
+                    <p>
+                        Prompt！
+
+                    </p>
+                    <p>  Hip！
+
+                    </p>
+                    <p> Complete！</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Event Series-->
+    <div class="event">
+        <div class="container-fluid event-f">
+            <h2 class="event-hs">Event Series</h2>
+        </div>
+        <div class="screen-gallery-cursual">
+            <div id="owl-demo" class="owl-carousel">
+
+
+                {foreach name="activity" item="v"}
+                <div class="item-owl">
+                    <div class="test-review">
+                        <h2>{$v.name}</h2>
+                        <p>
+                            {$v.introduction}
+                            <!--Event SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent Series-->
+                        </p>
+                    </div>
+                </div>
+                {/foreach}
+
+
+                <!---->
+                <!--<div class="item-owl">-->
+                    <!--<div class="test-review">-->
+                        <!--<h2>Event Series</h2>-->
+                        <!--<p>-->
+                            <!--Event SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent Series-->
+                            <!--Event SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent Series-->
+                            <!--Event SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent Series-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="item-owl">-->
+                    <!--<div class="test-review">-->
+                        <!--<h2>Event Series</h2>-->
+                        <!--<p>-->
+                            <!--Event SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent Series-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="item-owl">-->
+                    <!--<div class="test-review">-->
+                        <!--<h2>Event Series</h2>-->
+                        <!--<p>-->
+                            <!--Event SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent Series-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="item-owl">-->
+                    <!--<div class="test-review">-->
+                        <!--<h2>Event Series</h2>-->
+                        <!--<p>-->
+                            <!--Event SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent Series-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="item-owl">-->
+                    <!--<div class="test-review">-->
+                        <!--<h2>Event Series</h2>-->
+                        <!--<p>-->
+                            <!--Event SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent Series-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="item-owl">-->
+                    <!--<div class="test-review">-->
+                        <!--<h2>Event Series</h2>-->
+                        <!--<p>-->
+                            <!--Event SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent Series-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="item-owl">-->
+                    <!--<div class="test-review">-->
+                        <!--<h2>Event Series</h2>-->
+                        <!--<p>-->
+                            <!--Event SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent SeriesEvent Series-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="col-md-6 super">
+            <h3>{$ran.name}</h3>
+            <p>{$ran.introduction}</p>
+
+        </div>
+        <div class="col-md-6">
+            <div class="super-img">
+                <img src="__FILE__/{$ran.img}" alt="">
+            </div>
+        </div>
+        <div class=" more-detail">
+            <a href="">FOR MORE DETAILS</a>
+        </div>
+    </div>
+
+
+
+
+    <div class="container">
+        <!--contact-->
+        <div class="contact">
+            <h2 class="tittle-contact">Contact Us</h2>
+            <p class="title-b"></p>
+        </div>
+        <div class="info_mail">
+            <form action="__URL__/submit_msg" method="post">
+                <span class="input input-chis">
+                    <input type="text" name="name" id="input-13" required="required" class="input-field input-field-chis">
+                    <label for="input-13" class="input-label input-label-chis">
+                        <span class="input-label-content input-label-content-chis" data-content="Your Name">
+                            Your Name
+                        </span>
+                    </label>
+                </span>
+                <span class="input input-chis">
+                    <input type="text" name="company_name" id="input-14" required="required" class="input-field input-field-chis">
+                    <label for="input-13" class="input-label input-label-chis">
+                        <span class="input-label-content input-label-content-chis" data-content="Company Name">
+                            Company Name
+                        </span>
+                    </label>
+                </span>
+                <span class="input input-chis">
+                    <input type="text" name="email" id="input-15" required="required" class="input-field input-field-chis">
+                    <label for="input-13" class="input-label input-label-chis">
+                        <span class="input-label-content input-label-content-chis" data-content="Email Address">
+                            Email Address
+                        </span>
+                    </label>
+                </span>
+                <span class="input input-chis">
+                    <input type="text" name="mobile" id="input-16" required="required" class="input-field input-field-chis">
+                    <label for="input-13" class="input-label input-label-chis">
+                        <span class="input-label-content input-label-content-chis" data-content="Phone Number">
+                            Phone Number
+                        </span>
+                    </label>
+                </span>
+                <textarea name="message" id="" cols="30" required="required" rows="10" placeholder="Questions or Comments.."></textarea>
+                <input type="submit" value="SEND">
+            </form>
+
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+$(document).scroll(function () {
+    if ($(window).width() > 600) {
+        if ($(document).scrollTop() > 500) {
+            $('.red-w3l-img').addClass('appear')
+            $('.about-wel').addClass('appear-text')
+        }
+    } else {
+        if ($(document).scrollTop() > 100) {
+            $('.red-w3l-img').addClass('appear')
+            $('.about-wel').addClass('appear-text')
+        }
+    }
+}) 
+
+</script>
+{/block}

@@ -1,0 +1,110 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form action="__MODULE__/activitys/activity_update/id/{$activity.id}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="img"  id="img" value="{$activity.img}"/>
+                        <label>活动名称</label><input style="width: 50%" required="required" value="{$activity.name}" class="form-control input-lg"   placeholder="活动名称" name="name" type="text"><br/>
+                        <label>活动时间（格式：2017/01/08）</label><input style="width: 50%" class="form-control input-lg" placeholder="活动时间" value="{$activity.activity_time}" name="activity_time" type="date"><br/>
+                        <label>链接</label><input style="width: 50%" type="text" name="url" class="form-control input-lg" value="{$activity.url}" placeholder="页面地址" /><br/>
+                        <!--<input style="width: 50%" required="required" class="form-control input-lg" value="{$admin.email}" placeholder="Email" name="email" type="email"><br/>-->
+                        <label>活动介绍</label><textarea style="width: 50%" class="form-control" placeholder="活动介绍" name="introduction"  rows="4">{$activity.introduction}</textarea><br/>
+
+                        <label>封面图</label><input type="file"   onchange="upload_file(this,'img')" accept="image/*"/><img id="show" src="__FILE__/{$activity.img}" width="20%"> <br/>
+                        <button type="submit" class="btn btn-primary btn-lg">提交</button>
+
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if("{$admin.id}"){
+
+        $("#group_id").val("{$admin.group_id}");
+
+    }
+
+    /**
+     * 上传文件
+     * @param obj
+     * @param name  字段名
+     */
+    function upload_file(obj,name) {
+        //文件对象
+        var f=$(obj)[0].files[0];
+
+        var data=new FormData();
+
+
+        data.append(name,f);
+
+
+
+        $.ajax({
+            url:"__MODULE__/common/upload_file",
+            type:"post",
+            data:data,    //表单数据
+            dataType:'json',
+            cache: false,//不缓存
+            processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理。
+            contentType: false,//contentType设置为false。因为是由<form>表单构造的FormData对象，且已经声明了属性enctype="multipart/form-data"，所以这里设置为false。
+            success:function (re) {
+
+                if(re.code==1){
+
+                    $("#"+name).val(re.file);
+
+                    if(name=="img"){
+
+                        $("#show").attr('src','__FILE__/'+re.file);
+                    }
+
+                }else {
+
+                    console.log(re.msg);
+
+                }
+
+//                console.log(re);
+
+            }
+
+
+        });
+
+
+
+//        console.log(f);
+        
+    }
+    
+    
+    
+
+</script>
+
+{/block}

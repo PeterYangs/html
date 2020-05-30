@@ -1,0 +1,1111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- VENDOR CSS -->
+    <script src="__STATIC__/admin/vendor/jquery/jquery.min.js"></script>
+    <script src="__STATIC__/admin/scripts/vue.js"></script>
+    <script src="__STATIC__/admin/scripts/jquery-ui.min.js"></script>
+
+
+    <script src="__STATIC__/admin/vendor/bootstrap/js/bootstrap.js"></script>
+
+    <link rel="stylesheet" href="__STATIC__/admin/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__STATIC__/admin/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__STATIC__/admin/vendor/linearicons/style.css">
+    <link rel="stylesheet" href="__STATIC__/admin/vendor/chartist/css/chartist-custom.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="__STATIC__/admin/css/main.css">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" href="__STATIC__/admin/css/demo.css">
+    <!-- GOOGLE FONTS -->
+    <!--<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">-->
+    <!-- ICONS -->
+    <link rel="apple-touch-icon" sizes="76x76" href="__STATIC__/admin/img/apple-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="__STATIC__/admin/img/favicon.png">
+
+
+    <script src="__STATIC__/admin/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="__STATIC__/admin/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+    <script src="__STATIC__/admin/vendor/chartist/js/chartist.min.js"></script>
+    <script src="__STATIC__/admin/scripts/klorofil-common.js"></script>
+
+
+
+    <script charset="utf-8" src="__FILE__/kindeditor/kindeditor-all-min.js"></script>
+    <script charset="utf-8" src="__FILE__/kindeditor/lang/zh-CN.js"></script>
+    <link rel="stylesheet"  href="__STATIC__/admin/css/dialog.css">
+    <script src="__STATIC__/admin/scripts/dialog.js"></script>
+
+
+    <link rel="stylesheet"  href="__STATIC__/admin/css/sweetalert.css" >
+
+    <script src="__STATIC__/admin/scripts/ui-sweetalert.min.js" ></script>
+    <script src="__STATIC__/admin/scripts/sweetalert.js" ></script>
+
+
+    <script src="__STATIC__/admin/scripts/bootstrap-tooltip.js" ></script>
+    <script src="__STATIC__/admin/scripts/bootstrap-confirmation.js" ></script>
+
+
+    <script src="__STATIC__/admin/scripts/moment.min.js"></script>
+    <script src="__STATIC__/admin/scripts/fullcalendar.js"></script>
+    <script src="__STATIC__/admin/scripts/locale-all.js"></script>
+    <link rel="stylesheet" href="__STATIC__/admin/css/fullcalendar.css" />
+
+
+
+
+
+
+    <!--<script type="text/javascript" src="http://malsup.github.io/min/jquery.blockUI.min.js"></script>-->
+    <!--<script src="__STATIC__/admin/scripts/sweetalert.js" ></script>-->
+    <!--<script src="__STATIC__/admin/scripts/bootstrap-modalmanager.js" ></script>-->
+    <!--<script src="__STATIC__/admin/scripts/bootstrap-modal.js" ></script>-->
+
+    <!--<link  rel="stylesheet"  href="__STATIC__/admin/css/bootstrap-tagsinput.css"/>-->
+
+    <!--<script src="__STATIC__/admin/scripts/bootstrap-tagsinput.js"></script>-->
+    <!--<script src="__STATIC__/admin/scripts/bootstrap-tagsinput-angular.js"></script>-->
+
+
+    <style>
+        .lnr:hover{
+            cursor: pointer;
+
+        }
+
+        .clearfix:after{
+
+            　　　　　　centent:"";//设置内容为空
+
+        　　　　　　height:0;//高度为0
+
+        　　　　　　line-height:0;//行高为0
+
+        　　　　　　display:block;//将文本转为块级元素
+
+        　　　　　　visibility:hidden;//将元素隐藏
+
+        　　　　　　clear:both//清除浮动
+
+        　　　　　}
+
+    </style>
+</head>
+
+<body>
+
+<script>
+    // function test(data) {
+    //
+    //    console.log('layout');
+    //
+    // }
+
+    function dealMessage(data) {
+
+    }
+
+
+
+
+
+</script>
+
+
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top" id="nav-for-vue">
+        <div class="brand">
+            <a href="__MODULE__/index/index"><img src="__STATIC__/admin/img/logo-dark.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
+            <form class="navbar-form navbar-left">
+                <div class="input-group">
+                    <input type="text" value="" class="form-control" placeholder="Search dashboard...">
+                    <span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
+                </div>
+            </form>
+            <div class="navbar-btn navbar-btn-right">
+                <a class="btn btn-success update-pro" href="javascript:" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+            </div>
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                            <i class="lnr lnr-alarm"></i>
+                            <span class="badge bg-danger" v-if="message.length>0">{{message.length}}</span>
+                        </a>
+                        <ul class="dropdown-menu notifications">
+                            <li v-for="(v , i ) in message" @click="getMessageDetail(v,i)"><a href="javascript:void(0)" class="notification-item"><span class="dot bg-success"></span>{{v.title}}</a></li>
+                            <!--<li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>-->
+                            <!--<li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>-->
+                            <!--<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>-->
+                            <!--<li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>-->
+                            <!--<li><a href="#" class="more">See all notifications</a></li>-->
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Basic Use</a></li>
+                            <li><a href="#">Working With Data</a></li>
+                            <li><a href="#">Security</a></li>
+                            <li><a href="#">Troubleshooting</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="__STATIC__/admin/img/user.png" class="img-circle" alt="Avatar"> <span>{:request()->show_name}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="__MODULE__/admin/profile"><i class="lnr lnr-user"></i> <span>个人中心</span></a></li>
+                            <!--<li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>-->
+                            <!--<li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>-->
+                            <li><a href="__MODULE__/login/logout"><i class="lnr lnr-exit"></i> <span>注销</span></a></li>
+                        </ul>
+                    </li>
+                    <!-- <li>
+                        <a class="update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    {foreach  name="menu" key="k"  item="v"}
+                    <li>
+                        <a href="#{$k}" data-toggle="collapse" ><i class="lnr lnr-file-empty"></i> <span>{$k}</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                        <div id="{$k}" class="collapse  menu-model">
+                            <ul class="nav">
+                                {foreach name="v" key="k1"  item="v1"}
+                                <li><a href="__MODULE__/{$v1}" link="{$v1}" class=" menu-link" >{$k1}</a></li>
+
+
+
+                                <!--<li><a href="__MODULE__/{$v1}" {if condition="strtoupper(request()->controller().'/'.request()->action()) eq strtoupper($v1) "}class="active"{/if} >{$k1}</a></li>-->
+                                {/foreach}
+                            </ul>
+                        </div>
+                    </li>
+
+
+
+
+
+                    {/foreach}
+
+
+
+                    <!--<li><a href="index.html" class="active"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>-->
+                    <!--<li><a href="elements.html" class=""><i class="lnr lnr-code"></i> <span>Elements</span></a></li>-->
+                    <!--<li><a href="charts.html" class=""><i class="lnr lnr-chart-bars"></i> <span>Charts</span></a></li>-->
+                    <!--<li><a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>-->
+                    <!--<li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li>-->
+                    <!--<li>-->
+                        <!--<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>-->
+                        <!--<div id="subPages" class="collapse ">-->
+                            <!--<ul class="nav">-->
+                                <!--<li><a href="page-profile.html" class="">Profile</a></li>-->
+                                <!--<li><a href="page-login.html" class="">Login</a></li>-->
+                                <!--<li><a href="page-lockscreen.html" class="">Lockscreen</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li><a href="tables.html" class=""><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>-->
+                    <!--<li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>Typography</span></a></li>-->
+                    <!--<li><a href="icons.html" class=""><i class="lnr lnr-linearicons"></i> <span>Icons</span></a></li>-->
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    {block name="main"}主内容{/block}
+
+    <!-- END LEFT SIDEBAR -->
+    <div class="clearfix"></div>
+    <footer>
+        <div class="container-fluid">
+            <p class="copyright">Copyright &copy; 2017.Company name All rights reserved.</p>
+        </div>
+    </footer>
+</div>
+<!-- END WRAPPER -->
+<!-- Javascript -->
+
+<script>
+
+</script>
+<script>
+
+    /**
+     * 表单回填（用于表单提交,表单更新时的回填）
+     * @param value  数组和对象都可以
+     */
+    function auto_fill(value) {
+        //
+        // console.log(value);
+        // console.log(typeof (value.parseJSON()));
+
+
+
+        if(!value) return false;
+
+
+        if(typeof (value)=='string'){
+
+
+            // console.log(value);
+            //
+            // var reg=/\\/g;
+            //
+            // value=value.replace(reg,'\\/');
+
+            // console.log(value);
+
+            // return false;
+            //
+            //
+            value=JSON.parse(value);
+
+            // console.log(value);
+
+        }
+
+
+
+        $.each(value,function (index,item) {
+
+
+            //这里防止异常跳出循环，有的是没有name的
+            try {
+
+                //标签名
+                var docName=$("[name=" + index + "]")[0].tagName;
+                //标签对象
+                var obj=$("[name^=" + index + "]");
+
+            }catch (e){
+
+                return true;
+            }
+
+
+
+            switch (docName){
+
+
+                case "INPUT":
+
+
+//                    console.log($(obj).attr('type'));
+
+                    switch ($(obj).attr('type')){
+
+
+                        case "text":
+
+
+                            $(obj).val(item);
+
+                            break;
+
+
+                        case "radio":
+
+
+                            $.each($(obj),function (index1,item2) {
+
+                                if($(item2).val()==item){
+
+                                    $(item2).attr('checked','checked');
+                                }
+
+
+
+                            });
+
+
+                            break;
+
+                        case "hidden":
+
+                            $(obj).val(item);
+                            break;
+
+
+
+
+                    }
+
+
+                    break;
+
+
+                case "SELECT":
+
+                    $(obj).val(item);
+
+
+
+                    break;
+
+
+                case "TEXTAREA":
+
+                    $(obj).html(item);
+
+                    break;
+
+
+            }
+
+
+
+
+        });
+
+
+
+    }
+
+
+    /**
+     * 处理链接并且跳转，      例如处理后的链接为:http://usa.app/home/Sell/selling_leads/standard/[syhssyh,syheqsyh,syh4545454syh,syhstandard2syh]/name/[syhssyh,syhlikesyh,syh12syh,syhnamesyh]/place/[syhssyh,syheqsyh,syh0syh,syhplacesyh]/
+     * @param key_arr        字段名称
+     * @param value_arr      值
+     * @param table_arr      表名（主要对付联表查询）
+     * @param condition_arr  表达式，eq like
+     * @param id_arr         元素id
+     * @param exclude        不包括哪个get值，默认是p的分页值
+     * @param path           跳转链接
+     */
+    function get_url(key_arr,value_arr,table_arr,condition_arr,id_arr,exclude,path) {
+
+        //不包括的get值为p
+        if(!exclude) exclude='p';
+
+        //获取get所有参数
+        var url='{:json_encode(input("param."))}';
+
+
+        url=JSON.parse(url);
+
+        if(!path) path='{:request()->domain()."/".request()->module()."/".request()->controller()."/".request()->action()}';
+
+
+        //不包括参数的地址
+//        var path='{:request()->domain()."/".request()->module()."/".request()->controller()."/".request()->action()}';
+
+        var new_parm="";
+
+        $.each(url,function (index,item) {
+            //如果原地址中有这个字段，就跳过这次循环
+            if($.inArray(index,key_arr)>=0) return true;
+
+            if(index==exclude) return true;
+
+//        console.log();
+
+
+            new_parm+=index+"/"+item+"/";
+
+
+        });
+
+
+        $.each(key_arr,function (index,item) {
+
+            var k=JSON.stringify([table_arr[index],condition_arr[index],value_arr[index],id_arr[index]]);
+
+//        k=encodeURIComponent(k);
+
+//        k=k.replace('"',"%ss");
+
+            new_parm+=item+"/"+k+"/";
+        });
+
+
+        var new_url=path+"/"+new_parm;
+
+        //替换掉"
+        new_url=new_url.replace(/"/g,'syh');
+
+
+        console.log(new_url);
+
+
+        location.href=new_url;
+
+
+    }
+
+
+    /**
+     * 开启搜索窗口插件
+     * @type {{field: string, title: string, open: openChildWindow.open, dealArr: openChildWindow.dealArr, get_son_data: openChildWindow.get_son_data}}
+     */
+    var openChildWindow={
+
+        field:'',
+        title:'',
+        /**
+         * 打开子窗口
+         * @param list       例： {'id':'ID','name':'品牌名称','seller.country.name':'国家','seller.name':'所属供应商','create_time':'创建时间','update_time':'更新时间'}
+         * @param condition  搜索框查找条件
+         * @param model      模型
+         * @param callback   子窗口执行完毕回调函数
+         * @param whereField  where字段
+         * @param where       where条件 1是等于，2是不等于，3是like
+         * @param search      where值
+         * @param join        联表,支持多级关联，例如：stock->sample_detail->goods,这里调用sample_detail.goods，多个用逗号分隔
+         */
+        open:function (list,condition,model,callback,whereField,where,search,join) {
+            var width=$(window).width()/2;
+
+            var height=$(window).height()/2;
+
+            var left=width-width/2;
+
+            var top=height-height/2;
+
+
+            this.dealArr(list);
+
+
+            this.get_son_data=callback;
+
+            var str='';
+
+            if(whereField){
+                str="/whereField/"+whereField+"/where/"+where+"/search/"+search;
+            }
+
+            if(join){
+
+                str+='/join/'+join;
+            }
+
+
+                    window.open('__MODULE__/common/search' +
+            '/field/' +this.field+
+            '/condition/' +condition+
+            '/model/' +model+
+            '/title/'+this.title+str
+            ,
+            '_blank','width='+width+',height='+height+',menubar=no,left='+left+',top='+top+',toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=no');
+
+
+
+
+        },
+        /**
+         * 处理成字符串
+         * @param array
+         */
+        dealArr:function (array) {
+
+
+            var field='';
+
+            var title='';
+
+
+            for (var i in array){
+
+
+//
+//                console.log(i);
+//                console.log(array[i]);
+
+                field+=i+',';
+
+                title+=array[i]+',';
+
+            }
+
+            this.field= field.substring(0,field.length-1);
+
+            this.title=title.substring(0,title.length-1);
+
+
+//            return str;
+
+        },
+        /**
+         * 回调函数
+         * @param data
+         */
+        get_son_data:function (data) {
+
+
+        }
+
+
+    }
+
+
+    /**
+     *  打开分类窗口
+     * */
+    var openCategoryWindow={
+        open:function (callback) {
+
+            var width=$(window).width()/2;
+
+            var height=$(window).height()/2;
+
+            var left=width-width/2;
+
+            var top=height-height/2;
+
+
+            window.open("__MODULE__/common/category",
+                '_blank','width='+width+',height='+height+',menubar=no,left='+left+',top='+top+',toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=no'
+            );
+
+
+
+            this.callback=callback;
+
+
+        },
+        //子窗口将数据传回的回调函数
+        callback:function (data) {
+
+
+
+
+        }
+
+
+
+    };
+
+
+
+    /**
+     * 删除某个条目，用于列表页面
+     * @param id
+     * @param urls
+     */
+    function delete_item(id,urls) {
+
+        swal({
+                title: "信息",
+                text: "确定删除吗？",
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+            },
+            function(){
+
+                $.ajax({
+                    url:urls+"/id/"+id,
+                    dataType:'json',
+                    success:function (re) {
+
+                        if(re.code==1)  return location.reload();
+
+
+                        return swal(re.msg);
+
+                    }
+
+
+                });
+
+
+            });
+
+
+    }
+
+    //初始化方法
+    $(function () {
+
+
+        var vms=new Vue({
+            el:"#nav-for-vue",
+            data:{
+                message:[]//消息信息
+
+            },
+            methods:{
+                getMessageDetail:function (v,index) {
+
+                    // swal(v.title,v.content);
+
+                    swal({
+                            title:v.title,
+                            text: v.content,
+                            type: "",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "标记已读",
+                            cancelButtonText: "关闭",
+                            closeOnConfirm: false,
+                            html: true
+                        },
+                        function(){
+                            // swal("删除！", "你的虚拟文件已经被删除。", "success");
+
+                            $.ajax({
+                                url:"__MODULE__/common/changeMessageStatus/id/"+v.id,
+                                dataType:'json',
+                                success:function (re) {
+
+
+                                    if(re.code==1) {
+
+                                        vms.$data.message.splice(index,1);
+
+                                        swal.close();
+                                    }else {
+
+                                        swal(re.msg);
+
+                                    }
+
+
+                                    // console.log(re);
+                                }
+
+
+                            });
+                        });
+
+
+                }
+
+            }
+
+
+
+        });
+
+
+        //导航的选中效果
+        var link='{:request()->controller()."/".request()->action();}';
+
+        $(".menu-link[link='"+link+"']").addClass('active');
+
+        $(".menu-link[link='"+link+"']").parent().parent().parent().addClass('in');
+
+
+        $.ajax({
+            url:'__MODULE__/common/getMessage',
+            dataType:'json',
+            success:function (re) {
+                console.log(re);
+
+                vms.$data.message=re.data;
+
+            }
+
+        });
+
+
+
+
+
+
+    });
+
+
+    /**
+     * 文件上传
+     * @param file
+     * @param name
+     * @param callback
+     */
+    function uploadFileObj(name,file,callback) {
+        //文件对象
+
+        var data=new FormData();
+
+
+        data.append(name,file);
+
+
+
+        $.ajax({
+            url:"__BASE__/admin/common/upload_file",
+            type:"post",
+            data:data,    //表单数据
+            dataType:'json',
+            cache: false,//不缓存
+            processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理。
+            contentType: false,//contentType设置为false。因为是由<form>表单构造的FormData对象，且已经声明了属性enctype="multipart/form-data"，所以这里设置为false。
+            success:function (re) {
+
+
+                callback(re);
+
+            }
+
+
+        });
+
+
+
+    }
+
+    /**
+     * 获取文件
+     * @param obj
+     */
+    function getFile(obj) {
+
+        var f= $(obj)[0].files[0];
+
+
+        return f;
+    }
+
+    //ajax提交
+    function ajax_submit(title,text,url,data,callback) {
+        swal({
+                title: title,
+                text: text,
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+            },
+            function(){
+
+                $.ajax({
+                    url:url,
+                    data:data,
+                    type:'post',
+                    dataType:'json',
+                    success:function (re) {
+
+                        callback(re)
+
+                        // if(re.code==1){
+                        //
+                        //
+                        //     swal({
+                        //         title:'成功!',
+                        //         text:'修改成功！',
+                        //         type:'success',
+                        //
+                        //
+                        //     },function () {
+                        //
+                        //         location.reload();
+                        //
+                        //     });
+                        //
+                        // }else {
+                        //
+                        //
+                        //     swal('错误',re.msg,'error');
+                        //
+                        // }
+
+
+
+                    }
+
+
+                });
+
+
+            });
+    }
+
+
+    /**
+     *处理多个条目的时候，详情参考添加商品分类
+     * @type {{add: dealMoreItem.add, delete: dealMoreItem.delete}}
+     */
+    var dealMoreItem={
+
+        select:"item-list",
+        /**
+         * 条目添加
+         * @param id
+         * @param itemName  条目名称
+         * @param field      字段名称
+         */
+        add:function(id,itemName,field,select) {
+
+            var l=$("input[name='"+field+"'][value='"+id+"']");
+
+
+            if(!select) select=this.select;
+
+            if(l.length>0) {
+
+                swal('此条目已存在！');
+
+                return false;
+
+            }
+
+
+            var str='<span>' +
+                ' <input type="button" class="btn btn-info cate" onclick="dealMoreItem.delete(this)" value="'+itemName+'">' +
+                '<input type="hidden" class="btn btn-info cate" name="'+field+'[]" value="'+id+'">' +
+                '</span>';
+
+
+            $('.'+select).append(str);
+
+        },
+        //条目删除
+        delete:function (obj) {
+
+
+            swal({
+                    title: "确定删除吗？",
+                    text: "分类为："+$(obj).val(),
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定删除！",
+                    cancelButtonText: "取消删除！",
+                    closeOnConfirm: false
+                },
+                function(){
+
+
+//                swal("删除！", "你的虚拟文件已经被删除。", "success");
+
+                    $(obj).parent().remove();
+
+                    swal.close();
+
+                });
+
+
+        },
+        //初始化，回填操作
+        init:function (data,field,select) {
+
+            var context=this;
+
+            $.each(data,function (index,item) {
+
+                context.add(item.id,item.username,field,select);
+
+
+            });
+
+
+
+
+        },
+        /**
+         * 重置
+         */
+        reset:function () {
+
+            $('.item-list').html('');
+
+        }
+
+
+
+
+
+
+    };
+
+
+    var dealImg={
+        // name:'',
+        addImg:function (obj,name) {
+            var file=getFile(obj);
+
+            var context=this;
+
+            uploadFileObj(name,file,function (data) {
+
+
+
+
+                console.log(data);
+
+
+                // this.name=name;
+
+
+                // $(".img-list").append("<div style='width: 20%;float: left;margin-right: 10px;'  class='fileinput-preview fileinput-exists thumbnail'><img src='__FILE__/"+data.file+"'  /></div>");
+
+                if(data.code==1){
+                    $(".img-list").append(context.imgTemp(data.file,name));
+                }else {
+
+
+                    swal(data.msg,"",'error');
+                }
+
+
+
+            });
+
+        },
+        updateImg:function (obj) {
+
+            var file=getFile(obj);
+
+            uploadFileObj('img',file,function (data) {
+
+                if(data.code==1){
+                    // $(".img-list").append(context.imgTemp(data.file,name));
+
+                    $(obj).parent().prev().find('img').attr('src',"__FILE__/"+data.file);
+                    $(obj).parent().prev().prev().val(data.file);
+
+                }else {
+
+                    swal(data.msg,"",'error');
+                }
+
+                // $(obj).parent().prev().find('img').attr('src',"__FILE__/"+data.file);
+                // $(obj).parent().prev().prev().val(data.file);
+
+
+
+            });
+
+
+
+        },
+        deleteImg:function (obj) {
+
+
+            // console.log(1111111111);
+
+            swal({
+                    title: "确定删除吗？",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定删除！",
+                    closeOnConfirm: false
+                },
+                function(){
+
+                    $(obj).parent().remove();
+
+                    swal.close();
+
+                    // swal("删除！", "你的虚拟文件已经被删除。", "success");
+                });
+
+
+        },
+        imgTemp:function (file,name) {
+
+            var  str="<div style='width: 20%;float: left;margin-right: 10px;margin-top: 10px;'   class=''>" +
+                "<input type='hidden' name='"+name+"[]' value='"+file+"'/>"+
+                "<div class='fileinput-preview fileinput-exists thumbnail' style='margin-bottom: 5px;'><img src='__FILE__/"+file+"'  /></div>  " +
+                "<div class='input-upload' style='display: inline'> <input type='file'  onchange='dealImg.updateImg(this)'  /> <button type='button' class='btn btn-warning'>更换</button></div> " +
+                "<button type='button' class='btn btn-danger' onclick='dealImg.deleteImg(this)'><i class='fa fa-trash-o'></i>删除</button>" +
+                "</div>";
+
+
+
+            return str;
+
+        },
+        init:function (data,name) {
+
+
+            if(!data)  return false;
+
+            var arr=eval("("+data+")");
+
+            var context=this;
+
+
+            $.each(arr,function (index,item) {
+
+
+                $(".img-list").append(context.imgTemp(item,name));
+
+            });
+
+
+
+
+
+        }
+
+
+
+
+    };
+
+    /**
+     * json字符串转对象，解决回车的影响
+     * @param val
+     * @returns {*}
+     */
+    function getArrForString(val) {
+
+        if(!val) return false;
+
+        return eval("("+val.replace(/\n/g,"\\n").replace(/\r/g,"\\n")+")");
+    }
+
+
+
+
+    //
+    // ws=new WebSocket("ws://47.94.231.172:7822");
+    //
+    //
+    // ws.onopen=function (e) {
+    //
+    //     console.log("连接成功！");
+    //
+    // };
+    //
+    // ws.onmessage=function (e) {
+    //
+    //     // console.log(e.data);
+    //
+    //     // test(e.data);
+    //
+    //
+    //     dealMessage(e.data);
+    //
+    //
+    // };
+    //
+    //
+    //
+    // function socket_send(data) {
+    //
+    //
+    //     ws.send(JSON.stringify(data));
+    //
+    // }
+
+
+
+
+</script>
+</body>
+
+</html>

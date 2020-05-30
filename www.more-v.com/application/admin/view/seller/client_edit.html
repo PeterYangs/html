@@ -1,0 +1,463 @@
+{extend name="layout/layout" /}
+{block name="main"}
+
+<style>
+    .box{
+        float: left;
+        width: 30%;
+        margin-right: 15px;
+        margin-bottom: 20px;
+    }
+
+    .input-upload{
+
+        position: relative;
+        /*overflow: hidden;*/
+
+    }
+
+    .input-upload input{
+
+        position: absolute;
+        /*!*opacity: 0;*!*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+    }
+
+    .input-upload select{
+        position: absolute;
+        /*opacity: 0;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*display: none;*/
+
+    }
+
+    .select-with{
+        /*width: 10%;*/
+        /*display: inline;*/
+        margin: 20px 0;
+
+
+    }
+
+    .bt-m{
+
+        margin: 0 10px;
+
+    }
+
+
+</style>
+<!-- MAIN -->
+<div class="main" id="app">
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form  action="__MODULE__/seller/client_update" method="post" enctype="multipart/form-data">
+
+
+                        <input type="hidden"  name="id"  v-if="item.id"  v-model="item.id"/>
+
+                        <div class="box"><label>客户名称</label><input  required="required" v-model="item.name" class="form-control input-lg"   placeholder="客户名称" name="name" type="text"></div>
+
+
+                        <div class="box">
+                            <label>跟进人</label>
+
+                            <div  >
+
+                                <input type="hidden" name="admin_id"  :value="item.admin_id"/>
+                                <input type="text"   v-model="item.admin_username"   class="form-control input-lg" style="display: inline;width: auto" readonly="readonly"  id="seller_name"/>
+                                <button type="button" class="btn btn-primary btn-lg" @click="openWindow()">选择跟进人</button>
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+
+                        <div class="clearfix"></div>
+
+
+                        <div>
+                            <div style="padding: 5px"><label style="margin-right: 10px">地址</label> <button type="button" @click="add" class="btn btn-success">添加地址</button></div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>省</th>
+                                        <th>市</th>
+                                        <th>县</th>
+                                        <th>详细地址</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr v-for="(v , i ) in address_list">
+                                        <td>{{v.p}}<input type="hidden" v-model="v.id" name="address_id[]" /></td>
+                                        <td>{{v.c}}</td>
+                                        <td>{{v.a}}</td>
+                                        <td>{{v.detail}}</td>
+                                        <td><button type="button"  @click="update_address(v , i)"  class="btn btn-warning bt-m">修改</button><button @click="delete_address(i)" type="button" class="btn btn-danger bt-m">删除</button></td>
+
+                                    </tr>
+
+                                </tbody>
+
+
+                            </table>
+
+
+
+
+
+
+
+                        </div>
+
+
+
+                        <button type="submit" class="btn btn-primary btn-lg">提交</button>
+
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div id="first" class="modal  fade" role="dialog" aria-labelledby="测试" tabindex="-1" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" @submit.prevent="submit($event)" id="ad">
+
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">x</button>
+                    <h3>编辑信息</h3>
+                </div>
+
+                <div class="modal-body">
+
+
+                        <place :p__="p" :c__="c" :a__="a" place_class="form-control input-lg select-with" ></place>
+                        <input class="form-control input-lg"  type="text" name="detail" required="required" v-model="detail" />
+                        <input name="id"  v-if="id" v-model="id" type="hidden" />
+
+                </div>
+
+                <div>
+                    <div class="modal-footer">
+
+                        <button class="btn btn-info" type="submit">提交</button>
+
+                    </div>
+
+                </div>
+                </form>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+<script src="__STATIC__/admin/vue_tool/places.js"></script>
+<script>
+
+
+
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            item:{
+                admin_username:"",
+                admin_id:0,
+                name:"",
+                id:0,
+
+            },
+            address_list:[],//地址列表
+            p:"",//省
+            c:"",//市
+            a:"",//区
+            detail:"",//详情
+            id:"",//地址id
+            index:""//地址在数组里的下标
+            // temp:{p:"", c:"", a:""}
+        },
+        methods:{
+            openWindow:function () {
+
+                var context=this;
+
+                openChildWindow.open({'id':"ID",'real_username':"用户名",'nickname':'昵称','create_time':'创建时间','update_time':'更新时间'},
+                    'name',
+                    'AdminModel',
+                    function (data) {
+
+                        // data=JSON.parse(data);
+
+                        console.log(data);
+
+
+                        context.item.admin_id=data.id;
+                        context.item.admin_username=data.username;
+
+
+
+                        // $("#seller_id").val(data.id);
+                        //
+                        // $("#seller_name").val(data.name);
+
+                    },
+                );
+
+            },
+            //添加地址
+            add:function () {
+                this.a="";
+                this.c="";
+                this.p="";
+                this.detail="";
+                this.id="";
+                this.index="";
+
+                // Vue.set(this.p,"");
+
+
+                //重置表单
+                // this.init_data={p:"", c:"", a:"",detail:""};
+                $("#first").modal({
+                    backdrop:"static"
+                });
+
+            },
+            //修改地址
+            update_address:function (v,index) {
+
+
+                console.log(index);
+
+                this.p=v.p;
+                this.c=v.c;
+                this.a=v.a;
+                this.detail=v.detail;
+                this.id=v.id;
+                this.index=index;
+
+
+
+
+                // this.$refs.setLists.setList(123);
+
+                // console.log(vm.$refs);
+
+                //数据回填
+                // this.init_data=v;
+
+                console.log(v);
+
+                // Vue.set(this.init_data,v);
+
+                $("#first").modal({
+                    backdrop:"static"
+                });
+
+
+
+
+
+
+            },
+            delete_address:function (index) {
+
+                // this.address_list.remove();
+
+                var context=this;
+                swal({
+                        title: "确定删除吗？",
+                        text: "",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "确定删除！",
+                        closeOnConfirm: false
+                    },
+                    function(){
+
+                        context.address_list.splice(index,1);
+
+
+                        swal("删除！", "删除成功", "success");
+                    });
+
+                // this.address_list.splice(index,1);
+
+            },
+            submit:function (v) {
+
+                // console.log($(v.target).serialize());
+
+                // var data=$(v.target).serialize();
+
+                var context=this;
+
+                $.ajax({
+                    url:"__MODULE__/common/update_address",
+                    type:"post",
+                    data:$(v.target).serialize(),
+                    dataType:"json",
+                    success:function (re) {
+
+                        console.log(re);
+
+                        if(re.code!=1) return swal('',re.msg,'error');
+
+
+                        // console.log(context.address_list);
+
+                        console.log(context.index);
+
+                        if(context.index!==""){
+
+
+                            Vue.set(context.address_list,context.index,re.data);
+
+                        }else {
+                            context.address_list.push(re.data);
+
+                        }
+
+
+                        swal('','操作成功','success');
+
+                        $("#first").modal("hide");
+
+
+
+
+                    }
+
+
+                });
+
+
+            }
+
+
+
+
+
+        },
+        filters:{
+            f:function (val,key) {
+
+                try{
+
+                    return eval("val."+key);
+
+
+                }catch (e){
+
+                    // console.log(123);
+
+                    return '';
+
+                }
+
+            }
+
+
+
+        }
+
+
+
+
+
+    });
+
+
+
+    $(function () {
+
+        var client='{$client}';
+
+        console.log(client);
+
+       client= getArrForString(client);
+
+        if(client)  {
+            vm.$data.item=client;
+
+            vm.$data.address_list=client.address_id;
+
+        }
+
+        console.log(client);
+
+
+    });
+
+
+    //
+    // function openWindow() {
+    //
+    //     openChildWindow.open({'id':"ID",'real_username':"用户名",'nickname':'昵称','create_time':'创建时间','update_time':'更新时间'},
+    //         'name',
+    //         'AdminModel',
+    //         function (data) {
+    //
+    //             // data=JSON.parse(data);
+    //
+    //             console.log(data);
+    //
+    //
+    //
+    //             // $("#seller_id").val(data.id);
+    //             //
+    //             // $("#seller_name").val(data.name);
+    //
+    //         },
+    //     );
+    //
+    // }
+
+
+
+
+
+</script>
+
+
+{/block}

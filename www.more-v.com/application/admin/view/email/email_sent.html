@@ -1,0 +1,95 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">已发送</h3>
+                </div>
+
+                <div class="panel-body">
+                    <!--<button  type="button"  onclick="location.href='__MODULE__/email/email_edit'" class="btn btn-success"> Add</button>-->
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>收件人</th>
+                            <th>标题</th>
+                            <th>发件时间</th>
+
+                            <!--<th>Group</th>-->
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {foreach name="email" item="v"}
+                        <tr>
+                            <td>{$v.id}</td>
+                            <td>{$v.to}</td>
+                            <td>{$v.title}</td>
+                            <td>{$v.create_time}</td>
+                            <!--<td>@steve</td>-->
+                            <td><span class="fa fa-search" onclick="location.href='__URL__/sent_edit/id/{$v.id}'"></span></td>
+                        </tr>
+                        {/foreach}
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                    {:$email->render()}
+                </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+<script>
+
+
+
+    /**
+     * 删除权限
+     */
+    function delete_rule(id) {
+
+//        console.log(id);
+        var re=confirm('确认删除吗?');
+
+        if(re){
+
+            location.href="__MODULE__/email/email_delete/id/"+id;
+        }
+
+//        console.log(re);
+
+    }
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

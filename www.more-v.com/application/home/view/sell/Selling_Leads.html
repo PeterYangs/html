@@ -1,0 +1,210 @@
+{extend name="layout/layout"}
+{block name="content"}
+
+
+
+<!--轮播-->
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    
+    <div class="carousel-inner">
+        <div class="item active">
+            <img src="__STATIC__/home/images/Selling/banner.jpg">
+        </div>
+        <div class="item">
+            <img src="__STATIC__/home/images/Selling/banner.jpg">
+        </div>
+        <div class="item">
+            <img src="__STATIC__/home/images/Selling/banner.jpg">
+        </div>
+
+        <a href="#myCarousel" class="carousel-control left" data-slide="prev">
+            <img src="__STATIC__/home/images/Selling/left.png" alt="prev" class="carousel-img">
+        </a>
+        <a href="#myCarousel" class="carousel-control right" data-slide="next">
+            <img src="__STATIC__/home/images/Selling/right.png" alt="" class="carousel-img">
+        </a>
+    </div>
+</div>
+
+
+
+<div class="container sell">
+
+    <div class="sell-left">
+
+        <div class="sell-left-sort">
+            <form action="">
+                <h2>All Spec.</h2>
+
+                {foreach name='group_name' item='v'}
+                <input type="button" id="standard{$v.id}" class="sell-sort-detail" name="s.standard"  onclick="button_checked(['standard'],[this.value],['s'],['eq'],['standard'+'{$v.id}'],this)" value="{$v.standard}">
+                <!--<input type="button" class="sell-sort-detail active" value="{$v.name}">-->
+                <!--<input type="button" class="sell-sort-detail" value="蔓越莓切片">-->
+                <!--<input type="button" class="sell-sort-detail" value="蔓越莓切片">-->
+                <!--<input type="button" class="sell-sort-detail" value="蔓越莓切片">-->
+                <!--<input type="button" class="sell-sort-detail" value="蔓越莓切片">-->
+                <!--<input type="button" class="sell-sort-detail" value="蔓越莓切片">-->
+                <!--<input type="button" class="sell-sort-detail" value="蔓越莓切片">-->
+                {/foreach}
+
+            </form>
+
+        </div>
+        <!--<div class="sell-left-product">-->
+
+
+            <!--<form action="">-->
+                <!--<div class="sell-product">-->
+
+                    <!--<h2 class="sell-product-h2">选择产品</h2>-->
+
+                    <!--<button type="submit" class="confirm">确认</button>-->
+
+                <!--</div>-->
+
+
+                <!--<a href="" class="sell-product-detail" >蔓越莓切片 <img src="__STATIC__/home/images/Selling/del.png" alt=""> </a>-->
+                <!--<a href="" class="sell-product-detail">蔓越莓切片 <img src="__STATIC__/home/images/Selling/del.png" alt=""> </a>-->
+
+            <!--</form>-->
+
+
+
+        <!--</div>-->
+
+    </div>
+
+
+    <div class="sell-right">
+        <form action="" id="search_sell">
+
+            <div>
+
+                <input type="text" name='{"key":"name","table":"s","condition":"like","id":"name"}' id="name"   placeholder="Product" >
+
+                <select name='{"key":"place","table":"s","condition":"eq","id":"place"}' id="place"  >
+                    <option value="0"  selected>Origin（Country/region）</option>
+                    <!--<option value="1">英国</option>-->
+                    <!--<option value="2">美国</option>-->
+                    {foreach name='country' item='v'}
+
+                    <option value="{$v.place}">{$v.c_name}</option>
+
+                    {/foreach}
+                </select>
+
+                <button type="button" class="search" onclick="get_form_data($('#search_sell'))">
+                    <img src="__STATIC__/home/images/Selling/Search.png" alt="">
+                </button>
+            </div>
+
+            <div class="sell-right-down">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Image</td>
+                            <td>Product</td>
+                            <td>Origin</td>
+                            <td>Spec.</td>
+                            <td>Expired Time</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {foreach name='sell' item='v'}
+                        <tr>
+                            <td>
+                                <img src="__FILE__/{$v.img}" alt="" width="80px">
+                            </td>
+                            <td>{$v.name}</td>
+                            <td>{$v.c_name}</td>
+                            <td>{$v.standard}</td>
+                            <td>{$v.is_expired.html}</td>
+                            <td>
+
+                                {if $v.is_expired.res}
+                                <button class="unsale" type="button">Expired</button>
+
+                                {else/}
+
+                                <button class="sale" type="button" onclick="location.href='__MODULE__/user/product_detail/id/{$v.id}'"  >Detail</button>
+                                {/if}
+
+
+
+                            </td>
+                        </tr>
+                        {/foreach}
+
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<img src="__STATIC__/home/images/Selling/t.jpg" alt="">-->
+                            <!--</td>-->
+                            <!--<td>蔓越莓切片</td>-->
+                            <!--<td>美国</td>-->
+                            <!--<td>1/2、1/4</td>-->
+                            <!--<td>已过期</td>-->
+                            <!--<td>-->
+                                <!--<button class="sale">查看详情</button>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                    </tbody>
+                </table>
+            </div>
+
+
+        </form>
+        {$sell->render()}
+    </div>
+
+
+
+<script>
+
+
+    /**
+     *  button 的选中
+     * @param key_arr
+     * @param value_arr
+     * @param table_arr
+     * @param condition_arr
+     * @param id_arr
+     * @param obj
+     */
+    function button_checked(key_arr,value_arr,table_arr,condition_arr,id_arr,obj) {
+
+        //判断这个按钮是否被选中，如果被选中，清除value值，后端会过滤掉这个字段
+        if($(obj).hasClass('active')) value_arr=[''];
+
+
+
+        get_url(key_arr,value_arr,table_arr,condition_arr,id_arr);
+
+
+
+    }
+
+
+    $(document).ready(function(){
+
+        //自动填充数据
+        form_auto_fill();
+
+    });
+
+</script>
+
+
+
+</div>
+
+
+
+
+{/block}

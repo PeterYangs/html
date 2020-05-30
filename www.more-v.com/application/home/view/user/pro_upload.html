@@ -1,0 +1,244 @@
+
+
+
+{extend name="layout/layout"}
+{block name="content"}
+
+<div class="pro_detail_top">
+
+</div>
+
+
+<div class="container pro_upload">
+    <div class="pro_upload_top">
+        <h2>Upload Info</h2>
+        <hr>
+    </div>
+    <div class="pro_upload_main">
+
+        <form action="__URL__/user_upload" method="post">
+            <div class="pro_left">
+
+                <input type="hidden" name="sell_id" value="{:input('id')}"/>
+                <div class="pro_upload_left" id="tuo">
+                    <input  onchange="upload_img(this,'goods_img')" type="file" id="file" title="请选择图片" accept="image/png,image/jpg,image/gif,image/JPEG">
+                    <img src="__STATIC__/home/images/product/up.jpg" alt="">
+                </div>
+
+                <div class="pro_up_img">
+                    <!--<div class="up_img" style="position: relative;overflow: hidden">-->
+                        <!--<input type="file"  style="position: absolute;opacity: 0;width: 100%;height: 100%"/>-->
+                        <!--<img src="__STATIC__/home/images/product/s1.jpg" alt="" width="100%">-->
+                    <!--</div>-->
+                    <!--<div class="up_img">-->
+                        <!--<img src="__STATIC__/home/images/product/s1.jpg" alt="">-->
+                    <!--</div>-->
+                    <!--<div class="up_img">-->
+                        <!--<img src="__STATIC__/home/images/product/s1.jpg" alt="">-->
+                    <!--</div>-->
+                    <!--<div class="up_img">-->
+                        <!--<img src="__STATIC__/home/images/product/s1.jpg" alt="">-->
+                    <!--</div>-->
+                </div>
+            </div>
+
+            <div class="pro_upload_right">
+                <div class="up_detail">
+                    <p><b>Product Description:  </b>{$sell_data.name} </p>
+                    <p><b>Product Origin: </b>{$sell_data.country.name}</p>
+
+                    <div class="pro_input">
+                        <b>Spec: </b><input type="text" name="spec">
+                    </div>
+                    <div class="pro_input">
+                        <b>Case Weight: </b><input type="text" name="case_weight">
+                    </div>
+                    <div class="pro_input">
+                        <b>PCT/20’CNTR:  </b><input type="text" name="cntr">
+                    </div>
+                    <div class="pro_checkbox">
+                        <b>Incoterms:  </b>
+                        <label for="check1">
+                           <input type="radio" name="incoterms" id="check1" value="1">EXW
+                        </label>
+                        <label for="check2">
+                            <input type="radio" name="incoterms" id="check2" value="2">FOB
+                        </label>
+                        <label for="check3">
+                           <input type="radio" name="incoterms" id="check3" value="3">CFR
+                        </label>
+                        <label for="check4">
+                            <input type="radio" name="incoterms" id="check4" value="4">CIF
+                        </label>
+                    </div>
+
+                    <div class="pro_input">
+                        <b>WHSE/Port:  </b><input type="text" name="whse">
+                    </div>
+                    <div class="pro_input">
+                        <b>Unit price:  </b><input type="text" name="unit_price">
+                    </div>
+                    <div class="pro_input">
+                        <b>MQO(CTN):  </b><input type="text" name="mqo">
+                    </div>
+
+                    <div class="pro_input">
+                        <b>Free Samples:  </b>
+                        <label for="yes">
+                            <input type="radio" name="free_samples" id="yes" value="1">Yes
+                        </label>
+                        <label for="no">
+                            <input type="radio" name="free_samples" id="no" value="2">No
+                        </label>
+                    </div>
+
+
+                </div>
+
+                <div class="pro_right_a pro_down">
+                    <a href="javascript:form_submit()" class="pro_right_bottom">Save</a>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script>
+
+    function form_submit() {
+
+        $("form").submit();
+
+    }
+
+
+
+    window.onload = function () {
+
+        var tuo = document.getElementById('tuo');
+
+
+        tuo.ondragenter = function (e) {
+            e.preventDefault();
+        };
+
+
+        tuo.ondragover = function(e){
+            e.preventDefault();
+//            this.innerHTML = '请松开';
+        };
+//
+//        tuo.ondragleave = function(e){
+//            e.preventDefault();
+//            this.innerHTML = '请拖入要上传的文件';
+//        }
+
+        //拖动上传
+        tuo.ondrop = function (e) {
+            e.preventDefault();
+
+            var upfile = e.dataTransfer.files[0];
+
+//            console.log(upfile);
+
+                uploadFileObj('goods_img',upfile,function (re) {
+
+                    console.log(re);
+
+//
+//                    $(".pro_up_img").append(' <div class="up_img">' +
+//                        '<img src="__FILE__/'+re.file+'" alt="">' +
+//                        '</div>');
+
+                        add_e(re,'goods_img');
+
+                });
+
+
+        };
+
+
+
+
+    };
+    
+    
+    //点击上传
+    function upload_img(obj,name) {
+
+
+        var f=$(obj)[0].files[0];
+
+//        var data=new FormData();
+
+        uploadFileObj(name,f,function (re) {
+
+            console.log(re);
+
+//
+//                    $(".pro_up_img").append(' <div class="up_img">' +
+//                        '<img src="__FILE__/'+re.file+'" alt="">' +
+//                        '</div>');
+
+            add_e(re,name);
+
+        });
+
+
+
+        
+    }
+
+    //添加元素
+    function add_e(re,name) {
+
+        var l=$(".pro_up_img").find('div').length;
+
+
+        if(l>=4){
+
+            alert('最多只能上传4张');
+
+            return false;
+        }
+
+//        console.log(l);
+
+
+        $(".pro_up_img").append(' <div class="up_img" style="position: relative;overflow: hidden">' +
+            '<input type="file"  onchange="update_img(this)" style="position: absolute;opacity: 0;width: 100%;height: 100%"/>'+
+                '<input type="hidden"  name="'+name+'[]" value="'+re.file+'" />'+
+            '<img src="__FILE__/'+re.file+'" alt="点击修改" >' +
+            '</div>');
+
+
+    }
+    
+    //修改图片
+    function update_img(obj) {
+
+
+        var f=$(obj)[0].files[0];
+
+        uploadFileObj('yy',f,function (re) {
+
+
+
+            $(obj).next('input').val(re.file);
+
+            $(obj).next('input').next('img').attr('src','__FILE__/'+re.file);
+
+        });
+
+
+        
+    }
+    
+
+
+</script>
+
+{/block}

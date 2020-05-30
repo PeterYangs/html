@@ -1,0 +1,57 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form action="__MODULE__/admin/admin_update/id/{$admin.id}" method="post">
+                        <input style="width: 50%" required="required" value="{$admin.username}" class="form-control input-lg"  {if condition="$admin.id"} disabled="disabled"{/if} placeholder="Username" name="username" type="text"><br/>
+                        <input style="width: 50%" class="form-control input-lg" placeholder="Password" name="password" type="password"><br/>
+                        <input style="width: 50%" required="required" class="form-control input-lg" value="{$admin.email}" placeholder="Email" name="email" type="email"><br/>
+                        <select style="width: 50%" class="form-control input-lg" name="group_id" id="group_id" >
+                            <option value="0">Root</option>
+                            {foreach name="group" item="v"}
+                            <option value="{$v.id}">{$v.title}</option>
+                            {/foreach}
+
+                        </select>
+                        <br/>
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+
+
+
+                    </form>
+                    <!--<input type="text" class="form-control" placeholder="text field">-->
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if("{$admin.id}"){
+
+        $("#group_id").val("{$admin.group_id}");
+
+    }
+
+
+</script>
+
+{/block}

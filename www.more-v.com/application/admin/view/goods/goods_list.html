@@ -1,0 +1,200 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main" id="app">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+                    <button  type="button"  onclick="location.href='__MODULE__/goods/goods_edit'" class="btn btn-success"> Add</button>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>商品名称</th>
+                            <th>所属品牌</th>
+                            <th>所属供应商</th>
+                            <th>分类</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                            <th>跟进人</th>
+                            <!--<th>Group</th>-->
+                            <th>操作</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {foreach name="goods" item="v"}
+                        <tr>
+                            <td>{$v.id}</td>
+                            <td>{$v.name}</td>
+                            <td>{$v.brand.name}</td>
+                            <td>{$v.brand.seller.name}</td>
+                            <td>{$v.all_category}</td>
+                            <td>{$v.create_time}</td>
+                            <td>{$v.update_time}</td>
+                            <td>{$v.brand.seller.admin.username}{$v.brand.seller.admin.show_nickname}</td>
+                            <!--<td>@steve</td>-->
+                            <td><span  class="lnr lnr-pencil" style="" onclick="location.href='__MODULE__/goods/goods_edit/id/{$v.id}'"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span onclick="delete_item('{$v.id}','__MODULE__/goods/goods_delete')" class="lnr lnr-trash"></span></td>
+                            <td><button class="btn btn-success" type="button" onclick="feedback('{$v.id}')">查看样品反馈</button></td>
+                        </tr>
+                        {/foreach}
+                        <!--<tr>-->
+                        <!--<td>2</td>-->
+                        <!--<td>Simon</td>-->
+                        <!--<td>Philips</td>-->
+                        <!--<td>@simon</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td>3</td>-->
+                        <!--<td>Jane</td>-->
+                        <!--<td>Doe</td>-->
+                        <!--<td>@jane</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                    {$goods->render()}
+                </div>
+            </div>
+            <!-- END TABLE STRIPED -->
+            <!--</div>-->
+
+            <!--</div>-->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+
+    <div id="fk" class="modal  fade" role="dialog" aria-labelledby="测试" tabindex="-1" aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">x</button>
+                    <h3><span>物流信息</span></h3>
+                </div>
+
+                <div class="modal-body" >
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>客户</th>
+                                <th>内容</th>
+                                <th>时间</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr v-for="v in feedback_list">
+                                <td>{{v.client_name}}</td>
+                                <td>{{v.content}}</td>
+                                <td>{{v.create_time}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+
+
+
+                </div>
+
+                <div>
+                    <div class="modal-footer">
+
+
+                        <button class="btn btn-info" data-dismiss="modal">关闭</button>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+
+//    /**
+//     * 删除权限
+//     */
+//    function delete_rule(id) {
+//
+////        console.log(id);
+//        var re=confirm('确认删除吗?');
+//
+//        if(re){
+//
+//            location.href="__MODULE__/goods/goods_delete/id/"+id;
+//        }
+//
+////        console.log(re);
+//
+//    }
+
+    function feedback(id) {
+
+
+        console.log(id);
+        $.ajax({
+            url:"__MODULE__/common/get_feedback/id/"+id,
+            dataType:'json',
+            success:function (re) {
+
+                // console.log(re);
+
+                vm.$data.feedback_list=re.data;
+
+                $("#fk").modal();
+
+            }
+
+
+        });
+
+        
+    }
+
+
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            feedback_list:[],//商品反馈列表
+
+        }
+
+    });
+
+
+
+
+
+
+</script>
+<!-- END MAIN -->
+
+{/block}

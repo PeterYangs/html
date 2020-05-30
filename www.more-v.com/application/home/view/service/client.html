@@ -1,0 +1,25 @@
+
+{extend name="layout/layout"}
+
+{block name="content"}
+<script>
+    $(function(){
+        if( $(window).width() <= 768 ) {
+            console.log('1')
+            $("#mobileimg").attr("src","__STATIC__/home/images/Selling/mobilecontent.jpg")
+        } else {
+            $("#mobileimg").attr("src","__STATIC__/home/images/Selling/1.jpg")
+        }
+    })
+</script>
+
+    <div>
+        <img src="__STATIC__/home/images/Selling/logo1.jpg" width="100%">
+    </div>
+
+
+<div class="container news-img">
+    <img id="mobileimg" src="__STATIC__/home/images/Selling/1.jpg" width="100%">
+</div>
+
+{/block}

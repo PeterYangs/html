@@ -1,0 +1,1821 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<style>
+	.input-all{
+		margin-bottom: 20px;
+
+
+	}
+
+	.left{
+
+		float: left;
+		margin-right: 5px;
+
+	}
+
+
+
+</style>
+
+
+
+		<!-- MAIN -->
+		<div class="main" id="vue">
+
+
+
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<!-- OVERVIEW -->
+					<div class="panel panel-headline">
+						<div class="panel-heading">
+							<h3 class="panel-title">Weekly Overview</h3>
+							<p class="panel-subtitle">Period: {:date('Y-m-d',strtotime('this week'))} - {:date('Y-m-d',strtotime('this week + 6days'))}</p>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<!--<div class="col-md-3">-->
+									<!--<div class="metric">-->
+										<!--<span class="icon"><i class="fa fa-download"></i></span>-->
+										<!--<p>-->
+											<!--<span class="number">1,252</span>-->
+											<!--<span class="title">Downloads</span>-->
+										<!--</p>-->
+									<!--</div>-->
+								<!--</div>-->
+								<!--<div class="col-md-3">-->
+									<!--<div class="metric">-->
+										<!--<span class="icon"><i class="fa fa-shopping-bag"></i></span>-->
+										<!--<p>-->
+											<!--<span class="number">203</span>-->
+											<!--<span class="title">Sales</span>-->
+										<!--</p>-->
+									<!--</div>-->
+								<!--</div>-->
+								<div class="col-md-3">
+									<div class="metric">
+										<span class="icon"><i class="fa fa-eye"></i></span>
+										<p>
+											<span class="number">{php}echo app\home\model\UserHitModel::count('id'){/php}</span>
+											<span class="title">总访问量</span>
+										</p>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="metric">
+										<span class="icon"><i class="fa fa-bar-chart"></i></span>
+										<p>
+											<span class="number">{php}app\home\model\UserHitModel::thisWeekCount(){/php}</span>
+											<span class="title">本周访问量</span>
+										</p>
+									</div>
+								</div>
+
+								<div class="col-md-3">
+								<div class="metric">
+								<span class="icon"><i class="fa fa-shopping-bag"></i></span>
+								<p>
+								<span class="number">{php}app\home\model\UserHitModel::allGroupByIp(){/php}</span>
+								<span class="title">总访问人数</span>
+								</p>
+								</div>
+								</div>
+
+								<div class="col-md-3">
+								<div class="metric">
+								<span class="icon"><i class="fa fa-download"></i></span>
+								<p>
+								<span class="number">{php}app\home\model\UserHitModel::thisWeekGroupByIp(){/php}</span>
+								<span class="title">本周访问人数</span>
+								</p>
+								</div>
+								</div>
+
+
+
+
+							</div>
+							<div class="row">
+								<div class="col-md-9">
+									<div id="headline-chart" class="ct-chart"></div>
+								</div>
+								<div class="col-md-3">
+									<div class="weekly-summary text-right">
+										<span class="number">2,315</span> <span class="percentage"><i class="fa fa-caret-up text-success"></i> 12%</span>
+										<span class="info-label">Total Sales</span>
+									</div>
+									<div class="weekly-summary text-right">
+										<span class="number">$5,758</span> <span class="percentage"><i class="fa fa-caret-up text-success"></i> 23%</span>
+										<span class="info-label">Monthly Income</span>
+									</div>
+									<div class="weekly-summary text-right">
+										<span class="number">$65,938</span> <span class="percentage"><i class="fa fa-caret-down text-danger"></i> 8%</span>
+										<span class="info-label">Total Income</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- END OVERVIEW -->
+
+					<!--日历插件-->
+					<div class="row">
+						<div class="col-md-6">
+							<div class="panel">
+								<div class="panel-heading">
+								<h3 class="panel-title">日历</h3>
+								</div>
+
+								<div class="panel-body  calendar">
+
+
+
+
+
+								</div>
+
+
+
+							</div>
+
+
+						</div>
+
+
+
+
+						<div class="col-md-6">
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title" onclick="ws.send('yy')">行程</h3>
+								</div>
+
+								<div class="panel-body ">
+
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#this-day" data-toggle="tab">今日日程</a></li>
+										<li ><a href="#this-week" data-toggle="tab">本周日程</a></li>
+									</ul>
+
+									<div class="tab-content">
+										<div class="tab-pane active" id="this-day">
+                                            <!--防止数据请求时，用户看到vue的标签-->
+											<table class="table " >
+												<thead>
+												<tr>
+													<th>名称</th>
+													<th>类型</th>
+													<th>客户</th>
+													<th>等级</th>
+													<th>描述</th>
+													<th>状态</th>
+													<th></th>
+												</tr>
+												</thead>
+												<tbody>
+													<tr v-for="v in thisDays">
+														<td>{{v.title}}</td>
+
+														<td >{{v | f('types.name')}}</td>
+														<td >{{v | f('seller.name')}}</td>
+														<td >{{v | f('seller.lvs.name')}}</td>
+														<td :title="v.note">{{v.note | textsubstring}}</td>
+														<td ><button  v-show="v.status==1" type="button"     class="btn btn-primary">已完成</button><button  :date-id="v.id"  :msg-btn="v.admin_id"   data-toggle="confirmation"  @click="btn_unfinished=v"  v-show="v.status==2" type="button" class="btn btn-danger bt-status">未完成</button></td>
+														<td><button type="button" @click="seeOneDay(v)"  class="btn btn-success">查看</button></td>
+													</tr>
+
+												</tbody>
+
+											</table>
+
+										</div>
+										<div class="tab-pane " id="this-week">
+                                            <!--防止数据请求时，用户看到vue的标签-->
+                                            <table class="table " >
+                                                <thead>
+                                                <tr>
+                                                    <th>名称</th>
+                                                    <th>类型</th>
+                                                    <th>客户</th>
+                                                    <th>等级</th>
+                                                    <th>描述</th>
+                                                    <th>状态</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="v in thisWeeks">
+                                                    <td>{{v.title}}</td>
+
+                                                    <td >{{v | f('types.name')}}</td>
+                                                    <td >{{v | f('seller.name')}}</td>
+                                                    <td >{{v | f('seller.lvs.name')}}</td>
+                                                    <td :title="v.note">{{v.note | textsubstring}}</td>
+                                                    <td ><button  v-show="v.status==1" type="button"       class="btn btn-primary">已完成</button><button   :date-id="v.id"  :msg-btn="v.admin_id"   data-toggle="confirmation"  v-show="v.status==2" type="button" class="btn btn-danger bt-status">未完成</button></td>
+                                                    <td><button type="button" @click="seeOneDay(v)"  class="btn btn-success">查看</button></td>
+                                                </tr>
+
+                                                </tbody>
+
+                                            </table>
+
+
+
+
+										</div>
+
+
+									</div>
+
+
+
+								</div>
+
+
+
+							</div>
+
+
+						</div>
+
+						<!--我的消息-->
+						<div class="col-md-3">
+
+							<div class="panel">
+
+								<div class="panel-heading">
+
+									<h3 class="panel-title" style="border-bottom: 2px solid #ddd;">消息{{message_btn_index}}</h3>
+
+									<!--<hr/>-->
+								</div>
+
+								<div class="panel-body ">
+
+									<a v-for=" (v,i) in messageForMe"   @click="seeOneDay(v)" v-show="i==message_btn_index-1" href="javascript:">你有来自{{getName(v.admin)}}的共享任务消息</a>
+
+									<div>
+
+
+
+									<div style="float: right;margin-top: 20px;" class="clearfix">
+									<button type="button"  class="btn btn-primary"  v-show="message_btn_index>1"  @click="message_btn_index>1?message_btn_index--:message_btn_index" >上一条</button>
+									<button type="button" class="btn btn-primary"   v-show="message_btn_index<messageForMe.length"   @click="message_btn_index<messageForMe.length?message_btn_index++:message_btn_index">下一条</button>
+									</div>
+									</div>
+
+								</div>
+
+
+
+							</div>
+
+
+
+						</div>
+
+
+						<div class="col-md-3">
+							<div class="panel">
+								<div class="panel-heading">
+
+									<h3 class="panel-title" style="border-bottom: 2px solid #ddd;">中食展-还剩下</h3>
+
+									<!--<hr/>-->
+								</div>
+
+								<div class="panel-body ">
+
+									<h3 class="text-center">{{day}}天{{hour}}时{{min}}分{{sen}}秒</h3>
+
+								</div>
+
+							</div>
+
+
+
+
+						</div>
+
+
+
+
+
+
+
+
+					</div>
+
+				</div>
+
+
+
+			</div>
+			<!-- END MAIN CONTENT -->
+
+
+
+			<!--任务日程模拟框-->
+			<div id="date" class="modal  fade" role="dialog" aria-labelledby="测试" tabindex="-1" aria-hidden="true" >
+				<div class="modal-dialog">
+					<div class="modal-content">
+
+
+						<div class="modal-header">
+							<button class="close" data-dismiss="modal">x</button>
+							<h3>日程<span class="owner"></span></h3>
+						</div>
+
+						<div class="modal-body">
+
+							<form method="post" id="date_form">
+
+
+
+							<div class="input-all">
+                                <label>名称</label>
+                                <input required="required" value="" class="form-control input-lg" placeholder="名称" name="title" type="text">
+                            </div>
+
+                             <div class="input-all">
+                                 <label>供应商</label>
+                                 <div>
+                                     <input type="hidden" name="seller_id" value="" id="seller_id">
+                                     <input type="text" value="" class="form-control input-lg" style="display: inline;width: auto" readonly="readonly" id="seller_name">
+                                     <button type="button" class="btn btn-primary btn-lg" onclick="getSellerId()">选择供应商</button>
+                                 </div>
+
+                             </div>
+
+							<div class="input-all">
+								<label>任务时间</label>
+								<div class="clearfix">
+									<div style="float: left;margin-right: 8px"><span>开始时间</span> <input   name="start" id="time"  class="form-control input-lg" type="date"></div>
+									<div  style="float: left;"><span>结束时间</span> <input  name="end"  class="form-control input-lg" type="date"></div>
+								</div>
+							</div>
+							<div class="input-all"><label>访问类型</label>
+								<div class="clearfix">
+									<label class="fancy-radio left " >
+										<input name="privacy" value="1"   class="radio-type" type="radio">
+										<span><i></i>公开</span>
+									</label>
+									<label class="fancy-radio left ">
+										<input name="privacy" value="2"  class="radio-type" type="radio" >
+										<span><i></i>私人</span>
+									</label>
+									<label class="fancy-radio left ">
+										<input name="privacy" value="3"   class="radio-type" type="radio" >
+										<span><i></i>指定</span>
+									</label>
+
+
+								</div>
+
+								<div id="admin_id_list" style="display: none">
+
+									<div class="item-list" style="margin-bottom: 7px">
+										<!--<span>-->
+											<!--<input type="button" class="btn btn-info cate" onclick="deleteCategory(this)" value="金坷垃">-->
+											<!--<input type="hidden" class="btn btn-info cate" name="category_id[]" value="8">-->
+										<!--</span>-->
+									</div>
+									<!--<input type="hidden" name="admin_id" value="" id="admin_id">-->
+									<!--<input type="text" value="" class="form-control input-lg" style="display: inline;width: auto" readonly="readonly" id="admin_username">-->
+									<button type="button" class="btn btn-primary btn-lg" onclick="getAdminId()">选择可见人员
+									</button>
+
+								</div>
+
+
+							</div>
+
+							<div class="input-all">
+								<label>任务类型</label>
+								<select class="form-control input-lg" name="type">
+										<option value="0">请选择</option>
+
+									{tt:table name="enumerate" where="parent_id=1"  limit='100'}
+										<option value="{$v.id}">{$v.name}</option>
+
+									{/tt:table}
+								</select>
+
+							</div>
+
+
+							<div class="input-all"><label>任务详情</label><textarea  name="note" class="form-control" placeholder="任务详情" rows="4"></textarea></div>
+							<!--<div class="input-all"><label>昵称</label> <input required="required" value="" class="form-control input-lg" placeholder="昵称" name="nickname" type="text"></div>-->
+							<!--<div class="input-all"><label>昵称</label> <input required="required" value="" class="form-control input-lg" placeholder="昵称" name="nickname" type="text"></div>-->
+							<!--<div class="input-all"><label>昵称</label> <input required="required" value="" class="form-control input-lg" placeholder="昵称" name="nickname" type="text"></div>-->
+							<!--<div class="input-all"><label>昵称</label> <input required="required" value="" class="form-control input-lg" placeholder="昵称" name="nickname" type="text"></div>-->
+
+
+
+							</form>
+
+						</div>
+
+						<div>
+							<div class="modal-footer date-modal-footer">
+
+								<button class="btn btn-info" onclick="date_submit()">提交</button>
+
+
+
+
+							</div>
+
+						</div>
+
+
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+
+
+			<!--发送消息汇总模拟框-->
+			<div id="email-message" class="modal  fade" role="dialog" aria-labelledby="测试" tabindex="-1" aria-hidden="true" >
+				<div class="modal-dialog">
+					<div class="modal-content">
+
+
+						<div class="modal-header">
+							<button class="close" data-dismiss="modal">x</button>
+							<h3>汇总<span></span></h3>
+						</div>
+
+						<div class="modal-body">
+
+
+							<form id="msg-form" >
+
+								<input v-model="seller_id" type="hidden"  name="seller_id"/>
+
+								<input name="date_id" :value="date_id" type="hidden">
+
+								<!--<div class="input-all">-->
+									<!--<label>抄送人</label>-->
+									<!--<div>-->
+                                        <!--<input type="hidden"  name="to" id="msg-email" />-->
+										<!--<input type="hidden" value=""  name="admin_id" id="msg-admin-id">-->
+										<!--<input type="text" value=""  id="msg-admin-name" class="form-control input-lg" style="display: inline;width: auto" readonly="readonly">-->
+										<!--<button type="button" class="btn btn-primary btn-lg" onclick="getAdminId1()">选择抄送人</button>-->
+									<!--</div>-->
+
+								<!--</div>-->
+
+
+                                <div class="input-all">
+                                    <label>标题</label>
+                                    <input  type="text"  class="form-control input-lg" name="title"/>
+
+                                </div>
+
+
+                                <div class="input-all">
+                                    <label>内容</label>
+                                    <textarea class="form-control"  name="content"  required="required" placeholder="内容" rows="4"></textarea>
+
+
+                                </div>
+
+
+
+							</form>
+
+
+
+
+
+						</div>
+
+						<div>
+							<div class="modal-footer">
+
+								<button class="btn btn-info" onclick="send_msg()">发送</button>
+
+
+
+							</div>
+
+						</div>
+
+
+					</div>
+
+
+				</div>
+
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+		<!-- END MAIN -->
+
+
+
+<script>
+
+
+
+//	var vue_msg=Vue.extend({
+//		template:"#vue-msg",
+//		replace:true
+//
+//	});
+
+
+
+    var vm= new Vue({
+        el:"#vue",
+        data:{
+            items:[],//本日行程数据
+			date_id:0,//将要发送邮件的任务id
+            week:[],
+			month:[],
+			test:[1,2,3],
+			me:0,//当前账号id
+			message_btn_index:1,//消息翻页按钮的页数
+			btn_unfinished:Object,//未完成按钮绑定的数据
+			day:0,
+			hour:0,
+			min:0,
+			sen:0,
+
+
+        },
+		components:{
+          // fast:vue_msg
+
+		},
+        computed:{
+          //本日数据
+          thisDays:function () {
+              var thisDayStart=moment(moment().format('YYYY-MM-DD')).unix();
+
+
+              return this.month.filter(function (e) {
+
+                  var start=moment(e.start).unix();
+
+                  var end=moment(moment(e.end).format("YYYY-MM-DD")).unix();
+
+				  if(thisDayStart>=start&&end>=thisDayStart){
+
+
+                      return true;
+				  }
+
+              });
+          },
+		//本周数据
+		thisWeeks:function () {
+            // var thisDayStart=moment(moment().format('YYYY-MM-DD')).unix();
+
+
+            var thisWeekStart= moment(moment().weekday(1).format("YYYY-MM-DD")).unix();
+
+            var thisWeekEnd=moment(moment().weekday(7).format("YYYY-MM-DD")).unix();
+
+
+
+            return this.month.filter(function (e) {
+
+                var start=moment(e.start).unix();
+
+                var end=moment(moment(e.end).format("YYYY-MM-DD")).unix();
+
+
+                // console.log(start+"      "+end+"         "+item.title);
+
+
+                if((start<=thisWeekEnd&&start>=thisWeekStart)||(end>=thisWeekStart&&end<=thisWeekEnd)){
+
+
+					return true;
+
+
+                }
+
+            });
+
+
+        },
+		seller_id:function () {
+
+              return this.btn_unfinished.seller_id;
+
+        },
+
+
+		//给我的信息
+		messageForMe:function () {
+
+			// console.log(this.me);
+
+			var me=this.me;
+
+              return this.thisDays.filter(function (e) {
+
+                  	//将 1,2,3,4格式的字符串转成数组
+                  	var display_id=e.display_id.split(",");
+
+					//判断是指定类型并且是指定给自己的
+				 if(e.privacy==3&&$.inArray(me,display_id)!=-1) {
+
+					// console.log('ok');
+
+				    return true;
+                }
+
+
+
+					// return true;
+
+              });
+
+
+        }
+
+
+
+		},
+        filters: {
+            /**
+			 * 数据调用过滤器
+             * @param val
+             * @param key
+             * @returns {*}
+             */
+            f:function (val,key) {
+
+                try{
+
+                    return eval("val."+key);
+
+
+				}catch (e){
+
+                    // console.log(123);
+
+                    return '';
+
+				}
+
+            },
+            /**
+			 * 字符串截取，描述那里数据太长，截取一段显示
+             * @param val
+             * @returns {string}
+             */
+			textsubstring(val){
+
+			    if(!val) return "";
+
+                var str=val.substring(0,10);
+
+                return str;
+
+			}
+
+
+        },
+		methods:{
+			//查看着一天的详情
+            seeOneDay:function (data) {
+
+                //表单重置
+                formReset();
+
+                //表单数据回填
+                setDateData(data);
+
+                //item按钮回填
+                dealMoreItem.init(data.date,'display_id');
+
+
+                console.log(data);
+
+            },
+			tDay:function (val) {
+
+
+
+
+                return this.month;
+
+            },
+			//获取账号名称，如果没有nickname就显示用户名
+			getName:function (data) {
+
+                if(!data.nickname) return data.username;
+
+                return data.nickname;
+            },
+			//倒计时
+            timeLefts:function () {
+
+                var end=moment("2018-05-16").unix();
+
+				var context=this;
+
+
+
+                setInterval(function () {
+                    var now=moment().unix();
+
+                    var c=end-now;
+
+                    context.day=parseInt(c/86400);
+
+                    context.hour=parseInt(c%86400/3600);
+
+                    context.min=parseInt(c%86400%3600/60);
+
+                    context.sen=parseInt(c%86400%3600%60);
+
+
+                    // context.sen--;
+
+
+                },1000);
+
+
+
+
+
+
+                // return sen;
+
+            }
+
+
+
+		},
+        watch:{
+            //检测本月数据的变化
+            month:function () {
+
+                console.log(1111);
+				if(this.month.length>0){
+
+				    // console.log(2222);
+
+                    var context=this;
+
+                    //本月数据修改并且dom更新完毕
+                    Vue.nextTick(function () {
+
+
+                    $('.bt-status').confirmation({
+                        animation: true,
+                        placement: "top",
+                        title: "确定要标记为已完成吗？",
+                        btnOkLabel: '确定',
+                        btnCancelLabel: '取消',
+                        href:"javascript:",
+                        onConfirm: function () {
+
+                            console.log(context.btn_unfinished);
+
+                            $("#msg-form")[0].reset();
+
+                            $('.bt-status').confirmation('hide');
+
+                            //当前管理员id
+                            var me=Number(context.$data.me);
+                            //任务发布者id
+                            var btn_id=Number($(this).parents(".popover").prev().attr('msg-btn'));
+                            //日程任务id
+                            var date_id=Number($(this).parents(".popover").prev().attr('date-id'));
+
+
+
+
+
+
+
+
+                            //将任务id设置到表单
+                            vm.date_id=date_id;
+
+
+
+                            if(me!=btn_id) return swal('这不是你发布的任务，无法修改状态！','','info');
+
+
+
+                            $("#email-message").modal({
+                                backdrop:'static'
+
+                            });
+
+
+                            // alert("点击了确定");
+                        },
+                        onCancel: function () {
+                            // alert("点击了取消");
+
+                        }
+                    });
+
+
+                })
+
+
+				}
+
+
+
+            }
+
+
+
+        },
+		//页面渲染完成后
+        mounted:function(){
+           console.log('页面渲染完成');
+
+
+
+           this.timeLefts();
+
+
+
+            // var context=this;
+            //
+            // $('.bt-status').confirmation({
+            //     animation: true,
+            //     placement: "top",
+            //     title: "确定要标记为已完成吗？",
+            //     btnOkLabel: '确定',
+            //     btnCancelLabel: '取消',
+            //     href:"javascript:",
+            //     onConfirm: function () {
+            //
+            //         console.log(context.btn_unfinished);
+            //
+            //         $("#msg-form")[0].reset();
+            //
+            //         $('.bt-status').confirmation('hide');
+            //
+            //         //当前管理员id
+            //         var me=Number(context.$data.me);
+            //         //任务发布者id
+            //         var btn_id=Number($(this).parents(".popover").prev().attr('msg-btn'));
+            //         //日程任务id
+            //         var date_id=Number($(this).parents(".popover").prev().attr('date-id'));
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //         //将任务id设置到表单
+            //         vm.date_id=date_id;
+            //
+            //
+            //
+            //         if(me!=btn_id) return swal('这不是你发布的任务，无法修改状态！','','info');
+            //
+            //
+            //
+            //         $("#email-message").modal({
+            //             backdrop:'static'
+            //
+            //         });
+            //
+            //
+            //         // alert("点击了确定");
+            //     },
+            //     onCancel: function () {
+            //         // alert("点击了取消");
+            //
+            //     }
+            // });
+
+
+
+        },
+		//组件更新后，加载js插件，因为页面是vue.js渲染的，页面渲染完成后，加载bootstrap插件
+		updated:function () {
+
+            // console.log(this.$data.month);
+
+
+            // var context=this;
+            //
+            // $('.bt-status').confirmation({
+            //     animation: true,
+            //     placement: "top",
+            //     title: "确定要标记为已完成吗？",
+            //     btnOkLabel: '确定',
+            //     btnCancelLabel: '取消',
+				// href:"javascript:",
+            //     onConfirm: function () {
+            //
+            //         console.log(context.btn_unfinished);
+            //
+            //         $("#msg-form")[0].reset();
+            //
+            //         $('.bt-status').confirmation('hide');
+            //
+            //         //当前管理员id
+            //         var me=Number(context.$data.me);
+            //         //任务发布者id
+            //         var btn_id=Number($(this).parents(".popover").prev().attr('msg-btn'));
+				// 	//日程任务id
+				// 	var date_id=Number($(this).parents(".popover").prev().attr('date-id'));
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+				// 	//将任务id设置到表单
+				// 	vm.date_id=date_id;
+            //
+            //
+            //
+            //         if(me!=btn_id) return swal('这不是你发布的任务，无法修改状态！','','info');
+            //
+            //
+            //
+            //         $("#email-message").modal({
+            //             backdrop:'static'
+            //
+				// 	});
+            //
+            //
+            //         // alert("点击了确定");
+            //     },
+            //     onCancel: function () {
+            //         // alert("点击了取消");
+            //
+            //     }
+            // });
+
+            // console.log(11111111);
+
+
+        }
+
+
+
+    });
+
+    $(function () {
+
+
+    });
+
+
+
+
+</script>
+
+
+<script>
+
+    /**
+     * 处理socket消息
+     * @param data
+     */
+    function dealMessage(data) {
+
+
+
+		console.log(data);
+
+
+
+
+    }
+
+</script>
+
+
+
+
+
+
+<script>
+
+
+
+    //任务提交
+    function date_submit() {
+
+        ajax_submit('确定提交吗？',
+			'',
+			'__MODULE__/common/date_update',
+			$("#date_form").serialize(),
+			function (data) {
+
+            	if(data.code==1){
+
+
+
+            	    // ws.send(JSON.parse());
+                    // socket_send({page:'index',data:$("#date_form").serialize()});
+
+
+            	    console.log(data);
+
+            	    location.reload();
+
+            	    // swal('提示','提交成功！','success');
+
+
+				}else {
+
+            	    swal(data.msg,'','error');
+
+				}
+            }
+
+		);
+
+
+
+    }
+
+	/**
+	 * 发送邮件
+	 */
+    function send_msg() {
+
+
+        ajax_submit(
+            '确定发送吗？',
+            '',"__MODULE__/common/emailSendIndex",
+            $("#msg-form").serialize(),
+        function (re) {
+
+              // console.log(re);
+
+			if(re.code==1){
+
+			    swal('发送成功！','','success');
+
+
+				updateVm(vm.month,re.data.id,function (index) {
+
+
+				    // vm.items[index].status=1;
+
+				    // vm.$data.items[index].status=1;
+
+                    var old=vm.$data.month[index];
+
+                    old.status=1;
+                    old.color="#26C281";
+
+
+				    Vue.set(vm.$data.month,index,old);
+
+
+
+					//移除所有本月数据
+				    $(".calendar").fullCalendar('removeEvents');
+					//重新加载
+				    $(".calendar").fullCalendar('addEventSource',vm.$data.month);
+
+
+				    // ws.send(JSON.stringify({page:'index',val:vm.$data.month}));
+
+
+				    // $(".calendar").
+
+
+
+				    // Vue.set(vm.$data.items[index]);
+
+
+
+                });
+
+
+
+			}else {
+
+			    swal(re.msg,'','error');
+
+			}
+
+        }
+        );
+
+    }
+
+
+
+    function updateVm(VmData,DateId,callback) {
+
+        $.each(VmData,function (index,item) {
+
+
+            if(item.id==DateId){
+
+                callback(index);
+
+                return false;
+			}
+
+
+        });
+
+    }
+
+
+
+
+	/**
+	 * 日程任务删除
+	 * @param id
+	 *
+	 **/
+    function date_delete_(id) {
+
+
+        // console.log(id);
+
+		ajax_submit('确定删除吗？',
+			'','__MODULE__/common/date_delete'
+			,{"id":id},
+			function (data) {
+
+			// console.log(data);
+
+				if(data.code==1){
+
+				    location.reload();
+				}else {
+
+				    swal(data.msg,'','error');
+
+				}
+
+        });
+
+    }
+
+
+
+
+
+
+    /**
+	 * 可见人员按钮是否显示事件
+     */
+    $(".radio-type").change(function () {
+
+
+
+		if( $(this).val()!=3) {
+
+            $("#admin_id_list").css('display','none');
+		}else {
+
+            $("#admin_id_list").css('display','block');
+		}
+
+
+
+    });
+
+   //可见人员选择框的可见性，更新操作时调用
+    function privacyIsShow(privacy) {
+        if(privacy==3) {
+            $("#admin_id_list").css('display','block');
+		} else {
+
+            $("#admin_id_list").css('display','none');
+		}
+
+
+    }
+
+
+    /**
+	 * 页面初始化
+     */
+	function init() {
+
+
+        $('.calendar').fullCalendar({
+            // put your options and callbacks here
+            // weekends: false
+            dayClick: function(date) {
+
+
+				//表单重置
+				formReset();
+
+
+                //可见人员按钮隐藏
+                $("#admin_id_list").css('display','none');
+
+
+				//获取日历所选时间并格式化
+                var selDate =$.fullCalendar.formatDate(date,'YYYY-MM-DD');
+
+				//将选中时间填充到表单
+                $("#time").val(selDate);
+
+                //打开模拟框
+                $("#date").modal({
+                    backdrop:'static'
+
+                });
+
+
+            },
+			//任务点击事件
+            eventClick: function(calEvent, jsEvent, view) {
+
+
+
+                console.log(calEvent);
+
+				//表单重置
+                formReset();
+
+
+
+
+
+                //表单数据回填
+                setDateData(calEvent);
+
+                //item按钮回填
+                dealMoreItem.init(calEvent.date,'display_id');
+
+                // add()
+
+            },
+			//设置日历语言为中文
+            locale:'zh-cn',
+
+        });
+
+
+
+		//加载日程数据
+		getEventSource();
+
+
+
+
+
+
+
+
+
+    }
+
+
+	/**
+	 * 加载日程数据，并填充
+	 * */
+    function getEventSource() {
+
+
+	    $.get("__MODULE__/common/getDateEvent",function (re) {
+
+	        if(re) re=JSON.parse(re);
+
+
+            //日历数据添加
+            $('.calendar').fullCalendar('addEventSource',re.data);
+
+            // $('.calendar').fullCalendar('updateEvents',re.data);
+
+            // console.log(moment(re[0].start).unix());
+            // console.log(re);
+
+			// getEventSource();
+
+			//筛选今日数据
+			// getThisDayEvent(re.data);
+
+			//当前账号id
+            vm.$data.me=re.me;
+
+            //把本月数据给month
+			vm.$data.month=re.data;
+
+            // Vue.nextTick(function () {
+				//
+			 //
+            // });
+
+
+
+			// console.log(re);
+
+
+        });
+
+    }
+
+
+	/**
+	 * 本天日程数据
+	 **/
+	function getThisDayEvent(time) {
+
+        var event=[];
+
+        var now=moment();
+
+        var thisDayStart=moment(now.format("YYYY-MM-DD 00:00:00")).unix();
+
+        var thisDayEnd=moment(now.format("YYYY-MM-DD 23:59:59")).unix();
+
+		$.each(time,function (index,item) {
+
+		    // console.log(moment(item.start).unix());
+
+		    var start=moment(item.start).unix();
+		    var end=moment(moment(item.end).format("YYYY-MM-DD 23:59:59")).unix();
+
+		    // console.log(thisDayEnd);
+		    // console.log(end);
+
+
+
+
+		    if(Number(start)<=Number(thisDayStart)&&Number(thisDayEnd)<=Number(end)){
+
+
+
+		        event.push(item);
+
+
+		        // console.log(item);
+
+			}
+			// console.log(11111111111);
+
+        });
+
+        vm.$data.items=event;
+
+
+
+        // getThisWeekEvent(time);
+
+    }
+
+
+    // function getThisWeekEvent(time) {
+    //
+	 //    var event=[];
+    //
+	 //   var thisWeekStart= moment(moment().weekday(1).format("YYYY-MM-DD")).unix();
+    //
+	 //   var thisWeekEnd=moment(moment().weekday(7).format("YYYY-MM-DD")).unix();
+    //
+    //
+    //
+	 //   $.each(time,function (index,item) {
+    //
+    //
+    //
+    //
+	 //       var start=moment(item.start).unix();
+    //
+    //        var end=moment(moment(item.end).format("YYYY-MM-DD")).unix();
+    //
+    //
+    //        // console.log(start+"      "+end+"         "+item.title);
+    //
+    //
+    //        if((start<=thisWeekEnd&&start>=thisWeekStart)||(end>=thisWeekStart&&end<=thisWeekEnd)){
+    //
+    //
+    //
+    //            event.push(item);
+    //
+    //
+    //            // console.log(item);
+    //
+    //        }
+    //
+    //
+    //
+    //
+    //    });
+    //
+    //
+    //
+    //
+	 //   vm.$data.week=event;
+    //
+    //
+	 //   // console.log(event);
+    //
+    //
+    //
+    //
+    // }
+
+    
+
+
+
+
+    /**
+	 * 打开可见人员窗口
+     */
+	function getAdminId() {
+        openChildWindow.open(
+            {'id':'ID','username':'用户名','nickname':'昵称','create_time':'创建时间'},
+            'username',
+            'AdminModel',
+            function (data) {
+
+                // data=JSON.parse(data);
+
+
+                dealMoreItem.add(data.id,data.username,'display_id');
+
+
+               console.log(data);
+            }
+        ,"id",2,vm.$data.me);
+
+    }
+
+    /**
+     *
+     * 打开抄送人员窗口
+     */
+    function getAdminId1() {
+
+        openChildWindow.open(
+            {'id':'ID','username':'用户名','nickname':'昵称','email':'邮箱','create_time':'创建时间'},
+            'username',
+            'AdminModel',
+            function (data) {
+
+                // data=JSON.parse(data);
+
+                if(!data.email) return swal('此账号暂未绑定邮箱，请选择其他人员或联系此人绑定邮箱','如有疑问，请联系帅气的后端程序员','info');
+
+
+
+                $("#msg-admin-id").val(data.id);
+
+                $("#msg-admin-name").val(data.username);
+
+                $("#msg-email").val(data.email);
+
+
+
+
+
+                // dealMoreItem.add(data.id,data.username,'display_id');
+
+
+                console.log(data);
+            },"id",2,vm.$data.me
+        );
+
+
+    }
+
+
+
+    /**
+     *
+     * 打开供应商窗口
+     */
+    function getSellerId() {
+
+        openChildWindow.open(
+            {'id':'ID','name':'供应商名称','country.name':'国家','create_time':'创建时间'},
+            'name',
+            'SellerModel',
+            function (data) {
+
+                // data=JSON.parse(data);
+
+
+                // dealMoreItem.add(data.id,data.username,'display_id');
+
+				$("#seller_id").val(data.id);
+				$("#seller_name").val(data.name);
+
+
+                console.log(data);
+            }
+        );
+
+    }
+
+    /**
+	 * 表单数据重置
+	 **/
+    function formReset() {
+
+        //表单重置
+        $("#date_form")[0].reset();
+
+        //item数据重置
+        dealMoreItem.reset();
+
+        //移除id,防止造成更新操作
+        $("#date_id").remove();
+
+        //移除发布人信息
+        $(".owner").html('');
+
+        //移除删除按钮
+        $("#date_delete").remove();
+
+
+    }
+
+
+
+    /**
+	 * 回填日程表单数据
+     * @param data
+     */
+    function setDateData(data) {
+
+        //打开表单弹框
+        $("#date").modal({
+            backdrop:'static'
+
+        });
+
+
+        var start=data.start._i;
+
+        var end=data.end._i;
+        //判断一下，两个数据来源不同
+        if(!start) start=data.start;
+
+        if(!end) end=data.end;
+
+
+        $("input[name='title']").val(data.title);
+
+        $("input[name='start']").val(start);
+
+        $("input[name='end']").val(moment(end).format("YYYY-MM-DD"));
+
+
+		$("input[name='privacy'][value='"+data.privacy+"']").prop('checked','checked');
+
+        $("[name='note']").val(data.note);
+
+        $("select[name='type']").val(data.type);
+
+        //添加更新id
+        $("#date_form").append("<input name='id' id='date_id'  type='hidden' value='"+data.id+"' />");
+
+        //添加发布人
+        $(".owner").html("(发布人:"+data.admin.username+")");
+
+        try {
+            $("#seller_name").val(data.seller.name);
+
+            $("#seller_id").val(data.seller.id);
+        }catch (e){
+
+
+		}
+
+		//添加删除按钮
+		$(".date-modal-footer").append('<button class="btn btn-danger" id="date_delete" onclick="date_delete_('+data.id+')">删除</button>');
+
+
+
+
+
+
+		//判断是否显示可见人员
+        privacyIsShow(data.privacy);
+
+
+    }
+
+
+</script>
+
+<script>
+    $(function() {
+        var data, options;
+
+        var hit_data='{$hit_data}';
+        var last_week='{$last_week}';
+
+        hit_data=getJson(hit_data);
+
+        last_week=getJson(last_week);
+
+
+
+        // headline charts
+        data = {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            series: [
+				hit_data,
+				last_week
+//                [40, 29, 24, 40, 25, 24, 35]
+//                [14, 25, 18, 34, 29, 38, 44],
+            ]
+        };
+
+        options = {
+            height: 300,
+            showArea: true,
+            showLine: false,
+            showPoint: false,
+            fullWidth: true,
+            axisX: {
+                showGrid: false
+            },
+            lineSmooth: false,
+        };
+
+        new Chartist.Line('#headline-chart', data, options);
+
+
+        // // visits trend charts
+        // data = {
+        //     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        //     series: [{
+        //         name: 'series-real',
+        //         data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
+        //     }, {
+        //         name: 'series-projection',
+        //         data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
+        //     }]
+        // };
+        //
+        // options = {
+        //     fullWidth: true,
+        //     lineSmooth: false,
+        //     height: "270px",
+        //     low: 0,
+        //     high: 'auto',
+        //     series: {
+        //         'series-projection': {
+        //             showArea: true,
+        //             showPoint: false,
+        //             showLine: false
+        //         },
+        //     },
+        //     axisX: {
+        //         showGrid: false,
+        //
+        //     },
+        //     axisY: {
+        //         showGrid: false,
+        //         onlyInteger: true,
+        //         offset: 0,
+        //     },
+        //     chartPadding: {
+        //         left: 20,
+        //         right: 20
+        //     }
+        // };
+        //
+        // new Chartist.Line('#visits-trends-chart', data, options);
+        //
+        //
+        // // visits chart
+        // data = {
+        //     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        //     series: [
+        //         [6384, 6342, 5437, 2764, 3958, 5068, 7654]
+        //     ]
+        // };
+        //
+        // options = {
+        //     height: 300,
+        //     axisX: {
+        //         showGrid: false
+        //     },
+        // };
+
+//         new Chartist.Bar('#visits-chart', data, options);
+//
+//
+//         // real-time pie chart
+//         var sysLoad = $('#system-load').easyPieChart({
+//             size: 130,
+//             barColor: function(percent) {
+//                 return "rgb(" + Math.round(200 * percent / 100) + ", " + Math.round(200 * (1.1 - percent / 100)) + ", 0)";
+//             },
+//             trackColor: 'rgba(245, 245, 245, 0.8)',
+//             scaleColor: false,
+//             lineWidth: 5,
+//             lineCap: "square",
+//             animate: 800
+//         });
+//
+//         var updateInterval = 8000; // in milliseconds
+//
+//         setInterval(function() {
+//             var randomVal;
+//             randomVal = getRandomInt(0, 100);
+//
+// //            sysLoad.data('easyPieChart').update(randomVal);
+// //            sysLoad.find('.percent').text(randomVal);
+//         }, updateInterval);
+
+//         function getRandomInt(min, max) {
+// //            return Math.floor(Math.random() * (max - min + 1)) + min;
+//
+// //			var p=0;
+//
+// 			$.ajax({
+// 				url:"__MODULE__/common/systemMemoryUse",
+// //                async: false,
+// 				dataType:'json',
+// 				success:function (re) {
+//
+//
+// 					console.log(re);
+//
+//                     sysLoad.data('easyPieChart').update(re.data.mem_usage);
+//                     sysLoad.find('.percent').text(re.data.mem_usage);
+//
+//                     $("#tast_running").html(re.data.tast_running);
+//                     $("#cpu_usage").html(re.data.cpu_usage);
+//
+//
+//
+//
+//                 }
+//
+//
+//
+// 			});
+//
+//
+//
+//         }
+
+
+
+		// getRandomInt(10,20);
+
+		// var t=setTimeout(()=>{
+		//     alert();
+		// });
+
+
+
+		//初始化
+        init();
+
+
+
+
+
+
+
+    });
+	//转json对象
+    function getJson(data) {
+
+        if(!data) return [];
+
+        return JSON.parse(data);
+
+    }
+
+
+</script>
+
+{/block}

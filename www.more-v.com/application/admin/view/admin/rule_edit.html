@@ -1,0 +1,180 @@
+{extend name="layout/layout" /}
+{block name="main"}
+<!-- MAIN -->
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <h3 class="page-title">Tables</h3>
+
+            <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
+            <!-- TABLE STRIPED -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Striped Row</h3>
+                </div>
+
+                <div class="panel-body">
+                    <form method="post" action="__MODULE__/admin/rule_update/id/{$rule.id}" onsubmit="return check_value()">
+                    <label>Name:</label><input required="required" name="title" value="{$rule.title}" style="width: 50%" class="form-control input-lg" placeholder="Name" type="text">
+                        <br/>
+                    <label>Controller:</label>
+                    <select name="controller" id="controllers" style="width: 50%" class="form-control input-lg" onclick="set_action()">
+                        <option value="0">Please Choose</option>
+                        {foreach name="controllers" item="v"}
+                        <option value="{$v}">{$v}</option>
+                        {/foreach}
+                    </select>
+                        <br/>
+                        <label>Action:</label>
+                    <select name="action" id="action" style="width: 50%" class="form-control input-lg" onchange="is_rule_find()">
+
+                    </select>
+                        <br/>
+                        <div style="width: 50%;display: none" class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <i class="fa fa-times-circle"></i> Rule already exists
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+
+
+                    </form>
+
+
+                    </form>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    /**
+     * 检查表单添加的值
+     * @returns {boolean}
+     */
+    function check_value() {
+
+        var controllers=$("#controllers").val();
+        var action=$("#action").val();
+
+            if(controllers==0||action==0){
+
+
+                return false;
+            }
+
+            is_rule_find();
+
+    }
+
+    /**
+     * 根据Controller设置action的值
+     */
+    function set_action() {
+
+        var controllers=$("#controllers").val();
+
+
+
+        if(controllers==0){
+
+            return false;
+        }
+
+
+        $.ajax({
+            url:"__MODULE__/Common/getAction",
+            type:"post",
+            data:{'controller':controllers},
+            dataType:'json',
+            success:function (re) {
+                $("#action").html("");
+                $("#action").append('<option value="0">Please Choose</option>');
+                $.each($(re),function (index,item) {
+                    $("#action").append('<option value="'+item+'">'+item+'</option>');
+
+
+                });
+                //更新时，数据回填
+                if("{$rule.id}"){
+                    $("#action").val('{$rule.action}');
+                }
+
+//                console.log(re);
+
+            }
+
+
+        });
+
+        
+    }
+
+    /**
+     * 检查这个权限是否存在
+     */
+    function is_rule_find() {
+
+        var action=$("#action").val();
+
+        if(action==0){
+
+            return false;
+        }
+
+        var name=$("#controllers").val()+"/"+action;
+
+        var res=true;
+        $.ajax({
+            url:"__MODULE__/common/is_rule_find",
+            type:'post',
+            async: false,
+            data:{'name':name},
+            success:function (re) {
+                if(re==1){
+                    $(".alert").css('display','block');
+                    res=false;
+
+                }else if(re==2){
+
+                    $(".alert").css('display','none');
+                }
+
+            }
+
+
+        });
+
+
+        return res;
+
+
+
+        
+    }
+    //更新时，数据回填
+    if("{$rule.id}"){
+
+        $("#controllers").val("{$rule.controller}");
+        set_action();
+
+
+
+
+
+
+
+    }
+
+    
+    
+    
+</script>
+
+{/block}
